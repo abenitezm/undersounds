@@ -1,3 +1,17 @@
+# UnderSounds
+
+Proyecto desarrollado para la asignatura de Programación en Internet.
+
+## Autores
+
+- David Blanco Miranda 
+- Adrián Benítez Merino 
+- Joel Estrella Berrocal 
+- Álvaro Mendo Martín 
+- Jorge Carrasco Facundo 
+
+# Next.js
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
