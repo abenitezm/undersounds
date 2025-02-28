@@ -2,10 +2,11 @@ import Image from "next/image";
 import defaultAvatar from "../../../assets/img/defaultAvatar.jpg";
 import { Album } from "@/app/components/Album";
 
+
 const ArtistPage = async ({ params }: { params: { id: string } }) => {
   const param = await params;
   const id = param.id;
-  
+
   const artistAlbums = ["Album 1", "Album 2", "Album 3", "Album 4"];
 
   const artistGeneros = ["Rock", "Pop", "Jazz", "Blues"];
@@ -25,7 +26,7 @@ const ArtistPage = async ({ params }: { params: { id: string } }) => {
         </div>
         <div style={styles.artistInfo}>
           <span style={styles.artistName}>{id}</span>
-          <span>ciudad</span>
+          <span>Madrid</span>
           <div style={styles.artistGenres}>
             {artistGeneros.map((genero) => (
               <span key={genero}>{genero}</span>
@@ -53,7 +54,7 @@ const ArtistPage = async ({ params }: { params: { id: string } }) => {
 const styles = {
   main: {
     padding: 20,
-    width: '70%',
+    width: "70%",
   },
   title: {
     fontSize: 24,
@@ -107,10 +108,10 @@ const styles = {
   },
   artistAlbums: {
     marginTop: 10,
-    display: 'grid',
-    gridTemplateColumns: 'repeat(6, 1fr)',
+    display: "grid",
+    gridTemplateColumns: "repeat(6, 1fr)",
     gap: 20,
-  }
+  },
 };
 
 export default ArtistPage;
