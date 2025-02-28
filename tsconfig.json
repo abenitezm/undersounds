@@ -3,6 +3,7 @@
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
+    "types": ["styled-components"],
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
@@ -15,7 +16,7 @@
     "incremental": true,
     "plugins": [
       {
-        "name": "next"
+        "name": "next",
       }
     ],
     "paths": {

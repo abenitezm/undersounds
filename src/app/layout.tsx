@@ -1,8 +1,8 @@
-
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import WebAudio from "./components/WebAudio";
 import "./globals.css";
+import StyledComponentsRegistry from "@/lib/registry";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,12 +24,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
-        <WebAudio /> {/* Separación del audio para reproducirlo en todas las páginas */}
+        <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+        <WebAudio />
+        {/* Separación del audio para reproducirlo en todas las páginas */}
       </body>
     </html>
   );

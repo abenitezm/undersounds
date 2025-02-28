@@ -53,6 +53,7 @@ const ArtistPage = async ({ params }: { params: { id: string } }) => {
 const styles = {
   main: {
     padding: 20,
+    width: '70%',
   },
   title: {
     fontSize: 24,
@@ -107,7 +108,7 @@ const styles = {
   artistAlbums: {
     marginTop: 10,
     display: 'grid',
-    gridTemplateColumns: 'repeat(4, 1fr)',
+    gridTemplateColumns: 'repeat(6, 1fr)',
     gap: 20,
   }
 };

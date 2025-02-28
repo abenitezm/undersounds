@@ -1,32 +1,44 @@
-import Image from 'next/image'
-import colors from '../colors'
-import defaultAlbum from '../../assets/img/defaultAlbum.jpg'
+"use client";
 
+import styled from "styled-components";
+import Image from "next/image";
+import colors from "../colors";
+import defaultAlbum from "../../assets/img/defaultAlbum.jpg";
 
-export const Album = ({name}: {name: string}) => {
+const AlbumContainer = styled.div`
+  display: flex;
+  width: 150px;
+  flex-direction: column;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 12px;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+  background-color: ${colors.primary};
 
-    return <div style={styles.albumContainer}>
-        <Image src={defaultAlbum} style={{borderRadius: 10, padding: 0}} width={120} height={120} alt='album'/>
-        <span style={styles.albumName}>{name}</span>
-    </div>
-}
+  &:hover {
+    background-color: ${colors.secondary};
+  }
+`;
 
-const styles = {
-    albumContainer: {
-        display: "flex",
-        width: 150,
-        flexDirection: "column",
-        paddingTop: 10,
-        paddingBottom: 10,
-        borderRadius: 12,
-        alignItems: "center",
-        justifyContent: "center",
-        color: "white",
-        backgroundColor: colors.primary,
-    },
-    albumName: {
-        fontSize: 16,
-        marginTop: 5,
-    }
+const AlbumName = styled.span`
+  font-size: 16px;
+  margin-top: 5px;
+`;
 
-}
+export const Album = ({ name }: { name: string }) => {
+  return (
+    <AlbumContainer>
+      <Image
+        src={defaultAlbum}
+        style={{ borderRadius: 10, padding: 0 }}
+        width={120}
+        height={120}
+        alt="album"
+      />
+      <AlbumName>{name}</AlbumName>
+    </AlbumContainer>
+  );
+};
