@@ -60,29 +60,16 @@ const CloseIcon = styled.span`
 {/* Defino el tipo del parámetro que se desbe de pasar en la instanciación del componente */}
 type ChipsProps = {
     name: string;
+    onDelete: () => void;
 }
 
-export default function Chips({ name }: ChipsProps) {
-    const [filters, setFilters] = React.useState<string[]>([]);
-
-    /* Función que me agrega los filtros al array de filtros DEBE DE HACERLO EL DESPLEGABLE DE LA LUPA*/
-    const addFilter = (genre : string) => {
-        if ( !filters.includes(genre) ) {
-            setFilters([...filters, genre]);//Copia todos los elementos actuales del array filters y añade genre al final del array
-        };
-    }
-
-    /* Función que me elimina los filtros del array de filtros */
-    const removeFilter = (genre: string) => {
-        setFilters(filters.filter((filter) => filter !== genre)); //Actualización del array filters eliminando los filtros que se han seleccionado
-    }
-
+export default function Chips( { name , onDelete}: ChipsProps ) {
     return (
         <div>
             <ChipUnique>
                 {name}
                 {/* No funciona la función porque el array de filters está vacío TODO rellenarlo con las opciones seleccionadas de la lupa*/}
-                <CloseIcon onClick={() => removeFilter(name)}>❌</CloseIcon>
+                <CloseIcon onClick = { onDelete }>❌</CloseIcon>
             </ChipUnique>
         </div>
     );

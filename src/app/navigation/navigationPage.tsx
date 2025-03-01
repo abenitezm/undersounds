@@ -2,14 +2,16 @@
 
 import React from "react";
 import Chips from "../components/chips";
+import Multiselect from "../components/Multiselect";
 
 export default function NavigationPage() {
     return (
         <div id="chips-container" style={styles.container}>
-            <Chips name="Rock" />
-            <Chips name="Cloud" />
-            <Chips name="Funk" />
-            <Chips name="Metal" />
+            <Chips name = "Rock" onDelete = {() =>{}}/>
+            <Chips name = "Cloud" onDelete = {() =>{}}/>
+            <Chips name = "Funk" onDelete = {() =>{}}/>
+            <Chips name = "Metal" onDelete = {() =>{}}/>
+            <Multiselect />
         </div>
     );
 }
@@ -19,5 +21,6 @@ const styles = {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        gap: "10px"},
+        gap: "10px"
+    },
 }
