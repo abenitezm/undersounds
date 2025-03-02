@@ -22,6 +22,7 @@ const ActivityAlbum = styled.span`
 
 `
 
+// Contiene los 3 tipos de actividad que se pueden mostrar: FOLLOWER, SALE y REVIEW
 const types = {
   FOLLOWER: {
     color: "blue",
@@ -45,8 +46,8 @@ const ActivityRow = ({
   type,
   name,
   album,
-}: {
-  time: Date;
+}: { // Tipos de las propiedades que recibe el componente
+  time: Date; 
   type: "FOLLOWER" | "SALE" | "REVIEW";
   name: string;
   album: string;
@@ -57,6 +58,7 @@ const ActivityRow = ({
       <span style={{fontSize: 20}}>{types[type].icon}</span>
       <ActivityUser>{name}</ActivityUser>
       <span>{types[type].text}</span>
+      {/* Renderiza el album al que se refiere la actividad cuando esta NO es de tipo Follower */}
       {type != "FOLLOWER" && <ActivityAlbum> {album}</ActivityAlbum>}
     </div>
   );
