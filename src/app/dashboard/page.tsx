@@ -1,6 +1,4 @@
 import { Album } from "@/app/components/Album";
-import { stat } from "fs";
-import { startTransition } from "react";
 import colors from "../colors";
 import ActivityRow from "../components/ActivityRow";
 
