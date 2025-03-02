@@ -1,0 +1,39 @@
+
+[
+    {
+        "id": "can-1",
+        "titulo": "Sunday Scaries",
+        "artista": "Flawed Mangoes",
+        "imagen": "/audio/SundayScaries.jpg"
+    },
+    {
+        "id": "can-2",
+        "titulo": "Addicted",
+        "artista": "Flawed Mangoes",
+        "imagen": "/audio/Addicted.jpg"
+    },
+    {
+        "id": "can-3",
+        "titulo": "Swimming",
+        "artista": "Flawed Mangoes",
+        "imagen": "/audio/Swimming.jpg"
+    },
+    {
+        "id": "alb-1",
+        "titulo": "MOLTING AND DANCING",
+        "artista": "inidgo la End",
+        "imagen": "/audio/CryingEndRoll.jpg"
+    },
+    {
+        "id": "alb-2",
+        "titulo": "Lauren",
+        "artista":"inidgo la End",
+        "imagen": "/audio/Lauren.jpg"
+    },
+    {
+        "id": "alb-3",
+        "titulo": "Aonooto",
+        "artista": "inidgo la End",
+        "imagen": "/audio/Aonooto.jpg"
+    }
+]

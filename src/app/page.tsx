@@ -8,10 +8,10 @@ import { CSSProperties } from "react";
 
 export default function Home() {
   return (
-    <div style={styles.container}>
+    <div style={ styles.container }>
       <h1>Hola</h1>
       <Album name="Album 1" />
-      <div id="navigationPage">
+      <div id="navigationPage" style = { styles.container }>
         <NavigationPage />
       </div>
     </div>
@@ -22,10 +22,9 @@ export default function Home() {
 const styles: { container: CSSProperties } = {
   container: {
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     gap: "20px",
-    height: "50vh",
   },
 };
