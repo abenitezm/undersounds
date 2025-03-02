@@ -2,6 +2,7 @@
 
 import styled from "styled-components";
 import colors from "../colors";
+import { CSSProperties } from 'react';
 
 const ActivityDate = styled.span`
     font-size: 15px;
@@ -46,7 +47,7 @@ const ActivityRow = ({
   album,
 }: {
   time: Date;
-  type: string;
+  type: "FOLLOWER" | "SALE" | "REVIEW";
   name: string;
   album: string;
 }) => {
@@ -61,7 +62,8 @@ const ActivityRow = ({
   );
 };
 
-const styles = {
+
+const styles: { row: CSSProperties } = {
   row: {
     display: "flex",
     flexDirection: "row",

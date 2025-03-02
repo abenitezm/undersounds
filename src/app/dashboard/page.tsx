@@ -53,7 +53,9 @@ const DashboardPage = async () => {
   );
 };
 
-const styles = {
+import { CSSProperties } from "react";
+
+const styles: { [key: string]: CSSProperties } = {
   main: {
     gap: 20,
     display: "flex",

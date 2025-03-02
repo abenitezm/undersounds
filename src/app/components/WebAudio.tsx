@@ -35,7 +35,7 @@ export default function WebAudio(){
 const styles = {
     container: {
         display: "flex", 
-        justifyContent: "center",
+        justifyContent: "start",
         alignItems: "end",
         height: "45vh"
     },
