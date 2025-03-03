@@ -2,6 +2,24 @@
 
 import React from "react";
 import colors from "../colors";
+import { styled } from "styled-components";
+
+const Button = styled.button`
+    background-color: ${colors.primary};
+    border: none;
+    color: ${colors.secondary};
+    border-radius: 20px;
+    font-size: 20px;
+    padding: 10px 30px;
+    font-weight: bold;
+    cursor: pointer;
+
+    &:hover {
+        background-color: ${colors.secondary};
+        color: ${colors.background};
+        transform: scale(1.05);
+    }
+`;
 
 type ButtonProps = {
     text: string;
@@ -9,24 +27,9 @@ type ButtonProps = {
 }
 
 export default function PrimaryButton({ text, onClick }: ButtonProps) {
-
-    const styles = {
-        button: {
-            backgroundColor: colors.primary,
-            border: 'none',
-            color: colors.secondary,
-            borderRadius: '20px',
-            fontSize: '20px',
-            padding: '10px 30px',
-            fontWeight: 'bold',
-            cursor: 'pointer'
-        }
-    };
-
     return (
-        <button style={styles.button} onClick={onClick}>
+        <Button onClick={onClick}>
             {text}
-        </button>
+        </Button>
     );
-
 };

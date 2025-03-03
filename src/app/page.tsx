@@ -1,5 +1,6 @@
 "use client";
 
+import colors from "./colors";
 import ActivityRow from "./components/ActivityRow";
 import { Album } from "./components/Album";
 import PrimaryButton from "./components/PrimaryButton";
@@ -27,6 +28,6 @@ const styles: { container: CSSProperties } = {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    gap: "20px",
+    gap: "20px"
   },
 };
