@@ -50,15 +50,29 @@ const AlbumImg = styled.img`
     border-radius: 10px;
 `;
 
+type GridComponentProps = {
+    data : any[]; 
+    /* Sirve para almacenar la función que se pasa en el componente padre */
+    onAlbumClick: (albumTitle : string) => void;
+}
 
-export default function GridContent( { data } : { data: any[] } ) {
+export default function GridContent( { data, onAlbumClick } : GridComponentProps) {
+
+    { /* 
+        Se llama cuando se hace click en un álbum. 
+        Pasa el título del album a la funcion onAlbumClick que es manejada
+        en el componente padre.
+    */}
+    const manejadorElementoMostrado = ( albumTitle : string ) => {
+        onAlbumClick(albumTitle);
+    };
 
     return (
         /* Cargamos el contenedor donde almacenaremos los productos */
         <GridContainer>
             {/* Recorremos los datos del JSON para mostrar su contenido de una manera bonita visualmente*/}
             {data.map(( elemento : any ) => (
-                <GridItem key = { elemento.id }>
+                <GridItem key = { elemento.id } onClick = {() => manejadorElementoMostrado(elemento.titulo)}>
                     <AlbumImg src = { elemento.imagen } alt = { elemento.titulo } />
                     <Title>{ elemento.titulo }</Title>
                     <ArtistName>{ elemento.artista }</ArtistName> 
