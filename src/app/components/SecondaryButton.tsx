@@ -26,7 +26,7 @@ type ButtonProps = {
     onClick: () => void;
 }
 
-export default function PrimaryButton({ text, onClick }: ButtonProps) {
+export default function SecondaryButton({ text, onClick }: ButtonProps) {
     return (
         <Button onClick={onClick}>
             {text}

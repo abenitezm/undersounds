@@ -20,30 +20,33 @@ type Cancion = {
 
 { /* Lo pongo como export para hacer uso de ello en el padre */}
 export type Album = {
+    idAlbum: number,
     title : string;
     canciones : Cancion[];
 }
 
 type AlbumReproducerProps = {
     album : Album;
+    controlAudio : boolean;
 }
 
 const ReproducerContainer = styled.div`
     background-color: ${colors.tertiary};
     padding: 20px;
+    margin-left: auto;
+    margin-top: -650px;
     border-radius: 10px;
+    height: 86vh;
 `;
 
 const BotonesControl = styled.div`
     display: flex;
-    gap: 10px;
     justify-content: center;
 `;
 
 const ListaCanciones = styled.ul`
     list-style: none;
-    padding: 5px;
-    cursor: pointer
+    cursor: pointer;
 `;
 
 const CancionLista = styled.li`
@@ -56,7 +59,7 @@ const CancionLista = styled.li`
     }
 `;
 
-export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
+export default function AlbumReproducer( { album, controlAudio } : AlbumReproducerProps ) {
     const [currentSong, setCurrentSong] = useState<Cancion | null>(null);
     const [songTime, setSongTime] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
@@ -64,12 +67,20 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
 
     {/* Si existe una canción a escuchar, se reproduce */}
     useEffect(() => {
-        if ( currentSong && audioRef.current ){
-            if ( isPlaying ){
-                audioRef.current.src = currentSong.url;
-                audioRef.current.play();
-            } else {
+        if ( audioRef.current ){
+
+            if(controlAudio === true){
+                console.log(controlAudio);
                 audioRef.current.pause();
+            }
+
+            if ( currentSong ){
+                audioRef.current.src = currentSong.url;
+                console.log(currentSong.url);
+
+                if ( isPlaying ){  
+                    audioRef.current.play();
+                }
             }
         }
     }, [currentSong, isPlaying]); //Depende useEffect de los valores de estas dos variables
@@ -131,12 +142,12 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
 
     return (
         <ReproducerContainer>
-            <h2>{album.title}</h2>
+            <h2 style={{ textAlign: "center" }}>{album.title}</h2>
             <audio ref = {audioRef}></audio>
-            <img src = {currentSong?.image} />
+            <img src = {album.canciones[0]?.image} />
             <BotonesControl>
                 <ChevronsLeft onClick = {reproducirCancionAnterior}/>
-                <Play onClick = {() => currentSong ? pausarSong() : reproducirSong(album.canciones[0])}/>
+                <Play onClick = {() => reproducirSong(album.canciones[0])}/>
                 <Pause onClick = {pausarSong} />
                 <ChevronsRight onClick = {reproducirSiguienteCancion} />
                 <Shuffle onClick = {shuffleReproducer} />
@@ -145,8 +156,8 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
                 {album.canciones.map((cancion) => (
                     <CancionLista key={cancion.id} onClick={() => reproducirSong(cancion)}>
                         <span>
-                            <span>{cancion.titulo}</span>
-                            <span style={{ marginLeft: '10px' }}>{cancion.time}</span>
+                            <span style = {{textAlign: "center"}}>{cancion.titulo}</span>
+                            <span style={{ marginLeft: "10px" }}>{cancion.time}</span>
                         </span>
                     </CancionLista>
                 ))}

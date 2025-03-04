@@ -19,13 +19,13 @@
         "imagen": "/audio/Swimming.jpg"
     },
     {
-        "id": "alb-1",
+        "id": "2",
         "titulo": "CryingEndRoll",
         "artista": "inidgo la End",
         "imagen": "/audio/CryingEndRoll.jpg"
     },
     {
-        "id": "alb-2",
+        "id": "0",
         "titulo": "MOLTING AND DANCING",
         "artista":"inidgo la End",
         "imagen": "/audio/Lauren.jpg"
@@ -35,5 +35,17 @@
         "titulo": "Aonooto",
         "artista": "inidgo la End",
         "imagen": "/audio/Aonooto.jpg"
+    },
+    {
+        "id": "1",
+        "titulo": "GIMME A HUG",
+        "artista": "Drake",
+        "imagen": "/audio/Hug.jpg"
+    },
+    {
+        "id": "can-5",
+        "titulo": "25",
+        "artista": "Rod Waves",
+        "imagen": "/audio/25.jpg"
     }
 ]

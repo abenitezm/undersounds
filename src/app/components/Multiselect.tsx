@@ -6,6 +6,7 @@ import colors from "../colors";
 import { Search } from "lucide-react";
 import Chips from "./chips";
 import { Chip } from "@mui/material";
+import SecondaryButton from "./SecondaryButton";
 
 const Container = styled.div`
     position: relative;
@@ -112,7 +113,7 @@ export default function Multiselect(){
             }
         };
 
-        {/* Si se produce un dropdown, cierro el desplegable */}
+        /* Si se produce un dropdown, cierro el desplegable */
         /*
             Por qué elijo el evento de mousedown y no el de click?
             
@@ -122,7 +123,7 @@ export default function Multiselect(){
             -mousedown: El usuario tiene que presionar inicialmente el botón.
 
         */
-        document.addEventListener("mousedown", cerrarDropdown);
+        document.addEventListener("mousedown", cerrarDropdown)
 
         return () => {
             document.removeEventListener("mousedown", cerrarDropdown);
@@ -161,10 +162,10 @@ export default function Multiselect(){
             <ChipsContainer >
                 {
                     filters.map((genre, index) => (
-                        <Chips
+                        <SecondaryButton
                             key = {index}
-                            name = {genre}
-                            onDelete = {() => eliminarFiltros(genre)}
+                            text = {genre}
+                            onClick = {() => eliminarFiltros(genre)}
                         />
                     ))
                 }
