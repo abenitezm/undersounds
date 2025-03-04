@@ -36,8 +36,6 @@ export default function NavigationPage() {
 
     return (
 
-        
-
         <div id="chips-container" style={styles.container}>
             {/* Descomentar si queréis ver estéticamente el componente chip
 
@@ -48,12 +46,10 @@ export default function NavigationPage() {
 
             */}
             
-            { /* Descomentar esta parte para ver visualmente el GridComponent y la funcionalidad de AlbumReproducer 
             
             <GridComponent data = {data} onAlbumClick = {manejadorAlbum}/>
             {mostrarAlbum && selectedAlbum && <AlbumReproducer album = {albumData} />}
                 
-            */}
             {/* Descomentar si queréis ver el funcionamiento de la multiselect 
             
             <Multiselect />
@@ -61,7 +57,7 @@ export default function NavigationPage() {
             */}
         </div>
     );
-}
+};
 
 const styles: { container: CSSProperties } = {
     container: {
@@ -72,3 +68,4 @@ const styles: { container: CSSProperties } = {
         gap: "10px"
     },
 }
+

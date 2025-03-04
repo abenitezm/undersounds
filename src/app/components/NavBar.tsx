@@ -6,6 +6,7 @@ import { styled } from "styled-components";
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import Link from "next/link";
 
 const Header = styled.header`
     display: flex;
@@ -59,11 +60,13 @@ const ButtonBox = styled.div`
 export default function NavBar() {
     return (
         <Header>
-            <a href="/">
+            <Link href = "/">
                 <Logo src="./logo.svg" alt="Logo Undersounds" />
-            </a>
+            </Link>
             <ButtonBox>
-                <NavButton>Explorar</NavButton>
+                <NavButton>
+                    <Link href = "/navigation">Explorar</Link>
+                </NavButton>
                 <NavButton>Vinilo</NavButton>
                 <NavButton>CDs</NavButton>
                 <NavButton>Cassettes</NavButton>
