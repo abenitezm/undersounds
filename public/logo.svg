@@ -12,11 +12,11 @@
    xmlns:svg="http://www.w3.org/2000/svg">
    <style type="text/css"
      id="style13">
-     @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900');
+     @import url('https://fonts.googleapis.com/css2?family=Montserrat');
 #g13-2 { 
     background-color :F5F5F5;
 }
-svg tspan {font-family: 'Montserrat', sans-serif;}
+svg text tspan {font-family: 'Montserrat', sans-serif;}
 </style><defs
      id="defs1" /><g
      id="layer1"
