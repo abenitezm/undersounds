@@ -3,7 +3,7 @@
 import React from "react";
 import styled from "styled-components";
 import colors from "../colors";
-import { Album } from "./AlbumReproducer";
+import Link from "next/link";
 
 const GridContainer = styled.div`
     display: grid;
@@ -38,11 +38,16 @@ const ArtistName = styled.p`
     ${GridItem}: hover & {
         color: ${colors.background};
     }
+
+    &:hover {
+        text-decoration-line: underline;
+    }
 `;
 
 const Title = styled.h2`
     font-size: 16px;
     margin: 10px 0;
+
 `;
 
 const AlbumImg = styled.img`
@@ -76,7 +81,7 @@ export default function GridContent( { data, onAlbumClick } : GridComponentProps
                 <GridItem key = { elemento.id } onClick = {() => manejadorElementoMostrado(elemento.id)}>
                     <AlbumImg src = { elemento.imagen } alt = { elemento.titulo } />
                     <Title>{ elemento.titulo }</Title>
-                    <ArtistName>{ elemento.artista }</ArtistName> 
+                    <ArtistName><Link href={`/artist/${elemento.id}`}>{ elemento.artista }</Link></ArtistName> 
                 </GridItem>
             ))}
         </GridContainer>

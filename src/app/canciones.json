@@ -1,0 +1,125 @@
+[
+    {   
+        "idAlbum": 0,
+        "title": "MOLTING AND DANCING",
+        "canciones" : [
+            {"id": 1, "titulo": "Nacht", "url": "/audio/Nacht.mp3", "image": "/audio/Lauren.webp", "time": "3:05" },
+            {"id": 2, "titulo": "Almond", "url": "/audio/almond-audio.mp3", "image": "/audio/Lauren.webp",  "time": "3:31"},
+            {"id": 3, "titulo": "BOYFRIEND", "url": "/audio/BOYFRIEND.mp3", "image": "/audio/Lauren.webp", "time": "3:20"}
+        ],
+        "artista": "indigo la End",
+        "oyentes": "1.058.763 oyentes mensuales",
+        "imagenGrupo": "/audio/indigo-la-end.webp",
+        "descripcion": "indigo la End es una banda de rock japonesa liderada por el vocalista y compositor Enon Kawatani. La banda lanzó su obra extendida debut en 2012 con el sello independiente Space Shower Records, y luego firmaron con el sub-sello Unborde de Warner."
+    },
+    {
+        "idAlbum": 1,
+        "title": "GIMME A HUG",
+        "canciones" : [
+            {"id": 1, "titulo": "GIMME A HUG", "url": "/audio/Hug.mp3", "image": "/audio/Hug.jpg", "time": "0:00"}
+        ],
+        "artista": "Drake",
+        "oyentes": "81.491.933 oyentes mensuales",
+        "imagenGrupo": "/audio/Drake.webp",
+        "descripcion": "Aubrey Drake Graham conocido simplemente como Drake, es un rapero, cantante, compositor, productor discográfico y actor canadiense. Siendo una figura influyente en la música popular contemporánea, Drake ha sido acreditado por popularizar el canto y la sensibilidad del R&B en el hip hop."
+    },
+    {
+        "idAlbum": 2,
+        "title": "Cloud 9",
+        "canciones" : [
+            {"id": 2, "titulo": "Cloud 9", "url": "/audio/cloud-9-audio.mp3", "image": "/audio/cloud-9.webp", "time": "2:33"}
+        ],
+        "artista": "Beack Bunny",
+        "oyentes": "6.805.115 oyentes mensuales",
+        "imagenGrupo": "/audio/beach-bunny-group.webp",
+        "descripcion": "Beach Bunny es una banda estadounidense de power pop originaria de Chicago, Illinois, y activa desde 2015. Alcanzó parte de su fama después de que sus canciones «Prom Queen» y «Cloud 9» se viralizaron en TikTok durante 2019 y 2020."
+    },
+    {
+        "idAlbum": 3,
+        "title": "Addicted",
+        "canciones" : [
+            {"id": 3, "titulo": "Addicted", "url": "/audio/addicted-audio.mp3", "image": "/audio/Addicted.webp", "time": "0:00"}
+        ],
+        "artista": "Flawed Mangoes",
+        "oyentes": "3.750.064 oyentes mensuales",
+        "imagenGrupo": "/audio/flawed.webp",
+        "descripcion": "No hay descripción"
+    },
+    {
+        "idAlbum": 4,
+        "title": "Sunday Scaries",
+        "canciones" : [
+            {"id": 4, "titulo": "Sunday Scaries", "url": "/audio/sunday-audio.mp3", "image": "/audio/SundayScaries.jpg", "time": "0:00"}
+        ],
+        "artista": "Flawed Mangoes",
+        "oyentes": "3.750.064 oyentes mensuales",
+        "imagenGrupo": "/audio/flawed.webp",
+        "descripcion": "No hay descripción"
+    },
+    {
+        "idAlbum": 5,
+        "title": "Swimming",
+        "canciones" : [
+            {"id": 5, "titulo": "Swimming", "url": "/audio/swimming-audio.mp3", "image": "/audio/Swimming.jpg", "time": "0:00"}
+        ],
+        "artista": "Flawed Mangoes",
+        "oyentes": "3.750.064 oyentes mensuales",
+        "imagenGrupo": "/audio/flawed.webp",
+        "descripcion": "No hay descripción"
+    },
+    {
+        "idAlbum": 6,
+        "title": "CryingEndRoll",
+        "canciones" : [
+            {"id": 6, "titulo": "CryingEndRoll", "url": "/audio/omokiri-audio.mp3", "image": "/audio/CryingEndRoll.webp", "time": "0:00"}
+        ],
+        "artista": "indigo la End",
+        "oyentes": "1.058.763 oyentes mensuales",
+        "imagenGrupo": "/audio/indigo-la-end.webp",
+        "descripcion": "indigo la End es una banda de rock japonesa liderada por el vocalista y compositor Enon Kawatani. La banda lanzó su obra extendida debut en 2012 con el sello independiente Space Shower Records, y luego firmaron con el sub-sello Unborde de Warner."
+    },
+    {
+        "idAlbum": 7,
+        "title": "Aonooto",
+        "canciones" : [
+            {"id": 7, "titulo": "Aonooto", "url": "/audio/almond-audio.mp3", "image": "/audio/Aonooto.webp", "time": "0:00"}
+        ],
+        "artista": "indigo la End",
+        "oyentes": "1.058.763 oyentes mensuales",
+        "imagenGrupo": "/audio/indigo-la-end.webp",
+        "descripcion": "indigo la End es una banda de rock japonesa liderada por el vocalista y compositor Enon Kawatani. La banda lanzó su obra extendida debut en 2012 con el sello independiente Space Shower Records, y luego firmaron con el sub-sello Unborde de Warner."
+    },
+    {
+        "idAlbum": 8,
+        "title": "25",
+        "canciones" : [
+            {"id": 8, "titulo": "25", "url": "/audio/25-audio.mp3", "image": "/audio/25.webp", "time": "0:00"}
+        ],
+        "artista": "Rod Waves",
+        "oyentes": "7.017.049 oyentes mensuales",
+        "imagenGrupo": "/audio/25.webp",
+        "descripcion": "Rodarius Marcell Green, conocido por su nombre artístico Rod Wave, es un rapero, cantante y compositor estadounidense.​Firmado por Alamo Records, Green es conocido por su fuerte voz y la incorporación de hip-hop y R&B, habiendo sido reconocido como un pionero del trap-soul."
+    },
+    {
+        "idAlbum": 9,
+        "title": "In Da Club",
+        "canciones" : [
+            {"id": 9, "titulo": "In Da Club", "url": "/audio/50-audio.mp3", "image": "/audio/in-da-club.webp", "time": "0:00"}
+        ],
+        "artista": "50 Cent",
+        "oyentes": "38.014.842 oyentes mensuales",
+        "imagenGrupo": "/audio/50cents.webp",
+        "descripcion": "Curtis James Jackson, más conocido por su nombre artístico 50 Cent, es un rapero y actor estadounidense. Alcanzó la fama mundial con el lanzamiento de sus álbumes Get Rich or Die Tryin' y The Massacre, ambos de ellos logrando éxito multi-platino."
+    },
+    {
+        "idAlbum": 10,
+        "title": "Dance Crip",
+        "canciones" : [
+            {"id": 10, "titulo": "Dance Crip", "url": "/audio/trueno-audio.mp3", "image": "/audio/dance-crip.webp", "time": "0:00"}
+        ],
+        "artista": "Trueno",
+        "oyentes": "19.166.351 oyentes mensuales",
+        "imagenGrupo": "/audio/trueno-foto.webp",
+        "descripcion": "Mateo Palacios Corazzina, conocido por su nombre artístico Trueno, es un rapero, cantante y compositor argentino.​​​Comenzó su carrera en las batallas de freestyle a los catorce años, cuando intentó participar en los torneos porteños A Cara de Perro Zoo Juniors y Red Bull Regional."
+    }
+]

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import colors from "../colors";
 import { useState } from "react";
 import { Album } from "./AlbumReproducer";
+import Link from "next/link";
 
 
 const ArtistCardContainer = styled.div`
@@ -136,6 +137,12 @@ const AnimatedSeguirButton = styled.div`
     }
 `;
 
+const ArtistName = styled.h3`
+    &:hover {
+        text-decoration-line: underline;
+    }   
+`;
+
 
 export default function ArtistCard( {album} : { album : Album } ){
 
@@ -143,11 +150,11 @@ export default function ArtistCard( {album} : { album : Album } ){
 
     return (
         <ArtistCardContainer>
-            <ArtistImageContainer imageurl = {album.imagenGrupo}>
+            <Link href={`artist/${album.idAlbum}`}><ArtistImageContainer imageurl = {album.imagenGrupo}>
                 <div className="artist-text">Información sobre el artista</div>
-            </ArtistImageContainer>
+            </ArtistImageContainer></Link>
             <ArtistInfoContainer>
-                <h3>{album.artista}</h3>
+                <Link href={`artist/${album.idAlbum}`}><ArtistName>{album.artista}</ArtistName></Link>
                 <p className="followers">{album.oyentes}</p>
                 <AnimatedSeguirButton className="text-box" onClick={ () => setSiguiendo(!siguiendo)}>
                     <a href="#" className="btn btn-white btn-animate">{siguiendo ? "Siguiendo" : "Seguir"}</a>
