@@ -21,15 +21,15 @@ export default function Home() {
         <PrimaryButton text={"Prueba"} onClick={() => alert("Prueba")} />
         <SecondaryButton text={"Prueba2"} onClick={() => alert("Prueba2")} />
         <Album name="Album 1" />
-        <FancyButton title="Explorar todo" imageSrc="/cassette.png" bgColor="#A8DADC"
+        <FancyButton title="Explorar todo" imageSrc="prettyButtons/all.png" bgColor="#A8DADC"
           onClick={() => alert("Cassette")} />
-        <FancyButton title="Vinilo" imageSrc="/cassette.png" bgColor="#F4A261"
+        <FancyButton title="Vinilo" imageSrc="prettyButtons/vinyl.png" bgColor="#F4A261"
           onClick={() => alert("Cassette")} />
-        <FancyButton title="CDs" imageSrc="/cassette.png" bgColor="#E76F51"
+        <FancyButton title="CDs" imageSrc="prettyButtons/cd.png" bgColor="#E76F51"
           onClick={() => alert("Cassette")} />
-        <FancyButton title="Cassettes" imageSrc="/cassette.png" bgColor="#457B9D"
+        <FancyButton title="Cassettes" imageSrc="prettyButtons/cassette.png" bgColor="#457B9D"
           onClick={() => alert("Cassette")} />
-        <FancyButton title="Camisetas" imageSrc="/cassette.png" bgColor="#2A9D8F"
+        <FancyButton title="Camisetas" imageSrc="prettyButtons/tshirt.png" bgColor="#2A9D8F"
           onClick={() => alert("Cassette")} />
       </div>
     </>
