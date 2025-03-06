@@ -8,6 +8,7 @@ import SecondaryButton from "./components/SecondaryButton";
 import { CSSProperties } from "react";
 import NavBar from "./components/NavBar";
 import FancyButton from "./components/FancyButton";
+import Foto from "./components/Foto";
 
 
 const rainbowColors = ["#A8DADC", "#F4A261", "#E76F51", "#457B9D", "#2A9D8F"];
@@ -32,6 +33,7 @@ export default function Home() {
         <FancyButton title="Camisetas" imageSrc="prettyButtons/tshirt.png" bgColor="#2A9D8F"
           onClick={() => alert("Cassette")} />
       </div>
+      <Foto src = "cassette.png" title="hola" description="mundo"/>
     </>
   );
 }

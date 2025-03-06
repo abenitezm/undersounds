@@ -1,12 +1,14 @@
 'use client';
 
 import React from "react";
+import { useState } from "react";
 import colors from "../colors";
 import { styled } from "styled-components";
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Link from "next/link";
+import NotificacionesDropdown from "./DesplegableNoti"; 
 
 const Header = styled.header`
     display: flex;
@@ -58,6 +60,20 @@ const ButtonBox = styled.div`
 `;
 
 export default function NavBar() {
+    const [dropdownVisible, setDropdownVisible] = useState(false);
+    const [notificaciones, setNotificaciones] = useState([
+        { id: 1, message: "Notificación 1" },
+        { id: 2, message: "Notificación 2" },
+        { id: 3, message: "Notificación 3" },
+    ]);
+
+    const handleToggleDropdown = () => {
+        setDropdownVisible(!dropdownVisible);
+    };
+
+    const handleCloseNotificación = (id: number) => {
+        setNotificaciones(notificaciones.filter(notificación => notificación.id !== id));
+    };
     return (
         <Header>
             <Link href = "/">
@@ -73,10 +89,15 @@ export default function NavBar() {
                 <NavButton>Camisetas</NavButton>
             </ButtonBox>
             <div>
-                <NotificationsIcon fontSize="large"/>
+                <NotificationsIcon fontSize="large" onClick={handleToggleDropdown} style={{ cursor: 'pointer' }}/>
                 <LibraryMusicIcon fontSize="large"/>
                 <AccountCircleIcon fontSize="large"/>
             </div>
+            <NotificacionesDropdown
+                visible={dropdownVisible}
+                notificaciones={notificaciones}
+                onClose={handleCloseNotificación}
+            />
         </Header>
     );
 }
