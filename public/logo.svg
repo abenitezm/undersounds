@@ -33,12 +33,15 @@
      inkscape:window-maximized="1"
      inkscape:current-layer="g13-2-1-6" /><style
      id="style13">
+     @import url('https://fonts.googleapis.com/css2?family=Montserrat');
 #g13-2 { 
     background-color :F5F5F5;
 }
+svg text tspan {font-family: 'Montserrat', sans-serif;}
 </style><defs
      id="defs1" /><g
      id="layer1"
+     
      transform="translate(-4.937769,-116.39774)"><g
        id="g9-9"
        transform="translate(0.31843792,51.362314)"><g
