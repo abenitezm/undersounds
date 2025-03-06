@@ -3,26 +3,31 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import colors from "../colors";
-import { Search } from "lucide-react";
+import { Search, ArrowUpDown, Clock, Delete} from "lucide-react";
 import Chips from "./chips";
 import { Chip } from "@mui/material";
-import SecondaryButton from "./SecondaryButton";
+import PrimaryButton from "./PrimaryButton";
 
 const Container = styled.div`
     position: relative;
     display: flex;
-    align-items: center;
+    flex-direction:column;
+    align-items: start;
     gap: 8px;
+    height: 20vh;
+    background-color: ${colors.tertiary};
+    border-radius: 10px;
+    width:956.3px;
 `;
 
 const SearchContainer = styled.div`
     position: relative;
     display: flex;
     align-items: center;
-    background-color: ${colors.background};
+    background-color: ${colors.tertiary};
     padding: 15px 5px;
     border-radius: 10px;
-    min-width: 150px;
+    min-width: 250px;
 `;
 
 const Input = styled.input`
@@ -31,7 +36,9 @@ const Input = styled.input`
     padding: 8px;
     flex-grow: 1;
     font-size: 14px;
-    background: transparent;
+    border-radius:10px;
+    margin-left: 10px;
+    background: ${colors.background};
 `;
 
 const Dropdown = styled.ul`
@@ -67,10 +74,30 @@ const ChipsContainer = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 50px;
+    position: absolute;
+    left: 250px;
     width: 300px; /*Subjetiva, dependiendo de la posición donde se ponga en la view, cambiará para que el flex-wrap funcione bien*/
     gap: 8px;
+    height: 62.8px;
     flex-wrap: wrap;
+`;
+
+const ContenedorBotonesAdicionales = styled.div`
+    display: flex;
+    gap: 290px;
+    margin-top:20px;
+    margin-left: 10px;
+`;
+
+const BotonAdicional = styled.button`
+    border-radius:3px;
+    width: 118px;
+    background-color: ${colors.tertiary};    
+    border:none;
+
+    &:hover{
+        border: 1px solid white;
+    }
 `;
 
 
@@ -158,11 +185,32 @@ export default function Multiselect(){
                 }
             </Dropdown>
 
+            <ContenedorBotonesAdicionales>
+                <BotonAdicional>
+                    <span style = {{display: "flex"}}>
+                        <ArrowUpDown />
+                        <p style = {{marginLeft: "10px", alignSelf: "center"}}>Más vendidos</p>
+                    </span>
+                </BotonAdicional>
+                <BotonAdicional style = {{width: "100px"}}>
+                    <span style = {{display: "flex"}}>
+                        <Clock />
+                        <p style = {{marginLeft: "10px", alignSelf: "center"}}>Nuevo</p>
+                    </span>
+                </BotonAdicional>
+                <BotonAdicional style = {{ width: "132px"}}>
+                    <span style = {{display: "flex"}}>
+                        <p style = {{marginRight: "10px", alignSelf: "center"}}>Eliminar Filtros</p>
+                        <Delete />
+                    </span>
+                </BotonAdicional>
+            </ContenedorBotonesAdicionales>
+
             {/* Renderización de los Chips que el usuario ha elegido */}
             <ChipsContainer >
                 {
                     filters.map((genre, index) => (
-                        <SecondaryButton
+                        <PrimaryButton
                             key = {index}
                             text = {genre}
                             onClick = {() => eliminarFiltros(genre)}

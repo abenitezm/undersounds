@@ -2,11 +2,8 @@
 import { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import colors from "../colors";
-import { Play } from "lucide-react"; 
-import { ChevronsLeft } from 'lucide-react';
-import { ChevronsRight } from 'lucide-react';
-import { Shuffle } from 'lucide-react';
-import { Pause } from 'lucide-react';
+import { Play, ChevronsLeft, ChevronsRight,  Shuffle, Pause } from "lucide-react"; 
+import ArtistCard from "./ArtistCard";
 
 {/* Tipos de datos definidos */}
 
@@ -23,20 +20,23 @@ export type Album = {
     idAlbum: number,
     title : string;
     canciones : Cancion[];
+    artista : string;
+    oyentes : string;
+    imagenGrupo : string;
+    descripcion : string;
 }
 
 type AlbumReproducerProps = {
     album : Album;
-    controlAudio : boolean;
 }
 
 const ReproducerContainer = styled.div`
     background-color: ${colors.tertiary};
     padding: 20px;
     margin-left: auto;
-    margin-top: -650px;
+    margin-top: -967px;
     border-radius: 10px;
-    height: 86vh;
+    height: 130vh;
 `;
 
 const BotonesControl = styled.div`
@@ -59,7 +59,7 @@ const CancionLista = styled.li`
     }
 `;
 
-export default function AlbumReproducer( { album, controlAudio } : AlbumReproducerProps ) {
+export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
     const [currentSong, setCurrentSong] = useState<Cancion | null>(null);
     const [songTime, setSongTime] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
@@ -68,19 +68,11 @@ export default function AlbumReproducer( { album, controlAudio } : AlbumReproduc
     {/* Si existe una canción a escuchar, se reproduce */}
     useEffect(() => {
         if ( audioRef.current ){
-
-            if(controlAudio === true){
-                console.log(controlAudio);
+            audioRef.current.src = currentSong?.url || '';
+            if ( isPlaying ){
+                audioRef.current.play();
+            } else {
                 audioRef.current.pause();
-            }
-
-            if ( currentSong ){
-                audioRef.current.src = currentSong.url;
-                console.log(currentSong.url);
-
-                if ( isPlaying ){  
-                    audioRef.current.play();
-                }
             }
         }
     }, [currentSong, isPlaying]); //Depende useEffect de los valores de estas dos variables
@@ -96,29 +88,29 @@ export default function AlbumReproducer( { album, controlAudio } : AlbumReproduc
         setIsPlaying(false);
     }
 
-    const reproducirSiguienteCancion = () => {
+    const reproducirSiguienteCancion = ( songs : Cancion[] ) => {
         /* Caso base, si las canciones se encuentran vacías termino */
-        if ( album.canciones.length === 0 ){
+        if ( songs.length === 0 ){
             return;
         } else { // Si no se encuentran vacías procedo a coger la siguiente a la actual
             
-            const index = album.canciones.findIndex((x) => x.id === currentSong?.id);
+            const index = songs.findIndex((x) => x.id === currentSong?.id);
             
             // Si el índice no sobrepasa los límites del vector y la función "findIndex" no me da error, se elige como current song a la siguiente de la actual 
-            if ( index !== -1 && index < album.canciones.length - 1 ){
-                setCurrentSong(album.canciones[ index + 1 ]);
+            if ( index !== -1 && index < songs.length - 1 ){
+                setCurrentSong(songs[ index + 1 ]);
                 setIsPlaying(true);
             }
         }
     };
 
-    const reproducirCancionAnterior = () => {
+    const reproducirCancionAnterior = ( songs : Cancion[] ) => {
         /* Caso base, si las canciones se encuentran vacías termino */
-        if ( album.canciones.length === 0 ){
+        if ( songs.length === 0 ){
             return;
         } else { // Si no se encuentran vacías procedo a coger la anterior de la actual
             
-            const index = album.canciones.findIndex((x) => x.id === currentSong?.id);
+            const index = songs.findIndex((x) => x.id === currentSong?.id);
             
             /* Comprobación de si el índice es > 0: ¿Por qúe? 
 
@@ -127,41 +119,42 @@ export default function AlbumReproducer( { album, controlAudio } : AlbumReproduc
                 - Si index es -1 significa que el findIndex ha dado error asi que tampoco se podrá coger la anterior
             */
            if ( index > 0 ){
-                setCurrentSong(album.canciones[ index - 1 ]);
+                setCurrentSong(songs[ index - 1 ]);
                 setIsPlaying(true);
            }
         }
     };
 
-    const shuffleReproducer = () => {
+    const shuffleReproducer = ( songs: Cancion[] ) => {
 
         //Cojo una canción random del vector de canciones
-        const randomSong = Math.floor(Math.random() * album.canciones.length);
-        setCurrentSong(album.canciones[randomSong]);
+        const randomSong = Math.floor(Math.random() * songs.length);
+        setCurrentSong(songs[randomSong]);
     };
 
     return (
         <ReproducerContainer>
             <h2 style={{ textAlign: "center" }}>{album.title}</h2>
             <audio ref = {audioRef}></audio>
-            <img src = {album.canciones[0]?.image} />
+            <img src = {currentSong?.image} style = {{ width:"330px", height:"300px", alignSelf: "center", borderRadius: "10px"}} />
             <BotonesControl>
-                <ChevronsLeft onClick = {reproducirCancionAnterior}/>
-                <Play onClick = {() => reproducirSong(album.canciones[0])}/>
-                <Pause onClick = {pausarSong} />
-                <ChevronsRight onClick = {reproducirSiguienteCancion} />
-                <Shuffle onClick = {shuffleReproducer} />
+                <ChevronsLeft onClick = {() => reproducirCancionAnterior(album.canciones)}/>
+                { isPlaying ? (
+                    <Pause onClick={pausarSong} />
+                ) : (
+                    <Play onClick={ () => reproducirSong(album.canciones[0])} />
+                )}
+                <ChevronsRight onClick = {() => reproducirSiguienteCancion(album.canciones)} />
+                <Shuffle onClick = {() => shuffleReproducer(album.canciones)} />
             </BotonesControl>
             <ListaCanciones>
                 {album.canciones.map((cancion) => (
                     <CancionLista key={cancion.id} onClick={() => reproducirSong(cancion)}>
-                        <span>
-                            <span style = {{textAlign: "center"}}>{cancion.titulo}</span>
-                            <span style={{ marginLeft: "10px" }}>{cancion.time}</span>
-                        </span>
+                        <span>{cancion.titulo} - {cancion.time}</span>
                     </CancionLista>
                 ))}
             </ListaCanciones>
+            <ArtistCard album={album}/>
         </ReproducerContainer>
     );
 }

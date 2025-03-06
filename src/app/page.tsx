@@ -7,8 +7,10 @@ import PrimaryButton from "./components/PrimaryButton";
 import SecondaryButton from "./components/SecondaryButton";
 import { CSSProperties } from "react";
 import NavBar from "./components/NavBar";
+import FancyButton from "./components/FancyButton";
 
 
+const rainbowColors = ["#A8DADC", "#F4A261", "#E76F51", "#457B9D", "#2A9D8F"];
 
 
 export default function Home() {
@@ -19,6 +21,16 @@ export default function Home() {
         <PrimaryButton text={"Prueba"} onClick={() => alert("Prueba")} />
         <SecondaryButton text={"Prueba2"} onClick={() => alert("Prueba2")} />
         <Album name="Album 1" />
+        <FancyButton title="Explorar todo" imageSrc="/cassette.png" bgColor="#A8DADC"
+          onClick={() => alert("Cassette")} />
+        <FancyButton title="Vinilo" imageSrc="/cassette.png" bgColor="#F4A261"
+          onClick={() => alert("Cassette")} />
+        <FancyButton title="CDs" imageSrc="/cassette.png" bgColor="#E76F51"
+          onClick={() => alert("Cassette")} />
+        <FancyButton title="Cassettes" imageSrc="/cassette.png" bgColor="#457B9D"
+          onClick={() => alert("Cassette")} />
+        <FancyButton title="Camisetas" imageSrc="/cassette.png" bgColor="#2A9D8F"
+          onClick={() => alert("Cassette")} />
       </div>
     </>
   );
