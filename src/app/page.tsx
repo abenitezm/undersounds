@@ -33,7 +33,7 @@ export default function Home() {
         <FancyButton title="Camisetas" imageSrc="prettyButtons/tshirt.png" bgColor="#2A9D8F"
           onClick={() => alert("Cassette")} />
       </div>
-      <Foto src = "cassette.png" title="hola" description="mundo"/>
+      <Foto src = "/prettyButtons/cassette.png" title="hola" description="mundo"/>
     </>
   );
 }

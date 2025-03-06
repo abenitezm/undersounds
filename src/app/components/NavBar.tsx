@@ -62,9 +62,9 @@ const ButtonBox = styled.div`
 export default function NavBar() {
     const [dropdownVisible, setDropdownVisible] = useState(false);
     const [notificaciones, setNotificaciones] = useState([
-        { id: 1, message: "Notificación 1" },
-        { id: 2, message: "Notificación 2" },
-        { id: 3, message: "Notificación 3" },
+        { id: 1, message: "Has comprado la canción:" },
+        { id: 2, message: "Has comprado el álbum:" },
+        { id: 3, message: "Has comprado una camiseta" },
     ]);
 
     const handleToggleDropdown = () => {

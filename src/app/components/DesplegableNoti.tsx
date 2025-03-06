@@ -5,8 +5,8 @@ import Notificación from "./Notificación";
 
 const DropdownContainer = styled.div<{ visible: boolean }>`
     position: absolute;
-    top: 50px;
-    right: 20px;
+    top: 65px;
+    right: 100px;
     background-color: ${colors.background};
     border: 1px solid ${colors.primary};
     border-radius: 10px;
