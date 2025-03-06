@@ -4,72 +4,84 @@
         "id": "0",
         "titulo": "MOLTING AND DANCING",
         "artista":"inidgo la End",
-        "imagen": "/audio/Lauren.webp"
+        "imagen": "/audio/Lauren.webp",
+        "genre": "Pop"
     },
     {
         "id": "1",
         "titulo": "GIMME A HUG",
         "artista": "Drake",
-        "imagen": "/audio/Hug.jpg"
+        "imagen": "/audio/Hug.jpg",
+        "genre": "Rap"
     },
     {
         "id": "2",
         "titulo": "Cloud 9",
         "artista": "Beach Bunny",
-        "imagen": "/audio/cloud-9.webp"
+        "imagen": "/audio/cloud-9.webp",
+        "genre": "Indie"
     },
     {
         "id": "3",
         "titulo": "Addicted",
         "artista": "Flawed Mangoes",
-        "imagen": "/audio/Addicted.webp"
+        "imagen": "/audio/Addicted.webp",
+        "genre": "Hopecore"
     },
     {
         "id": "4",
         "titulo": "Sunday Scaries",
         "artista": "Flawed Mangoes",
-        "imagen": "/audio/SundayScaries.jpg"
+        "imagen": "/audio/SundayScaries.jpg",
+        "genre": "Hopecore"
     },
     {
         "id": "5",
         "titulo": "Swimming",
         "artista": "Flawed Mangoes",
-        "imagen": "/audio/Swimming.jpg"
+        "imagen": "/audio/Swimming.jpg",
+        "genre": "Hopecore"
     },
     {
         "id": "6",
         "titulo": "CryingEndRoll",
         "artista": "inidgo la End",
-        "imagen": "/audio/CryingEndRoll.webp"
+        "imagen": "/audio/CryingEndRoll.webp",
+        "genre": "Pop"
     },
     {
         "id": "7",
         "titulo": "Aonooto",
         "artista": "inidgo la End",
-        "imagen": "/audio/Aonooto.webp"
+        "imagen": "/audio/Aonooto.webp",
+        "genre": "Pop"
     },
     {
         "id": "8",
         "titulo": "25",
         "artista": "Rod Waves",
-        "imagen": "/audio/25.webp"
+        "imagen": "/audio/25.webp",
+        "genre": "Rap"
     },
     {
         "id": "9",
         "titulo": "In Da Club",
         "artista": "50 Cent",
-        "imagen": "/audio/in-da-club.webp"
+        "imagen": "/audio/in-da-club.webp",
+        "genre": "Hip-Hop"
     },
     {
         "id": "10",
         "titulo": "Dance Crip",
         "artista": "Trueno",
-        "imagen": "/audio/dance-crip.webp"
+        "imagen": "/audio/dance-crip.webp",
+        "genre": "Hip-Hop"
     },
     {
         "id": "11",
         "titulo": "Walk In Wardrobe",
         "artista": "Central Cee",
-        "imagen": "/audio/walk-in-wardrobe.webp"
+        "imagen": "/audio/walk-in-wardrobe.webp",
+        "genre": "Hip-Hop"
     }
 ]

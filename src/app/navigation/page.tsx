@@ -36,25 +36,32 @@ const albumData : Album[] = canciones.map((cancion) => {
 export default function NavigationPage() {
     /* Almacena el album seleccionado */
     const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
-    
+    /* Almacena los filtros seleccionados */
+    const [filters, setFilters] = React.useState<string[]>([]);
+
     /* Manejador que me permite mostrar las canciones del album MOLTING AND DANCING TODO: hacerlo para cualquier album */
     const manejadorAlbum = ( albumId : number ) => {
         if ( albumId >= 0 && albumId < albumData.length ){
             setSelectedAlbum(albumData[albumId]);
         } else {
-            console.log(albumId);
-            console.log(albumData.length);
             console.error("Indice del album fuera de rango");
         }
        
     };
+    /* Posible método que se usará en el filtrado con la BD
+    
+    const actualizarFiltros = (filters : string[]) => {
+        setFilters(filters);
+    }
+
+    */
 
     return (
 
         <GlobalContainer>
-            <Multiselect />
+            <Multiselect/>
             <GridComponent data = {data} onAlbumClick = {manejadorAlbum}/>
-            {selectedAlbum && <AlbumReproducer album={selectedAlbum} />}
+            {selectedAlbum && <AlbumReproducer album={selectedAlbum}/>}
         </GlobalContainer>
 
     );

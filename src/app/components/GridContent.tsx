@@ -45,8 +45,15 @@ const ArtistName = styled.p`
 `;
 
 const Title = styled.h2`
-    font-size: 16px;
+    font-size: 14px;
     margin: 10px 0;
+
+`;
+
+const Genre = styled.h3`
+    font-size: 14px;
+    margin: 10px 0;
+    color: ${colors.secondary};
 
 `;
 
@@ -57,9 +64,10 @@ const AlbumImg = styled.img`
 `;
 
 type GridComponentProps = {
-    data : any[]; 
+    data : any[]; //Datos recibidos
     /* Sirve para almacenar la función que se pasa en el componente padre */
     onAlbumClick: (albumId : number) => void;
+    /*filters: string[];  posible prop que se utilizará en el filtrado con la BD*/ 
 }
 
 export default function GridContent( { data, onAlbumClick } : GridComponentProps) {
@@ -73,6 +81,14 @@ export default function GridContent( { data, onAlbumClick } : GridComponentProps
         onAlbumClick(albumId);
     };
 
+    /* Posible método que se usará en el filtrado con la BD
+
+    const filtradoInfo =  data.filter((elemento : any) => {
+        filters.includes(elemento.genre);
+    })
+
+    */
+
     return (
         /* Cargamos el contenedor donde almacenaremos los productos */
         <GridContainer>
@@ -81,6 +97,7 @@ export default function GridContent( { data, onAlbumClick } : GridComponentProps
                 <GridItem key = { elemento.id } onClick = {() => manejadorElementoMostrado(elemento.id)}>
                     <AlbumImg src = { elemento.imagen } alt = { elemento.titulo } />
                     <Title>{ elemento.titulo }</Title>
+                    <Genre>{ elemento.genre }</Genre>
                     <ArtistName><Link href={`/artist/${elemento.id}`}>{ elemento.artista }</Link></ArtistName> 
                 </GridItem>
             ))}

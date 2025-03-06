@@ -34,7 +34,7 @@ const ReproducerContainer = styled.div`
     background-color: ${colors.tertiary};
     padding: 20px;
     margin-left: auto;
-    margin-top: -967px;
+    margin-top: -1077px;
     border-radius: 10px;
     height: 130vh;
 `;
@@ -81,6 +81,9 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
     const reproducirSong = ( song : Cancion ) => {
         setCurrentSong(song);
         setIsPlaying(true);
+        if (audioRef.current) {
+            audioRef.current.volume = 0.30;
+        }
     }   
 
     {/* Maneja la pausa de la canción actual */}
@@ -135,8 +138,8 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
     return (
         <ReproducerContainer>
             <h2 style={{ textAlign: "center" }}>{album.title}</h2>
-            <audio ref = {audioRef}></audio>
-            <img src = {currentSong?.image} style = {{ width:"330px", height:"300px", alignSelf: "center", borderRadius: "10px"}} />
+            <audio ref = {audioRef} ></audio>
+            <img src = {currentSong?.image} style = {{ width:"330px", height:"300px", alignSelf: "center", borderRadius: "10px"}} alt = "foto canción" />
             <BotonesControl>
                 <ChevronsLeft onClick = {() => reproducirCancionAnterior(album.canciones)}/>
                 { isPlaying ? (

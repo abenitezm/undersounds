@@ -94,12 +94,20 @@ const BotonAdicional = styled.button`
     width: 118px;
     background-color: ${colors.tertiary};    
     border:none;
+    color: ${colors.secondary};
 
     &:hover{
         border: 1px solid white;
     }
 `;
 
+/* Posible método que se usará en el filtrado con la BD
+
+type MultiselectProps = {
+    onCambioFiltro: (filters: string[]) => void;
+}
+
+*/
 
 export default function Multiselect(){
     const [mostrarDropdown, setMostrarDropdown] = React.useState(false);
@@ -108,7 +116,7 @@ export default function Multiselect(){
     const [filters, setFilters] = React.useState<string[]>([]);
 
     {/* Definición de vector de tipos de géneros que se usarán para facilitar el filtrado */}
-    const generos = ["Rock", "Cloud", "Funk", "Metal"];
+    const generos = ["Pop", "Rap", "Indie", "Hopecore", "Hip-Hop"];
 
     {/* Definición de variable que contendrá una función la cual manejará los inputs de texto que se hagan */}
     const manejadorBusqueda = (genre : string) => {
@@ -128,9 +136,23 @@ export default function Multiselect(){
 
      {/* Función que me elimina los filtros del array de filtros */}
      const eliminarFiltros  = (genre : string) => {
-        console.log("Eliminando filtro", genre);
-        setFilters(filters.filter((filter) => filter !== genre)); //Actualización del array filters eliminando los filtros que se han seleccionado
+        const nuevosFiltros = filters.filter((filter) => filter !== genre); //Actualización del array filters eliminando los filtros que se han seleccionado
+        setFilters(nuevosFiltros);
     }
+
+    const eliminarTodosLosFiltros = () => {
+        filters.splice(0, filters.length);
+        console.log(filters.length);    
+        setFilters(filters);
+    }
+
+    /* Posible método que se usará en el filtrado con la BD
+    
+    const actualizarFiltros = (filters : string[]) => {
+        setFilters(filters);
+    }
+
+    */
 
     {/* Cerrar el Dropdown si se hace click fuera TOOD: hacer que funcione */}
     useEffect(() => {
@@ -158,6 +180,7 @@ export default function Multiselect(){
 
     }, []);
 
+    /* Proceso de filtrado en base a los filtros aplicados */
 
     return (
         <Container>
@@ -198,7 +221,7 @@ export default function Multiselect(){
                         <p style = {{marginLeft: "10px", alignSelf: "center"}}>Nuevo</p>
                     </span>
                 </BotonAdicional>
-                <BotonAdicional style = {{ width: "132px"}}>
+                <BotonAdicional style = {{ width: "132px"}} onClick={eliminarTodosLosFiltros}>
                     <span style = {{display: "flex"}}>
                         <p style = {{marginRight: "10px", alignSelf: "center"}}>Eliminar Filtros</p>
                         <Delete />
