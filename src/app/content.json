@@ -10,7 +10,7 @@
         "id": "can-2",
         "titulo": "Addicted",
         "artista": "Flawed Mangoes",
-        "imagen": "/audio/Addicted.jpg"
+        "imagen": "/audio/Addicted.webp"
     },
     {
         "id": "can-3",
@@ -22,19 +22,19 @@
         "id": "3",
         "titulo": "CryingEndRoll",
         "artista": "inidgo la End",
-        "imagen": "/audio/CryingEndRoll.jpg"
+        "imagen": "/audio/CryingEndRoll.webp"
     },
     {
         "id": "0",
         "titulo": "MOLTING AND DANCING",
         "artista":"inidgo la End",
-        "imagen": "/audio/Lauren.jpg"
+        "imagen": "/audio/Lauren.webp"
     },
     {
         "id": "alb-3",
         "titulo": "Aonooto",
         "artista": "inidgo la End",
-        "imagen": "/audio/Aonooto.jpg"
+        "imagen": "/audio/Aonooto.webp"
     },
     {
         "id": "1",
@@ -46,7 +46,7 @@
         "id": "can-5",
         "titulo": "25",
         "artista": "Rod Waves",
-        "imagen": "/audio/25.jpg"
+        "imagen": "/audio/25.webp"
     },
     {
         "id": "can-6",
