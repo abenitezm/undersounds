@@ -6,15 +6,21 @@ import styled from "styled-components";
 
 // Objeto con todos los mensajes de error, para facilitar hacer cambios en los mensajes
 const errorMessages = {
-  usernameLength: <span>El nombre de usuario debe contener al menos 5 caracteres</span>,
-  usernameRegex: <span>El nombre de usuario sólo puede contener letras y números</span>,
+  usernameLength: (
+    <span>El nombre de usuario debe contener al menos 5 caracteres</span>
+  ),
+  usernameRegex: (
+    <span>El nombre de usuario sólo puede contener letras y números</span>
+  ),
   emailRegex: <span>Formato de email inválido</span>,
   passwordRegex: <span>La contraseña debe contener al menos un número</span>,
-  passwordLength: <span>La contraseña debe contener al menos 8 caracteres</span>,
+  passwordLength: (
+    <span>La contraseña debe contener al menos 8 caracteres</span>
+  ),
   securePasswordRequired: <span>Confirma la contraseña</span>,
   passwordsMatch: <span>Las contraseñas no coinciden</span>,
   fanEmailRegex: <span>Formato de email inválido</span>,
-}
+};
 
 const AccountForm = () => {
   const [inputs, setInputs] = useState({
@@ -41,20 +47,22 @@ const AccountForm = () => {
     fanEmailRegex: false,
   });
 
+  const [changesSaved, setChangesSaved] = useState(false);
+
   const validateFields = () => {
     let allFieldsValid = true;
     // Check if the username is empty
     const newErrors = { ...errors };
 
     // Check if the username is at least 5 characters
-    if (inputs.username != '' && inputs.username.length < 5) {
+    if (inputs.username != "" && inputs.username.length < 5) {
       newErrors.usernameLength = true;
       allFieldsValid = false;
     } else {
       newErrors.usernameLength = false;
     }
     // Check if the username contains only letters and numbers
-    if ( inputs.username != '' && !inputs.username.match(/^[a-zA-Z0-9]+$/)) {
+    if (inputs.username != "" && !inputs.username.match(/^[a-zA-Z0-9]+$/)) {
       newErrors.usernameRegex = true;
       allFieldsValid = false;
     } else {
@@ -62,7 +70,10 @@ const AccountForm = () => {
     }
 
     // Check if the email is valid
-    if (inputs.accountEmail != '' && !inputs.accountEmail.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
+    if (
+      inputs.accountEmail != "" &&
+      !inputs.accountEmail.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)
+    ) {
       newErrors.emailRegex = true;
       allFieldsValid = false;
     } else {
@@ -70,7 +81,7 @@ const AccountForm = () => {
     }
 
     // Check if the password is at least 8 characters
-    if ( inputs.password != '' && inputs.password.length < 8) {
+    if (inputs.password != "" && inputs.password.length < 8) {
       newErrors.passwordLength = true;
       allFieldsValid = false;
     } else {
@@ -78,7 +89,7 @@ const AccountForm = () => {
     }
 
     // Check if the password contains at least one number
-    if (inputs.password != '' && !inputs.password.match(/\d/)) {
+    if (inputs.password != "" && !inputs.password.match(/\d/)) {
       newErrors.passwordRegex = true;
       allFieldsValid = false;
     } else {
@@ -86,7 +97,7 @@ const AccountForm = () => {
     }
 
     // Check if the secure password is empty
-    if (inputs.password != '' && !inputs.securePassword) {
+    if (inputs.password != "" && !inputs.securePassword) {
       newErrors.securePasswordRequired = true;
       allFieldsValid = false;
     } else {
@@ -115,10 +126,19 @@ const AccountForm = () => {
 
     if (allFieldsValid) {
       console.log(inputs);
+      setChangesSaved(true);
+
+      setTimeout(() => {
+        setChangesSaved(false);
+      }, 3000);
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const name = e.target.name;
     const value = e.target.value;
     setInputs({
@@ -127,7 +147,7 @@ const AccountForm = () => {
     });
   };
 
-  const handleSubmit = (e: { preventDefault: () => void; }) => {
+  const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault(); // previene que recargue la página y perdamos la info
     validateFields();
   };
@@ -198,7 +218,8 @@ const AccountForm = () => {
             name="securePassword"
           />
           <ErrorMessages>
-            {errors.securePasswordRequired && errorMessages.securePasswordRequired}
+            {errors.securePasswordRequired &&
+              errorMessages.securePasswordRequired}
             {errors.passwordsMatch && errorMessages.passwordsMatch}
           </ErrorMessages>
         </FormItem>
@@ -278,7 +299,12 @@ const AccountForm = () => {
       >
         <FormLabel>Dark mode</FormLabel>
         <input
-          style={{ ...styles.formInput, width: "auto", marginLeft: 10, resize: "none" }}
+          style={{
+            ...styles.formInput,
+            width: "auto",
+            marginLeft: 10,
+            resize: "none",
+          }}
           onChange={handleChange}
           type="checkbox"
           name="darkMode"
@@ -287,6 +313,9 @@ const AccountForm = () => {
       </FormItem>
 
       <Button type="submit">Save settings</Button>
+      {changesSaved && (
+        <ConfirmMessage>Your changes have been saved!</ConfirmMessage>
+      )}
 
       <DeleteButton
         type="button"
@@ -368,6 +397,12 @@ const Button = styled.button`
     background-color: ${colors.secondary};
     color: ${colors.background};
   }
+`;
+
+const ConfirmMessage = styled.span`
+  font-size: 0.8rem;
+  color: ${colors.secondary};
+  margin: 0 auto;
 `;
 
 const DeleteButton = styled.button`
