@@ -6,17 +6,14 @@ import styled from "styled-components";
 
 // Objeto con todos los mensajes de error, para facilitar hacer cambios en los mensajes
 const errorMessages = {
-  usernameRequired: <span>Username is required</span>,
-  usernameLength: <span>Username must be at least 5 characters</span>,
-  usernameRegex: <span>Username can only contain letters and numbers</span>,
-  emailRequired: <span>Email is required</span>,
-  emailRegex: <span>Invalid email format</span>,
-  passwordRequired: <span>Password is required</span>,
-  passwordRegex: <span>Password must contain at least one number</span>,
-  passwordLength: <span>Password must be at least 8 characters</span>,
-  securePasswordRequired: <span>Password confirmation is required</span>,
-  passwordsMatch: <span>Passwords do not match</span>,
-  fanEmailRegex: <span>Invalid email format</span>,
+  usernameLength: <span>El nombre de usuario debe contener al menos 5 caracteres</span>,
+  usernameRegex: <span>El nombre de usuario sólo puede contener letras y números</span>,
+  emailRegex: <span>Formato de email inválido</span>,
+  passwordRegex: <span>La contraseña debe contener al menos un número</span>,
+  passwordLength: <span>La contraseña debe contener al menos 8 caracteres</span>,
+  securePasswordRequired: <span>Confirma la contraseña</span>,
+  passwordsMatch: <span>Las contraseñas no coinciden</span>,
+  fanEmailRegex: <span>Formato de email inválido</span>,
 }
 
 const AccountForm = () => {
@@ -34,12 +31,9 @@ const AccountForm = () => {
   });
 
   const [errors, setErrors] = useState({
-    usernameRequired: false,
     usernameLength: false,
     usernameRegex: false,
-    emailRequired: false,
     emailRegex: false,
-    passwordRequired: false,
     passwordRegex: false,
     passwordLength: false,
     securePasswordRequired: false,
@@ -51,53 +45,32 @@ const AccountForm = () => {
     let allFieldsValid = true;
     // Check if the username is empty
     const newErrors = { ...errors };
-    if (!inputs.username) {
-      newErrors.usernameRequired = true;
-      allFieldsValid = false;
-    } else {
-      newErrors.usernameRequired = false;
-    }
+
     // Check if the username is at least 5 characters
-    if (inputs.username.length < 5) {
+    if (inputs.username != '' && inputs.username.length < 5) {
       newErrors.usernameLength = true;
       allFieldsValid = false;
     } else {
       newErrors.usernameLength = false;
     }
     // Check if the username contains only letters and numbers
-    if (!inputs.username.match(/^[a-zA-Z0-9]+$/)) {
+    if ( inputs.username != '' && !inputs.username.match(/^[a-zA-Z0-9]+$/)) {
       newErrors.usernameRegex = true;
       allFieldsValid = false;
     } else {
       newErrors.usernameRegex = false;
     }
 
-    // Check if the email is empty
-    if (!inputs.accountEmail) {
-      newErrors.emailRequired = true;
-      allFieldsValid = false;
-    } else {
-      newErrors.emailRequired = false;
-    }
-
     // Check if the email is valid
-    if (!inputs.accountEmail.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
+    if (inputs.accountEmail != '' && !inputs.accountEmail.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
       newErrors.emailRegex = true;
       allFieldsValid = false;
     } else {
       newErrors.emailRegex = false;
     }
 
-    // Check if the password is empty
-    if (!inputs.password) {
-      newErrors.passwordRequired = true;
-      allFieldsValid = false;
-    } else {
-      newErrors.passwordRequired = false;
-    }
-
     // Check if the password is at least 8 characters
-    if (inputs.password.length < 8) {
+    if ( inputs.password != '' && inputs.password.length < 8) {
       newErrors.passwordLength = true;
       allFieldsValid = false;
     } else {
@@ -105,7 +78,7 @@ const AccountForm = () => {
     }
 
     // Check if the password contains at least one number
-    if (!inputs.password.match(/\d/)) {
+    if (inputs.password != '' && !inputs.password.match(/\d/)) {
       newErrors.passwordRegex = true;
       allFieldsValid = false;
     } else {
@@ -113,7 +86,7 @@ const AccountForm = () => {
     }
 
     // Check if the secure password is empty
-    if (!inputs.securePassword) {
+    if (inputs.password != '' && !inputs.securePassword) {
       newErrors.securePasswordRequired = true;
       allFieldsValid = false;
     } else {
@@ -174,7 +147,6 @@ const AccountForm = () => {
           name="username"
         />
         <ErrorMessages>
-          {errors.usernameRequired && errorMessages.usernameRequired}
           {errors.usernameLength && errorMessages.usernameLength}
           {errors.usernameRegex && errorMessages.usernameRegex}
         </ErrorMessages>
@@ -188,7 +160,6 @@ const AccountForm = () => {
           name="accountEmail"
         />
         <ErrorMessages>
-          {errors.emailRequired && errorMessages.emailRequired}
           {errors.emailRegex && errorMessages.emailRegex}
         </ErrorMessages>
       </FormItem>
@@ -213,7 +184,6 @@ const AccountForm = () => {
             name="password"
           />
           <ErrorMessages>
-            {errors.passwordRequired && errorMessages.passwordRequired}
             {errors.passwordLength && errorMessages.passwordLength}
             {errors.passwordRegex && errorMessages.passwordRegex}
           </ErrorMessages>
