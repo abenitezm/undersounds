@@ -3,8 +3,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import Multiselect from "../components/Multiselect";
-import data from "../content.json";
-import canciones from "../canciones.json";
+import data from "../bd.json";
 import GridComponent from "../components/GridContent";
 import AlbumReproducer, { Album } from "../components/AlbumReproducer";
 import { styled } from "styled-components";
@@ -20,10 +19,10 @@ const GlobalContainer = styled.div`
     width: 90%;
 `;
 
-const albumData : Album[] = canciones.map((cancion) => {
+const albumData : Album[] = data.map((cancion) => {
     return {
-        idAlbum: cancion.idAlbum,
-        title: cancion.title,
+        idAlbum: cancion.id,
+        title: cancion.titulo,
         canciones: cancion.canciones,
         artista: cancion.artista,
         oyentes: cancion.oyentes,

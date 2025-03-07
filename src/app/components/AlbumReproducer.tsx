@@ -2,8 +2,9 @@
 import { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import colors from "../colors";
-import { Play, ChevronsLeft, ChevronsRight,  Shuffle, Pause } from "lucide-react"; 
+import { Play, ChevronsLeft, ChevronsRight,  Shuffle, Pause} from "lucide-react"; 
 import ArtistCard from "./ArtistCard";
+import CopiarEnlaceNavegacion from "./CopiarEnlaceNavegacion";
 
 {/* Tipos de datos definidos */}
 
@@ -42,6 +43,7 @@ const ReproducerContainer = styled.div`
 const BotonesControl = styled.div`
     display: flex;
     justify-content: center;
+    margin-bottom: 10px;
 `;
 
 const ListaCanciones = styled.ul`
@@ -58,6 +60,8 @@ const CancionLista = styled.li`
         color: ${colors.primary};
     }
 `;
+
+
 
 export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
     const [currentSong, setCurrentSong] = useState<Cancion | null>(null);
@@ -156,6 +160,7 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
                         <span>{cancion.titulo} - {cancion.time}</span>
                     </CancionLista>
                 ))}
+                <CopiarEnlaceNavegacion />
             </ListaCanciones>
             <ArtistCard album={album}/>
         </ReproducerContainer>
