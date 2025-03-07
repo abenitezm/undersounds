@@ -72,7 +72,7 @@ const styles = {
     height: "100%",
     width: "30%",
     flexDirection: "column",
-    gap: 20,
+
     border: "1px solid blue",
     padding: 10,
     marginTop: 20,
