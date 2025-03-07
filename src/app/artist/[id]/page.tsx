@@ -1,34 +1,37 @@
 import defaultAvatar from "../../../assets/img/defaultAvatar.jpg";
 import { Album } from "@/app/components/Album";
 import ProfileInfo from "@/app/components/ProfileInfo";
-
+import data from '../../content.json';
 
 const ArtistPage = async ({ params }: { params: { id: string } }) => {
   const param = await params;
   const id = param.id;
-
-  const artistAlbums = ["Album 1", "Album 2", "Album 3", "Album 4"];
-
+  
   const artistGeneros = ["Rock", "Pop", "Jazz", "Blues"];
 
   return (
     <main style={styles.main}>
-      <h1 style={styles.title}>Perfil de {id}</h1>
       <ProfileInfo id={id} avatar={defaultAvatar} generos={artistGeneros} />
-      <h2 style={{ fontSize: 20 }}>Albums</h2>
-      <div style={styles.artistAlbums}>
-        {artistAlbums.map((album) => (
-          <Album key={album} name={album} />
-        ))}
+      <div style={styles.albumSection}>
+        <h2 style={{ fontSize: 20 }}>Albums</h2>
+        <div style={styles.artistAlbums}>
+          {data.map((album) => (
+            <Album key={album.id} name={album.titulo} />
+          ))}
+        </div>
       </div>
     </main>
   );
 };
 
-const styles = {
+import { CSSProperties } from "react";
+
+const styles: { [key: string]: CSSProperties } = {
   main: {
     padding: 20,
-    width: "70%",
+    width: "80%",
+    display: "flex",
+    flexDirection: "row",
   },
   title: {
     fontSize: 24,
@@ -38,6 +41,11 @@ const styles = {
     display: "grid",
     gridTemplateColumns: "repeat(6, 1fr)",
     gap: 20,
+  },
+  albumSection: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 10,
   },
 };
 
