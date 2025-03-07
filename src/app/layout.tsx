@@ -22,7 +22,6 @@ export default function RootLayout({
       <body className={`${montserrat.className} antialiased`}>
         <NavBar />
         <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
-        <WebAudio />
         {/* Separación del audio para reproducirlo en todas las páginas */}
       </body>
     </html>

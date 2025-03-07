@@ -81,7 +81,7 @@
     },
     {
         "id": 6,
-        "titulo": "cryingEndRoll",
+        "titulo": "CryingEndRoll",
         "artista": "indigo la End",
          "canciones" : [
             {"id": 6, "titulo": "CryingEndRoll", "url": "/audio/omokiri-audio.mp3", "image": "/audio/CryingEndRoll.webp", "time": "0:00"}

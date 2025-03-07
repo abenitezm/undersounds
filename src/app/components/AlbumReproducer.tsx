@@ -35,9 +35,15 @@ const ReproducerContainer = styled.div`
     background-color: ${colors.tertiary};
     padding: 20px;
     margin-left: auto;
-    margin-top: -1077px;
+    margin-right: auto;
     border-radius: 10px;
     height: 130vh;
+    position: fixed; //Para mantenerlo fijo
+    right: 60px;
+    top: 60pxpx;
+    width: 50vh;
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
 `;
 
 const BotonesControl = styled.div`

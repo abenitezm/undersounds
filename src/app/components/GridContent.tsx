@@ -4,8 +4,9 @@ import React from "react";
 import styled from "styled-components";
 import colors from "../colors";
 import Link from "next/link";
+import { useState } from "react";
 
-const GridContainer = styled.div`
+const GridContainer = styled.div<{ $expandir : boolean}>`
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;
@@ -14,6 +15,8 @@ const GridContainer = styled.div`
     margin-left: 0;
     max-width: 70%;
     margin-right: auto;
+    height: ${({ $expandir }) => ($expandir ? "320px" : "auto")};
+    overflow-y: ${({ $expandir }) => ($expandir ? "auto" : "visible")};
 `;
 
 const GridItem = styled.div`
@@ -63,6 +66,21 @@ const AlbumImg = styled.img`
     border-radius: 10px;
 `;
 
+const ToggleButton = styled.button`
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background-color: #005bb5;
+  }
+`;
+
 type GridComponentProps = {
     data : any[]; //Datos recibidos
     /* Sirve para almacenar la función que se pasa en el componente padre */
@@ -72,6 +90,7 @@ type GridComponentProps = {
 
 export default function GridContent( { data, onAlbumClick } : GridComponentProps) {
 
+    const [expandir, setExpandir] = useState(false);
     { /* 
         Se llama cuando se hace click en un álbum. 
         Pasa el título del album a la funcion onAlbumClick que es manejada
@@ -89,11 +108,13 @@ export default function GridContent( { data, onAlbumClick } : GridComponentProps
 
     */
 
+    const enseñarMasContenido = expandir ? data : data.slice(0, 8); 
+
     return (
         /* Cargamos el contenedor donde almacenaremos los productos */
-        <GridContainer>
+        <GridContainer $expandir={expandir}>
             {/* Recorremos los datos del JSON para mostrar su contenido de una manera bonita visualmente*/}
-            {data.map(( elemento : any ) => (
+            {enseñarMasContenido.map(( elemento : any ) => (
                 <GridItem key = { elemento.id } onClick = {() => manejadorElementoMostrado(elemento.id)}>
                     <AlbumImg src = { elemento.imagen } alt = { elemento.titulo } />
                     <Title>{ elemento.titulo }</Title>
@@ -101,6 +122,9 @@ export default function GridContent( { data, onAlbumClick } : GridComponentProps
                     <ArtistName><Link href={`/artist/${elemento.id}`}>{ elemento.artista }</Link></ArtistName> 
                 </GridItem>
             ))}
+            <ToggleButton onClick = {() => setExpandir(!expandir)}>
+                { expandir ? "Ver más resultados" : "Ver menos resultados" }
+            </ToggleButton>
         </GridContainer>
     );
 }
