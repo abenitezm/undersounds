@@ -3,6 +3,9 @@
 import colors from "../colors";
 import { useState } from "react";
 import AccountForm from "../components/AccountForm";
+import styled from "styled-components";
+
+const menuItems = ["Account", "Notifications", "Payment", "Merch"];
 
 const SettingsPage = () => {
   const [selected, setSelected] = useState("Account");
@@ -11,53 +14,52 @@ const SettingsPage = () => {
     <main style={styles.main}>
       <h1>Settings</h1>
       <div style={{ display: "flex", flexDirection: "row" }}>
-        <div style={styles.sideMenu}>
-          <button
-            style={styles.sideMenuButton}
-            onClick={() => {
-              setSelected("Account");
-            }}
-          >
-            Account
-          </button>
-          <button
-            style={styles.sideMenuButton}
-            onClick={() => {
-              setSelected("Notifications");
-            }}
-          >
-            Notifications
-          </button>
-          <button
-            style={styles.sideMenuButton}
-            onClick={() => {
-              setSelected("Payment");
-            }}
-          >
-            Payment
-          </button>
-          <button
-            style={styles.sideMenuButton}
-            onClick={() => {
-              setSelected("Merch");
-            }}
-          >
-            Merch
-          </button>
-        </div>
-        <div
-          style={styles.form}
-        >
-            {selected === "Account" && <AccountForm/>}
-            {selected === "Notifications" && <h2>Notifications</h2>}
-            {selected === "Payment" && <h2>Payment</h2>}
-            {selected === "Merch" && <h2>Merch</h2>}
-
+        <SideMenu>
+          {menuItems.map((item) => (
+            <SideMenuItem
+              key={item}
+              $isSelected={selected === item}
+              onClick={() => setSelected(item)}
+            >
+              {item}
+            </SideMenuItem>
+          ))}
+        </SideMenu>
+        <div style={styles.form}>
+          {selected === "Account" && <AccountForm />}
+          {selected === "Notifications" && <h2>Notifications</h2>}
+          {selected === "Payment" && <h2>Payment</h2>}
+          {selected === "Merch" && <h2>Merch</h2>}
         </div>
       </div>
     </main>
   );
 };
+
+const SideMenu = styled.div`
+  width: 30%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  overflow: hidden;
+  border-radius: 5px;
+  margin-right: 20px;
+`;
+
+const SideMenuItem = styled.button`
+  border: none;
+  background-color: ${colors.primary};
+  cursor: pointer;
+  color: white;
+
+  opacity: ${({ $isSelected }) => ($isSelected ? "1" : "0.85")};
+  font-size: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 25px;
+  text-align: left;
+`;
 
 const styles = {
   main: {
@@ -67,25 +69,14 @@ const styles = {
     border: "1px solid red",
     marginTop: 10,
   },
-  sideMenu: {
-    display: "flex",
-    height: "100%",
-    width: "30%",
-    flexDirection: "column",
-
-    border: "1px solid blue",
-    padding: 10,
-    marginTop: 20,
-    marginRight: 20,
-  },
   form: {
     width: "70%",
     marginTop: 10,
     height: "70vh",
     border: "1px solid green",
     padding: 10,
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
   },
   sideMenuButton: {
     border: "none",
