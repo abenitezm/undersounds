@@ -5,6 +5,7 @@ import styled from "styled-components";
 import colors from "../colors";
 import Link from "next/link";
 import { useState } from "react";
+import PrimaryButton from "./PrimaryButton";
 
 const GridContainer = styled.div<{ $expandir : boolean}>`
     display: grid;
@@ -15,8 +16,9 @@ const GridContainer = styled.div<{ $expandir : boolean}>`
     margin-left: 0;
     max-width: 70%;
     margin-right: auto;
-    height: ${({ $expandir }) => ($expandir ? "320px" : "auto")};
+    height: ${({ $expandir }) => ($expandir ? "350px" : "auto")};
     overflow-y: ${({ $expandir }) => ($expandir ? "auto" : "visible")};
+    overflow-x: hidden;
 `;
 
 const GridItem = styled.div`
@@ -66,10 +68,11 @@ const AlbumImg = styled.img`
     border-radius: 10px;
 `;
 
-const ToggleButton = styled.button`
+const BotonMasResultados = styled.button`
   margin-top: 10px;
   padding: 8px 16px;
   background-color: #0070f3;
+  justify-content: center;
   color: white;
   border: none;
   border-radius: 6px;
@@ -122,9 +125,9 @@ export default function GridContent( { data, onAlbumClick } : GridComponentProps
                     <ArtistName><Link href={`/artist/${elemento.id}`}>{ elemento.artista }</Link></ArtistName> 
                 </GridItem>
             ))}
-            <ToggleButton onClick = {() => setExpandir(!expandir)}>
-                { expandir ? "Ver más resultados" : "Ver menos resultados" }
-            </ToggleButton>
+            <PrimaryButton onClick = {() => setExpandir(!expandir)}
+                text = { expandir ? "Ver menos resultados" : "Ver más resultados" }>
+            </PrimaryButton>
         </GridContainer>
     );
 }

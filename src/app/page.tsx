@@ -9,6 +9,7 @@ import { CSSProperties } from "react";
 import NavBar from "./components/NavBar";
 import FancyButton from "./components/FancyButton";
 import Foto from "./components/Foto";
+import Link from "next/link";
 
 
 const rainbowColors = ["#A8DADC", "#F4A261", "#E76F51", "#457B9D", "#2A9D8F"];
@@ -18,7 +19,8 @@ export default function Home() {
   return (
     <>
       <div style={ styles.container }>
-        <h1>Hola</h1>
+        <Link href="/Tienda">
+        <button> Tienda</button></Link>
         <PrimaryButton text={"Prueba"} onClick={() => alert("Prueba")} />
         <SecondaryButton text={"Prueba2"} onClick={() => alert("Prueba2")} />
         <Album name="Album 1" />

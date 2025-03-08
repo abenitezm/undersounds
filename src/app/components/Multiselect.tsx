@@ -112,7 +112,7 @@ type MultiselectProps = {
 export default function Multiselect(){
     const [mostrarDropdown, setMostrarDropdown] = React.useState(false);
     const [search, setSearch] = React.useState("");
-    const dropdownRef = React.useRef<HTMLUListElement>(null);
+    const dropdownRef = React.useRef<HTMLDivElement>(null);
     const [filters, setFilters] = React.useState<string[]>([]);
 
     {/* Definición de vector de tipos de géneros que se usarán para facilitar el filtrado */}
@@ -142,7 +142,6 @@ export default function Multiselect(){
 
     const eliminarTodosLosFiltros = () => {
         filters.splice(0, filters.length);
-        console.log(filters.length);    
         setFilters(filters);
     }
 
@@ -172,10 +171,9 @@ export default function Multiselect(){
             -mousedown: El usuario tiene que presionar inicialmente el botón.
 
         */
-        document.addEventListener("mousedown", cerrarDropdown)
-
+        document.addEventListener("click", cerrarDropdown);
         return () => {
-            document.removeEventListener("mousedown", cerrarDropdown);
+            document.removeEventListener("click", cerrarDropdown);
         }
 
     }, []);
@@ -197,7 +195,8 @@ export default function Multiselect(){
             </SearchContainer>
 
             {/* Despliegue de las opciones de filtro a elegir en la barra de búsqueda */}
-            <Dropdown className={mostrarDropdown ? "open" : ""}>
+            <Dropdown className={mostrarDropdown ? "open" : ""}
+            onMouseLeave={ () => setMostrarDropdown(false)}>
                 {
                     generos
                         .map((genero, indice) => (

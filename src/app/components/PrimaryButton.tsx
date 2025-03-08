@@ -24,11 +24,12 @@ const Button = styled.button`
 type ButtonProps = {
     text: string;
     onClick: () => void;
+    style ?: React.CSSProperties
 }
 
-export default function PrimaryButton({ text, onClick }: ButtonProps) {
+export default function PrimaryButton({ text, onClick, style }: ButtonProps) {
     return (
-        <Button onClick={onClick}>
+        <Button onClick={onClick} style={style}>
             {text}
         </Button>
     );

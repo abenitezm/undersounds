@@ -6,6 +6,7 @@ import { Share, CircleCheck } from "lucide-react";
 import styled from "styled-components";
 import { toast, ToastContainer} from "react-toastify";
 import "react-toastify/ReactToastify.css";
+import { motion } from "framer-motion";
 
 const IconosCompartirLike = styled.div`
     margin-left: 278px;
@@ -18,6 +19,7 @@ export default function CopiarEnlaceNavegacion(){
     /* Almacenamiento de la ruta */
     const [ ruta, setRuta ] = useState(""); //Donde se guarda la URL
     const router = useRouter();
+    const [ clicked, setClicked] = useState(false);
 
     useEffect(() => {
         /* 
@@ -28,6 +30,8 @@ export default function CopiarEnlaceNavegacion(){
             /* Ontiene la ruta de la página actual */
             setRuta(window.location.href);
         }
+        /* Cuando se renderiza este componente quiero que aparezcan de color blanco */
+        setClicked(false);
     }, []);
 
     const copiarPortapapeles = async () => {
@@ -50,11 +54,42 @@ export default function CopiarEnlaceNavegacion(){
         }
     };
 
+    const añadirFavoritos = async () => {
+        try {
+            setClicked(true);
+            toast.success("❤️ Añadido a canciones que te gustan", {
+                position: "bottom-center",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                theme: "light" 
+            });
+        } catch ( err ){
+            toast.error("Error al añadir a favoritos");
+        }
+    };
+
 
     return (
-       <IconosCompartirLike>
-            <Share onClick={copiarPortapapeles}/>
-            <CircleCheck />
+       <IconosCompartirLike style={{ display: "flex"}}>
+            <motion.div
+                whileTap={{ scale: 0.8 }}
+                whileHover={{ scale: 1.1}}
+                onClick={copiarPortapapeles}
+                style={{ cursor: "pointer"}}
+            >
+                <Share />
+            </motion.div>
+            <motion.div
+                whileTap={{ scale: 0.8 }}
+                whileHover={{ scale: 1.1 }}
+                onClick={añadirFavoritos}
+                style={{ cursor: "pointer", color : clicked ? "green" : "white"}}
+            >
+                <CircleCheck />
+            </motion.div>
             <ToastContainer />
         </IconosCompartirLike> 
     );
