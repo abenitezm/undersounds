@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import Multiselect from "../components/Multiselect";
 import data from "../bd.json";
-import GridComponent from "../components/GridContent";
+import GridComponent from "../components/GridNavigContent";
 import AlbumReproducer, { Album } from "../components/AlbumReproducer";
 import { styled } from "styled-components";
 import colors from "../colors";
@@ -27,7 +27,7 @@ const albumData : Album[] = data.map((cancion) => {
         artista: cancion.artista,
         oyentes: cancion.oyentes,
         imagenGrupo: cancion.imagenGrupo,
-        descripcion: cancion.descripcion
+        descripcion: cancion.descripcion,
     } as Album;
 });
 
