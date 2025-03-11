@@ -117,7 +117,7 @@ const ArtistCity = styled.span`
 
 const ArtistDescription = styled.p`
   text-align: left;
-  font-size: 0.9rem;
+  font-size: 0.80rem;
   color: gray;
   margin: 10px 0;
 `;
