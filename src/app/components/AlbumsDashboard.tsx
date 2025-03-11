@@ -10,7 +10,8 @@ const ArtistAlbums = styled.div`
   margintop: 10px;
   marginleft: 20px;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  width: 100%;
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 `;
 

@@ -48,6 +48,7 @@ const ProfileInfo = ({ id }: ProfileInfoProps) => {
             alt="artist"
             width={230}
             height={230}
+            style={{ borderRadius: "10px", border: `2px solid ${colors.primary}` }}
           />
         </ArtistImage>
 
