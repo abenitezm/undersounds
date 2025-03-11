@@ -2,6 +2,25 @@
 
 import { useState } from "react";
 import colors from "../colors";
+import styled from "styled-components";
+
+// Objeto con todos los mensajes de error, para facilitar hacer cambios en los mensajes
+const errorMessages = {
+  usernameLength: (
+    <span>El nombre de usuario debe contener al menos 5 caracteres</span>
+  ),
+  usernameRegex: (
+    <span>El nombre de usuario sólo puede contener letras y números</span>
+  ),
+  emailRegex: <span>Formato de email inválido</span>,
+  passwordRegex: <span>La contraseña debe contener al menos un número</span>,
+  passwordLength: (
+    <span>La contraseña debe contener al menos 8 caracteres</span>
+  ),
+  securePasswordRequired: <span>Confirma la contraseña</span>,
+  passwordsMatch: <span>Las contraseñas no coinciden</span>,
+  fanEmailRegex: <span>Formato de email inválido</span>,
+};
 
 const AccountForm = () => {
   const [inputs, setInputs] = useState({
@@ -18,12 +37,9 @@ const AccountForm = () => {
   });
 
   const [errors, setErrors] = useState({
-    usernameRequired: false,
     usernameLength: false,
     usernameRegex: false,
-    emailRequired: false,
     emailRegex: false,
-    passwordRequired: false,
     passwordRegex: false,
     passwordLength: false,
     securePasswordRequired: false,
@@ -31,57 +47,41 @@ const AccountForm = () => {
     fanEmailRegex: false,
   });
 
+  const [changesSaved, setChangesSaved] = useState(false);
+
   const validateFields = () => {
     let allFieldsValid = true;
     // Check if the username is empty
-    let newErrors = { ...errors };
-    if (!inputs.username) {
-      newErrors.usernameRequired = true;
-      allFieldsValid = false;
-    } else {
-      newErrors.usernameRequired = false;
-    }
+    const newErrors = { ...errors };
 
-    if (inputs.username.length < 5) {
+    // Check if the username is at least 5 characters
+    if (inputs.username != "" && inputs.username.length < 5) {
       newErrors.usernameLength = true;
       allFieldsValid = false;
     } else {
       newErrors.usernameLength = false;
     }
-
-    if (!inputs.username.match(/^[a-zA-Z0-9]+$/)) {
+    // Check if the username contains only letters and numbers
+    if (inputs.username != "" && !inputs.username.match(/^[a-zA-Z0-9]+$/)) {
       newErrors.usernameRegex = true;
       allFieldsValid = false;
     } else {
       newErrors.usernameRegex = false;
     }
 
-    // Check if the email is empty
-    if (!inputs.accountEmail) {
-      newErrors.emailRequired = true;
-      allFieldsValid = false;
-    } else {
-      newErrors.emailRequired = false;
-    }
-
     // Check if the email is valid
-    if (!inputs.accountEmail.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
+    if (
+      inputs.accountEmail != "" &&
+      !inputs.accountEmail.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)
+    ) {
       newErrors.emailRegex = true;
       allFieldsValid = false;
     } else {
       newErrors.emailRegex = false;
     }
 
-    // Check if the password is empty
-    if (!inputs.password) {
-      newErrors.passwordRequired = true;
-      allFieldsValid = false;
-    } else {
-      newErrors.passwordRequired = false;
-    }
-
     // Check if the password is at least 8 characters
-    if (inputs.password.length < 8) {
+    if (inputs.password != "" && inputs.password.length < 8) {
       newErrors.passwordLength = true;
       allFieldsValid = false;
     } else {
@@ -89,7 +89,7 @@ const AccountForm = () => {
     }
 
     // Check if the password contains at least one number
-    if (!inputs.password.match(/\d/)) {
+    if (inputs.password != "" && !inputs.password.match(/\d/)) {
       newErrors.passwordRegex = true;
       allFieldsValid = false;
     } else {
@@ -97,7 +97,7 @@ const AccountForm = () => {
     }
 
     // Check if the secure password is empty
-    if (!inputs.securePassword) {
+    if (inputs.password != "" && !inputs.securePassword) {
       newErrors.securePasswordRequired = true;
       allFieldsValid = false;
     } else {
@@ -126,10 +126,19 @@ const AccountForm = () => {
 
     if (allFieldsValid) {
       console.log(inputs);
+      setChangesSaved(true);
+
+      setTimeout(() => {
+        setChangesSaved(false);
+      }, 3000);
     }
   };
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const name = e.target.name;
     const value = e.target.value;
     setInputs({
@@ -138,55 +147,47 @@ const AccountForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault(); // previene que recargue la página y perdamos la info
     validateFields();
   };
 
   return (
-    <form onSubmit={handleSubmit} style={styles.form}>
-      <div>
-        <h2 style={styles.formSectionTitle}>Profile info</h2>
-        <span style={styles.formSectionSubtitle}>
-          Change your profile basic info
-        </span>
-      </div>
-      <div style={styles.formItem}>
-        <label style={styles.formLabel}>Account name:</label>
+    <Form onSubmit={handleSubmit}>
+      <SectionInfo>
+        <SectionTitle>Profile info</SectionTitle>
+        <SectionSubtitle>Change your profile basic info</SectionSubtitle>
+      </SectionInfo>
+      <FormItem>
+        <FormLabel>Account name</FormLabel>
         <input
           style={styles.formInput}
           onChange={handleChange}
           type="text"
           name="username"
         />
-        <div style={styles.errorMessages}>
-          {errors.usernameRequired && <span>Username is required</span>}
-          {errors.usernameLength && (
-            <span> Username must be at least 5 characters </span>
-          )}
-          {errors.usernameRegex && (
-            <span> Username can only contain letters and numbers </span>
-          )}
-        </div>
-      </div>
-      <div style={styles.formItem}>
-        <label style={styles.formLabel}>Account email:</label>
+        <ErrorMessages>
+          {errors.usernameLength && errorMessages.usernameLength}
+          {errors.usernameRegex && errorMessages.usernameRegex}
+        </ErrorMessages>
+      </FormItem>
+      <FormItem>
+        <FormLabel>Account email</FormLabel>
         <input
           style={styles.formInput}
           onChange={handleChange}
           type="email"
           name="accountEmail"
         />
-        <div style={styles.errorMessages}>
-          {errors.emailRequired && <span> Email is required </span>}
-          {errors.emailRegex && <span>Invalid email format </span>}
-        </div>
-      </div>
+        <ErrorMessages>
+          {errors.emailRegex && errorMessages.emailRegex}
+        </ErrorMessages>
+      </FormItem>
 
-      <div>
-        <h2 style={styles.formSectionTitle}>Security</h2>
-        <span style={styles.formSectionSubtitle}>Update your password</span>
-      </div>
+      <SectionInfo>
+        <SectionTitle>Security</SectionTitle>
+        <SectionSubtitle>Update your password</SectionSubtitle>
+      </SectionInfo>
 
       <div
         style={{
@@ -194,99 +195,89 @@ const AccountForm = () => {
           flexDirection: "row",
         }}
       >
-        <div style={styles.formItem}>
-          <label style={styles.formLabel}>Change password:</label>
+        <FormItem>
+          <FormLabel>Change password</FormLabel>
           <input
             style={styles.formInput}
             onChange={handleChange}
             type="password"
             name="password"
           />
-          <div style={styles.errorMessages}>
-            {errors.passwordRequired && <span>Password is required</span>}
-            {errors.passwordLength && (
-              <span>Password must be at least 8 characters</span>
-            )}
-            {errors.passwordRegex && (
-              <span>Password must contain at least one number</span>
-            )}
-          </div>
-        </div>
+          <ErrorMessages>
+            {errors.passwordLength && errorMessages.passwordLength}
+            {errors.passwordRegex && errorMessages.passwordRegex}
+          </ErrorMessages>
+        </FormItem>
 
-        <div style={styles.formItem}>
-          <label style={styles.formLabel}>Confirm password:</label>
+        <FormItem>
+          <FormLabel>Confirm password</FormLabel>
           <input
             style={styles.formInput}
             onChange={handleChange}
             type="password"
             name="securePassword"
           />
-          <div style={styles.errorMessages}>
-            {errors.securePasswordRequired && (
-              <span>Password confirmation is required</span>
-            )}
-            {errors.passwordsMatch && <span>Passwords do not match</span>}
-          </div>
-        </div>
+          <ErrorMessages>
+            {errors.securePasswordRequired &&
+              errorMessages.securePasswordRequired}
+            {errors.passwordsMatch && errorMessages.passwordsMatch}
+          </ErrorMessages>
+        </FormItem>
       </div>
 
-      <div>
-        <h2 style={styles.formSectionTitle}>Additional info</h2>
-        <span style={styles.formSectionSubtitle}>
-          Let your fans know more about you!
-        </span>
-      </div>
+      <SectionInfo>
+        <SectionTitle>Additional info</SectionTitle>
+        <SectionSubtitle>Let your fans know more about you!</SectionSubtitle>
+      </SectionInfo>
 
-      <div style={styles.formItem}>
-        <label style={styles.formLabel}>Bio</label>
+      <FormItem>
+        <FormLabel>Bio</FormLabel>
         <textarea
           style={styles.formInput}
           onChange={handleChange}
           name="bio"
           rows={5}
         />
-      </div>
-      <div style={styles.formItem}>
-        <label style={styles.formLabel}>Email for fans:</label>
+      </FormItem>
+      <FormItem>
+        <FormLabel>Email for fans</FormLabel>
         <input
           style={styles.formInput}
           onChange={handleChange}
           type="email"
           name="emailForFans"
         />
-        <div style={styles.errorMessages}>
-          {errors.fanEmailRegex && <span>Invalid email format</span>}
-        </div>
-      </div>
-      <div style={styles.formItem}>
-        <label style={styles.formLabel}>Location:</label>
+        <ErrorMessages>
+          {errors.fanEmailRegex && errorMessages.fanEmailRegex}
+        </ErrorMessages>
+      </FormItem>
+      <FormItem>
+        <FormLabel>Location</FormLabel>
         <input
           style={styles.formInput}
           onChange={handleChange}
           type="text"
           name="location"
         />
-      </div>
+      </FormItem>
 
-      <div style={styles.formItem}>
-        <label style={styles.formLabel}>Websites:</label>
+      <FormItem>
+        <FormLabel>Websites</FormLabel>
         <input
           style={styles.formInput}
           onChange={handleChange}
           type="text"
           name="website"
         />
-      </div>
+      </FormItem>
 
-      <div>
-        <h2 style={styles.formSectionTitle}>Preferences</h2>
-        <span style={styles.formSectionSubtitle}>
-          Customize your experience
-        </span>
-      </div>
+      <SectionInfo>
+        <SectionTitle>Preferences</SectionTitle>
+        <SectionSubtitle>Customize your experience</SectionSubtitle>
+      </SectionInfo>
 
-      <div style={styles.formItem}>
-        <label style={styles.formLabel}>Preferred language:</label>
+      <FormItem>
+        <FormLabel>Preferred language</FormLabel>
         <select
           style={styles.formInput}
           name="preferredLanguage"
@@ -297,85 +288,144 @@ const AccountForm = () => {
           <option value="fr">French</option>
           <option value="de">German</option>
         </select>
-      </div>
+      </FormItem>
 
-      <div
+      <FormItem
         style={{
-          ...styles.formItem,
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "flex-start",
         }}
       >
-        <label style={styles.formLabel}>Dark mode:</label>
+        <FormLabel>Dark mode</FormLabel>
         <input
-          style={{ ...styles.formInput, width: "auto", marginLeft: 10 }}
+          style={{
+            ...styles.formInput,
+            width: "auto",
+            marginLeft: 10,
+            resize: "none",
+          }}
           onChange={handleChange}
           type="checkbox"
           name="darkMode"
           defaultChecked={inputs.darkMode || false}
         />
-      </div>
+      </FormItem>
 
-      <button type="submit" style={styles.formButton}>
-        Save settings
-      </button>
+      <Button type="submit">Save settings</Button>
+      {changesSaved && (
+        <ConfirmMessage>Your changes have been saved!</ConfirmMessage>
+      )}
 
-      <button
+      <DeleteButton
         type="button"
         onClick={() => {
           console.log("Delete profile");
         }}
-        style={styles.deleteButton}
       >
         Delete profile
-      </button>
-    </form>
+      </DeleteButton>
+    </Form>
   );
 };
 
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow: auto;
+`;
+
+const SectionInfo = styled.div`
+  display: flex;
+  width: 90%;
+  flex-direction: row;
+  gap: 15px;
+  margin-top: 20px;
+  align-items: baseline;
+  border-bottom: 1px solid ${colors.secondary};
+  padding-bottom: 0.2rem;
+`;
+
+const SectionTitle = styled.h2`
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-left: 5px;
+`;
+
+const SectionSubtitle = styled.span`
+  font-size: 0.8rem;
+  color: ${colors.secondary};
+  opacity: 0.6;
+`;
+
+const FormItem = styled.div`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 5;
+`;
+
+const FormLabel = styled.label`
+  font-size: 14;
+  margin: 2px;
+  margin-bottom: 4px;
+`;
+
+const ErrorMessages = styled.div`
+  display: flex;
+  margin-top: 5px;
+  margin-left: 5px;
+  flex-direction: column;
+  gap: 5px;
+  color: red;
+  font-weight: bold;
+  font-size: 0.8rem;
+`;
+
+const Button = styled.button`
+  background-color: ${colors.primary};
+  color: ${colors.secondary};
+  border: none;
+  margin: 0 auto;
+  padding: 10px 25px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: fit-content;
+  transition: background-color 0.1s ease-in-out;
+  &:hover {
+    background-color: ${colors.secondary};
+    color: ${colors.background};
+  }
+`;
+
+const ConfirmMessage = styled.span`
+  font-size: 0.8rem;
+  color: ${colors.secondary};
+  margin: 0 auto;
+`;
+
+const DeleteButton = styled.button`
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: fit-content;
+  margin: 0 auto;
+  transition: background-color 0.1s ease-in-out;
+  &:hover {
+    background-color: #ec5353;
+  }
+`;
+
 const styles = {
-  form: {
-    padding: 20,
-    display: "flex",
-    flexDirection: "column",
-    gap: 20,
-    overflow: "auto",
-  },
-  formSectionTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    margin: 5,
-  },
-  formSectionSubtitle: {
-    fontSize: 14,
-    color: colors.secondary,
-    opacity: 0.85,
-  },
-  formItem: {
-    display: "flex",
-    width: "100%",
-    flexDirection: "column",
-    gap: 5,
-  },
   formInput: {
     borderRadius: 5,
     border: "none",
     padding: "5px 10px",
     width: "60%",
-    resize: "none",
-  },
-  formLabel: {
-    fontSize: 14,
-    margin: 2,
-  },
-  errorMessages: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 5,
-    color: "red",
-    fontWeight: "bold",
-    fontSize: 12,
   },
 };
 
