@@ -9,6 +9,8 @@ import ShareIcon from "@mui/icons-material/Share";
 import getArtistInfo from "../utils/getArtistInfo";
 import { useEffect, useState } from "react";
 import getArtistAlbums from "../utils/getArtistAlbums";
+import MonthlyListeners from "./MonthlyListeners";
+import HeadphonesIcon from "@mui/icons-material/Headphones";
 
 type ProfileInfoProps = {
   id: string;
@@ -69,7 +71,9 @@ const ProfileInfo = ({ id }: ProfileInfoProps) => {
           {artist?.descripcion || "No description available"}
         </ArtistDescription>
       </div>
-      <ArtistListeners>{artist?.oyentes} oyentes mensuales</ArtistListeners>
+      <ArtistListeners>
+        <MonthlyListeners value={artist?.oyentes || 100} /> oyentes mensuales
+      </ArtistListeners>
 
       <ArtistButtons>
         <Button onClick={() => console.log("Seguir")}>
@@ -151,10 +155,10 @@ const ArtistGenres = styled.div`
 
 const ArtistListeners = styled.div`
   font-size: 0.9rem;
-  margin-top: 10px;
+  margin: 10px;
   padding: 10px;
   border-radius: 10px;
-  border: 1px solid ${colors.primary};
+  border: 2px solid ${colors.primary};
   width: 80%;
   text-align: center;
   margin: 0 auto;
