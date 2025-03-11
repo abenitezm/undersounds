@@ -1,23 +1,21 @@
-import ProfileInfo from "@/app/components/ProfileInfo";
-import AlbumDashboard from "@/app/components/AlbumsDashboard";
-
 import formatID from "@/app/utils/formatID.js";
+import AlbumInfo from "@/app/components/AlbumInfo";
+import { CSSProperties } from "react";
 
-const ArtistPage = async ({ params }: { params: { id: string } }) => {
+const AlbumPage = async ({ params }: { params: { id: string } }) => {
   const param = await params;
   const id = param.id;
 
   const formattedId = formatID(id);
 
+
+
   return (
     <main style={styles.main}>
-      <ProfileInfo id={formattedId} />
-      <AlbumDashboard id={formattedId} />
+        <AlbumInfo id={formattedId} />
     </main>
   );
 };
-
-import { CSSProperties } from "react";
 
 const styles: { [key: string]: CSSProperties } = {
   main: {
@@ -28,4 +26,4 @@ const styles: { [key: string]: CSSProperties } = {
   },
 };
 
-export default ArtistPage;
+export default AlbumPage;

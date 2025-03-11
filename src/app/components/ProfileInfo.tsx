@@ -10,7 +10,6 @@ import getArtistInfo from "../utils/getArtistInfo";
 import { useEffect, useState } from "react";
 import getArtistAlbums from "../utils/getArtistAlbums";
 import MonthlyListeners from "./MonthlyListeners";
-import HeadphonesIcon from "@mui/icons-material/Headphones";
 
 type ProfileInfoProps = {
   id: string;

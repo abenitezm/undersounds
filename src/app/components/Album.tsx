@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Image from "next/image";
 import colors from "../colors";
 import defaultAlbum from "../../assets/img/defaultAlbum.jpg";
+import Link from "next/link";
 
 const AlbumContainer = styled.div`
   display: flex;
@@ -94,22 +95,24 @@ export const Album = ({
   year: string;
 }) => {
   return (
-    <AlbumContainer>
-      <AlbumInfo>
-        <AlbumName>{name}</AlbumName>
-        <AlbumYear>{year}</AlbumYear>
-        <AlbumGenre>{genre}</AlbumGenre>
-        <AlbumPrice>{price}€</AlbumPrice>
-      </AlbumInfo>
-      <Image
-        src={image || defaultAlbum}
-        style={{
-          objectFit: "contain",
-          borderRadius: 10,
-        }}
-        layout="fill"
-        alt="album"
-      />
-    </AlbumContainer>
+    <Link href={`/album/${name}`}>
+      <AlbumContainer>
+        <AlbumInfo>
+          <AlbumName>{name}</AlbumName>
+          <AlbumYear>{year}</AlbumYear>
+          <AlbumGenre>{genre}</AlbumGenre>
+          <AlbumPrice>{price}€</AlbumPrice>
+        </AlbumInfo>
+        <Image
+          src={image || defaultAlbum}
+          style={{
+            objectFit: "contain",
+            borderRadius: 10,
+          }}
+          layout="fill"
+          alt="album"
+        />
+      </AlbumContainer>
+    </Link>
   );
 };

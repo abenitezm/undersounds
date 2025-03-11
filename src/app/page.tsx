@@ -23,7 +23,6 @@ export default function Home() {
         <button> Tienda</button></Link>
         <PrimaryButton text={"Prueba"} onClick={() => alert("Prueba")} />
         <SecondaryButton text={"Prueba2"} onClick={() => alert("Prueba2")} />
-        <Album name="Album 1" />
         <FancyButton title="Explorar todo" imageSrc="prettyButtons/all.png" bgColor="#A8DADC"
           onClick={() => alert("Cassette")} />
         <FancyButton title="Vinilo" imageSrc="prettyButtons/vinyl.png" bgColor="#F4A261"
