@@ -19,8 +19,6 @@ export default function Home() {
   return (
     <>
       <div style={ styles.container }>
-        <Link href="/Tienda">
-        <button> Tienda</button></Link>
         <PrimaryButton text={"Prueba"} onClick={() => alert("Prueba")} />
         <SecondaryButton text={"Prueba2"} onClick={() => alert("Prueba2")} />
         <FancyButton title="Explorar todo" imageSrc="prettyButtons/all.png" bgColor="#A8DADC"

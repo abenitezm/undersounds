@@ -88,7 +88,7 @@ export default function CopiarEnlaceNavegacion(){
                 onClick={añadirFavoritos}
                 style={{ cursor: "pointer", color : clicked ? "green" : "white"}}
             >
-                <CircleCheck />
+            <CircleCheck />
             </motion.div>
             <ToastContainer />
         </IconosCompartirLike> 

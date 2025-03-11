@@ -7,6 +7,7 @@ import { styled } from "styled-components";
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { ShoppingCart } from "@mui/icons-material";
 import Link from "next/link";
 import NotificacionesDropdown from "./DesplegableNoti"; 
 
@@ -89,6 +90,9 @@ export default function NavBar() {
                 <NavButton>Camisetas</NavButton>
             </ButtonBox>
             <div>
+                <Link href = "/Tienda">
+                    <ShoppingCart fontSize = "large" style = {{cursor: "pointer"}}/>
+                </Link>
                 <NotificationsIcon fontSize="large" onClick={handleToggleDropdown} style={{ cursor: 'pointer' }}/>
                 <LibraryMusicIcon fontSize="large"/>
                 <AccountCircleIcon fontSize="large"/>
