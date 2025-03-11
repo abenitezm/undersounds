@@ -28,7 +28,9 @@ const ProfileInfo = ({ id }: ProfileInfoProps) => {
     async function fetchData() {
       const data = await getArtistInfo(id);
       console.log("data del artista", data);
-      setArtist(data);
+      if (data) {
+        setArtist(data);
+      }
 
       const albums = await getArtistAlbums(id);
       const generos = [...new Set(albums.map((album) => album.genre))];
