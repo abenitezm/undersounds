@@ -18,6 +18,7 @@ type Artista = {
   artista: string;
   imagenGrupo?: string;
   descripcion?: string;
+  oyentes?: number;
 };
 
 const ProfileInfo = ({ id }: ProfileInfoProps) => {
@@ -48,11 +49,14 @@ const ProfileInfo = ({ id }: ProfileInfoProps) => {
             alt="artist"
             width={230}
             height={230}
-            style={{ borderRadius: "10px", border: `2px solid ${colors.primary}` }}
+            style={{
+              borderRadius: "10px",
+              border: `2px solid ${colors.primary}`,
+            }}
           />
         </ArtistImage>
 
-        <ArtistName>{artist?.artista || 'undefined'}</ArtistName>
+        <ArtistName>{artist?.artista || "undefined"}</ArtistName>
         <ArtistCity>Madrid, Spain</ArtistCity>
 
         <ArtistGenres>
@@ -65,6 +69,8 @@ const ProfileInfo = ({ id }: ProfileInfoProps) => {
           {artist?.descripcion || "No description available"}
         </ArtistDescription>
       </div>
+      <ArtistListeners>{artist?.oyentes} oyentes mensuales</ArtistListeners>
+
       <ArtistButtons>
         <Button onClick={() => console.log("Seguir")}>
           <FavoriteIcon />
@@ -86,7 +92,6 @@ const ArtistContainer = styled.div`
   flex-direction: column;
   border: 1px solid ${colors.tertiary};
   gap: 10px;
-  margin-top: 20px;
   margin-right: 20px;
   border-radius: 10px;
   align-items: center;
@@ -144,6 +149,17 @@ const ArtistGenres = styled.div`
   gap: 10px;
 `;
 
+const ArtistListeners = styled.div`
+  font-size: 0.9rem;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid ${colors.primary};
+  width: 80%;
+  text-align: center;
+  margin: 0 auto;
+`;
+
 const GenreChip = styled.div`
   display: inline-flex;
   flex-direction: row;
@@ -168,9 +184,9 @@ const ArtistCity = styled.span`
 
 const ArtistDescription = styled.p`
   text-align: left;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: gray;
-  margin: 10px 0;
+  margin: 5px 0;
 `;
 
 export default ProfileInfo;

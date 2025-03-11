@@ -2,63 +2,63 @@
     {
         "id": 0,
         "artista": "indigo la End",
-        "oyentes": "1.058.763 oyentes mensuales",
+        "oyentes": 1058763,
         "imagenGrupo": "/audio/indigo-la-end.webp",
         "descripcion": "indigo la End es una banda de rock japonesa liderada por el vocalista y compositor Enon Kawatani. La banda lanzó su obra extendida debut en 2012 con el sello independiente Space Shower Records, y luego firmaron con el sub-sello Unborde de Warner."
     },
     {
         "id": 1,
         "artista": "Drake",
-        "oyentes": "81.491.933 oyentes mensuales",
+        "oyentes": 81491933,
         "imagenGrupo": "/audio/Drake.webp",
         "descripcion": "Aubrey Drake Graham conocido simplemente como Drake, es un rapero, cantante, compositor, productor discográfico y actor canadiense. Siendo una figura influyente en la música popular contemporánea, Drake ha sido acreditado por popularizar el canto y la sensibilidad del R&B en el hip hop."
     },
     {
         "id": 2,
         "artista": "Beach Bunny",
-        "oyentes": "6.805.115 oyentes mensuales",
+        "oyentes": 6805115,
         "imagenGrupo": "/audio/beach-bunny-group.webp",
         "descripcion": "Beach Bunny es una banda estadounidense de power pop originaria de Chicago, Illinois, y activa desde 2015. Alcanzó parte de su fama después de que sus canciones «Prom Queen» y «Cloud 9» se viralizaron en TikTok durante 2019 y 2020."
     },
     {
         "id": 3,
         "artista": "Flawed Mangoes",  
-        "oyentes": "3.750.064 oyentes mensuales",
+        "oyentes": 3750064,
         "imagenGrupo": "/audio/flawed.webp",
         "descripcion": "No hay descripción"
     },
     {
         "id": 4,
         "artista": "Flawed Mangoes",
-        "oyentes": "3.750.064 oyentes mensuales",
+        "oyentes": 3750064,
         "imagenGrupo": "/audio/flawed.webp",
         "descripcion": "No hay descripción"
     },
     {
         "id": 5,
         "artista": "Flawed Mangoes",
-        "oyentes": "3.750.064 oyentes mensuales",
+        "oyentes": 3750064,
         "imagenGrupo": "/audio/flawed.webp",
         "descripcion": "No hay descripción"
     },
     {
         "id": 6,
         "artista": "indigo la End",
-        "oyentes": "1.058.763 oyentes mensuales",
+        "oyentes": 1058763,
         "imagenGrupo": "/audio/indigo-la-end.webp",
         "descripcion": "indigo la End es una banda de rock japonesa liderada por el vocalista y compositor Enon Kawatani. La banda lanzó su obra extendida debut en 2012 con el sello independiente Space Shower Records, y luego firmaron con el sub-sello Unborde de Warner."
     },
     {
         "id": 7,
         "artista":"indigo la End",
-        "oyentes": "1.058.763 oyentes mensuales",
+        "oyentes": 1058763,
         "imagenGrupo": "/audio/indigo-la-end.webp",
         "descripcion": "indigo la End es una banda de rock japonesa liderada por el vocalista y compositor Enon Kawatani. La banda lanzó su obra extendida debut en 2012 con el sello independiente Space Shower Records, y luego firmaron con el sub-sello Unborde de Warner."
     },
     {
         "id": 8,
         "artista": "Rod Waves",
-        "oyentes": "7.017.049 oyentes mensuales",
+        "oyentes": 7017049,
         "imagenGrupo": "/audio/25.webp",
         "descripcion": "Rodarius Marcell Green, conocido por su nombre artístico Rod Wave, es un rapero, cantante y compositor estadounidense.​Firmado por Alamo Records, Green es conocido por su fuerte voz y la incorporación de hip-hop y R&B, habiendo sido reconocido como un pionero del trap-soul.",
         "merch" : [
@@ -70,7 +70,7 @@
     {
         "id": 9,
         "artista": "50 Cent",
-        "oyentes": "38.014.842 oyentes mensuales",
+        "oyentes": 38014842,
         "imagenGrupo": "/audio/50cents.webp",
         "descripcion": "Curtis James Jackson, más conocido por su nombre artístico 50 Cent, es un rapero y actor estadounidense. Alcanzó la fama mundial con el lanzamiento de sus álbumes Get Rich or Die Tryin' y The Massacre, ambos de ellos logrando éxito multi-platino.",
         "merch" : [
@@ -81,7 +81,7 @@
     {
         "id": 10,
         "artista": "Trueno",
-        "oyentes": "19.166.351 oyentes mensuales",
+        "oyentes": 19166351,
         "imagenGrupo": "/audio/trueno-foto.webp",
         "descripcion": "Mateo Palacios Corazzina, conocido por su nombre artístico Trueno, es un rapero, cantante y compositor argentino.​​​Comenzó su carrera en las batallas de freestyle a los catorce años, cuando intentó participar en los torneos porteños A Cara de Perro Zoo Juniors y Red Bull Regional.",
         "merch" : [

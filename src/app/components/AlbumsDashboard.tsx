@@ -17,6 +17,7 @@ const ArtistAlbums = styled.div`
 
 const AlbumsSection = styled.div`
   display: flex;
+  width: 70%;
   flex-direction: column;
   gap: 10px;
 `;
