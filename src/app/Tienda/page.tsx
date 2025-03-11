@@ -7,16 +7,28 @@ import data from "../bd.json";
 import MerchImg3D from "../components/3D";
 import { Merch } from "../components/GridTiendComponent";
 
-
 const Fondo = styled.div`
+  position: relative;
   background: linear-gradient(135deg, rgba(118, 171, 174, 0.8), rgba(49, 54, 63, 0.8));
-  background-size: cover;
-  background-position: center center;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
   width: 100%;
+  
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("/graffiti.svg") no-repeat center center;
+    background-size: cover;
+    opacity: 1;
+    z-index: -1;
+  }
 `;
 
 const ContenedorElementos = styled.div`
@@ -25,13 +37,31 @@ const ContenedorElementos = styled.div`
     align-items: center;
     width: 1260px;
     height: 640px;
-    background-color: ${colors.secondary};
+    background: linear-gradient(135deg, rgba(118, 171, 174, 0.8), rgba(49, 54, 63, 0.8));
+    //background: linear-gradient(135deg, rgba(204, 163, 65, 0.9), rgba(218, 94, 85, 0.9));
     box-shadow: initial;
     color: black;
     border-radius: 30px;
     overflow-x: hidden; //Evita que los elementos sobresalgan
     overflow-y: overlay;
     padding-left: 10px;
+`;
+
+const TituloView = styled.h1`
+    font-size: 24px;
+    font-wight: bold;
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 8px;
+    white-space: nowrap;
+`;
+
+const Logo = styled.img`
+    height: 34px;
+    width: auto;
+    margin-bottom: 10px;
+    vertical-align: middle;
 `;
 
 const merchData: Merch[] = data
@@ -63,10 +93,13 @@ export default function Tienda(){
 
     return(
         <Fondo>
+            <TituloView>
+                Tienda de <Logo src = "./logo.svg" alt = "Logo Undersounds" />
+            </TituloView>
             <ContenedorElementos> 
                 <GridTiendContent data = {merchData} onMerchClick={manejadorMerch} />
                 {selectedMerch && <MerchImg3D merch = {selectedMerch}/>} 
-            </ContenedorElementos>           
+            </ContenedorElementos>
         </Fondo>
     )
 };
