@@ -1,59 +1,91 @@
 "use client";
 
+import defaultAvatar from "../../assets/img/defaultAvatar.jpg";
 import styled from "styled-components";
-import PrimaryButton from "./PrimaryButton";
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import colors from "../colors";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ShareIcon from "@mui/icons-material/Share";
+import getArtistInfo from "../utils/getArtistInfo";
+import { useEffect, useState } from "react";
+import getArtistAlbums from "../utils/getArtistAlbums";
 
 type ProfileInfoProps = {
   id: string;
-  avatar: StaticImageData;
-  generos: string[];
 };
 
-const ProfileInfo = ({ id, avatar, generos }: ProfileInfoProps) => {
+type Artista = {
+  artista: string;
+  imagenGrupo?: string;
+  descripcion?: string;
+};
+
+const ProfileInfo = ({ id }: ProfileInfoProps) => {
+  const [artist, setArtist] = useState<Artista | null>(null);
+  const [genres, setGenres] = useState<string[]>([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const data = await getArtistInfo(id);
+      console.log("data del artista", data);
+      setArtist(data);
+
+      const albums = await getArtistAlbums(id);
+      const generos = [...new Set(albums.map((album) => album.genre))];
+      setGenres(generos);
+    }
+    fetchData();
+  }, []);
+
   return (
     <ArtistContainer>
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         <ArtistImage>
-          <Image src={avatar} alt="artist" width={230} height={230} />
+          <Image
+            src={artist?.imagenGrupo || defaultAvatar}
+            alt="artist"
+            width={230}
+            height={230}
+          />
         </ArtistImage>
 
-        <ArtistName>{id}</ArtistName>
+        <ArtistName>{artist?.artista || 'undefined'}</ArtistName>
         <ArtistCity>Madrid, Spain</ArtistCity>
 
         <ArtistGenres>
-          {generos.map((genero: string, index: number) => (
+          {genres.map((genero: string, index: number) => (
             <GenreChip key={index}>{genero}</GenreChip>
           ))}
         </ArtistGenres>
 
         <ArtistDescription>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Et cum
-          consectetur officiis veniam! Maiores repellat enim ipsum rerum. Aut
-          suscipit eius ea alias. Eum, nesciunt vel consequatur dolores
-          doloremque iure? Accusantium saepe cumque quisquam explicabo odio
-          expedita. Commodi ullam minima hic architecto?
+          {artist?.descripcion || "No description available"}
         </ArtistDescription>
       </div>
       <ArtistButtons>
-        <PrimaryButton text="Seguir" onClick={() => console.log("Seguir")} />
-        <PrimaryButton
-          text="Compartir"
-          onClick={() => console.log("Compartir")}
-        />
+        <Button onClick={() => console.log("Seguir")}>
+          <FavoriteIcon />
+          {"Seguir"}
+        </Button>
+        <Button onClick={() => console.log("Compartir")}>
+          <ShareIcon />
+          {"Compartir"}
+        </Button>
       </ArtistButtons>
     </ArtistContainer>
   );
 };
 
 const ArtistContainer = styled.div`
-  padding: 10px;
-  width: 40%;
+  padding: 20px;
+  width: 30%;
   display: flex;
   flex-direction: column;
+  border: 1px solid ${colors.tertiary};
   gap: 10px;
   margin-top: 20px;
+  margin-right: 20px;
+  border-radius: 10px;
   align-items: center;
 `;
 
@@ -75,6 +107,20 @@ const ArtistButtons = styled.div`
   gap: 20px;
   width: 100%;
   justify-content: center;
+  margin: 0 auto;
+`;
+
+const Button = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background-color: ${colors.tertiary};
+  color: ${colors.secondary};
+  border: none;
+  padding: 8px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
 `;
 
 const ArtistName = styled.span`
@@ -100,7 +146,9 @@ const GenreChip = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  background-color: ${colors.tertiary};
+  font-weight: bold;
+  background-color: ${colors.primary};
+  opacity: 0.9;
   gap: 5px;
   padding: 5px 10px;
   font-size: 14px;
@@ -117,7 +165,7 @@ const ArtistCity = styled.span`
 
 const ArtistDescription = styled.p`
   text-align: left;
-  font-size: 0.80rem;
+  font-size: 0.8rem;
   color: gray;
   margin: 10px 0;
 `;

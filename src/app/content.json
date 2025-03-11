@@ -5,83 +5,107 @@
         "titulo": "MOLTING AND DANCING",
         "artista":"inidgo la End",
         "imagen": "/audio/Lauren.webp",
-        "genre": "Pop"
+        "genre": "Pop",
+        "year": "2021",
+        "price": "10.00"
     },
     {
         "id": "1",
         "titulo": "GIMME A HUG",
         "artista": "Drake",
         "imagen": "/audio/Hug.jpg",
-        "genre": "Rap"
+        "genre": "Rap",
+        "year": "2021",
+        "price": "9.00"
     },
     {
         "id": "2",
         "titulo": "Cloud 9",
         "artista": "Beach Bunny",
         "imagen": "/audio/cloud-9.webp",
-        "genre": "Indie"
+        "genre": "Indie",
+        "year": "2021",
+        "price": "7.00"
     },
     {
         "id": "3",
         "titulo": "Addicted",
         "artista": "Flawed Mangoes",
         "imagen": "/audio/Addicted.webp",
-        "genre": "Hopecore"
+        "genre": "Hopecore",
+    "year": "2021",
+        "price": "8.00"
     },
     {
         "id": "4",
         "titulo": "Sunday Scaries",
         "artista": "Flawed Mangoes",
         "imagen": "/audio/SundayScaries.jpg",
-        "genre": "Hopecore"
+        "genre": "Hopecore",
+        "year": "2021",
+        "price": "6.00"
     },
     {
         "id": "5",
         "titulo": "Swimming",
         "artista": "Flawed Mangoes",
         "imagen": "/audio/Swimming.jpg",
-        "genre": "Hopecore"
+        "genre": "Hopecore",
+        "year": "2021",
+        "price": "5.00"
     },
     {
         "id": "6",
         "titulo": "CryingEndRoll",
         "artista": "inidgo la End",
         "imagen": "/audio/CryingEndRoll.webp",
-        "genre": "Pop"
+        "genre": "Pop",
+        "year": "2021",
+        "price": "4.00"
     },
     {
         "id": "7",
         "titulo": "Aonooto",
         "artista": "inidgo la End",
         "imagen": "/audio/Aonooto.webp",
-        "genre": "Pop"
+        "genre": "Pop",
+        "year": "2021",
+        "price": "13.00"
     },
     {
         "id": "8",
         "titulo": "25",
         "artista": "Rod Waves",
         "imagen": "/audio/25.webp",
-        "genre": "Rap"
+        "genre": "Rap",
+        "year": "2021",
+        "price": "12.00"
     },
     {
         "id": "9",
         "titulo": "In Da Club",
         "artista": "50 Cent",
         "imagen": "/audio/in-da-club.webp",
-        "genre": "Hip-Hop"
+        "genre": "Hip-Hop",
+        "year": "2021",
+        "price": "11.00"
     },
     {
         "id": "10",
         "titulo": "Dance Crip",
         "artista": "Trueno",
         "imagen": "/audio/dance-crip.webp",
-        "genre": "Hip-Hop"
+        "genre": "Hip-Hop",
+        "year": "2021",
+        "price": "10.00"
     },
     {
         "id": "11",
         "titulo": "Walk In Wardrobe",
         "artista": "Central Cee",
         "imagen": "/audio/walk-in-wardrobe.webp",
-        "genre": "Hip-Hop"
+        "genre": "Hip-Hop",
+        "year": "2021",
+        "price": "9.00"
     }
 ]

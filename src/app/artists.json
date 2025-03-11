@@ -1,0 +1,101 @@
+[
+    {
+        "id": 0,
+        "artista": "indigo la End",
+        "oyentes": "1.058.763 oyentes mensuales",
+        "imagenGrupo": "/audio/indigo-la-end.webp",
+        "descripcion": "indigo la End es una banda de rock japonesa liderada por el vocalista y compositor Enon Kawatani. La banda lanzó su obra extendida debut en 2012 con el sello independiente Space Shower Records, y luego firmaron con el sub-sello Unborde de Warner."
+    },
+    {
+        "id": 1,
+        "artista": "Drake",
+        "oyentes": "81.491.933 oyentes mensuales",
+        "imagenGrupo": "/audio/Drake.webp",
+        "descripcion": "Aubrey Drake Graham conocido simplemente como Drake, es un rapero, cantante, compositor, productor discográfico y actor canadiense. Siendo una figura influyente en la música popular contemporánea, Drake ha sido acreditado por popularizar el canto y la sensibilidad del R&B en el hip hop."
+    },
+    {
+        "id": 2,
+        "artista": "Beach Bunny",
+        "oyentes": "6.805.115 oyentes mensuales",
+        "imagenGrupo": "/audio/beach-bunny-group.webp",
+        "descripcion": "Beach Bunny es una banda estadounidense de power pop originaria de Chicago, Illinois, y activa desde 2015. Alcanzó parte de su fama después de que sus canciones «Prom Queen» y «Cloud 9» se viralizaron en TikTok durante 2019 y 2020."
+    },
+    {
+        "id": 3,
+        "artista": "Flawed Mangoes",  
+        "oyentes": "3.750.064 oyentes mensuales",
+        "imagenGrupo": "/audio/flawed.webp",
+        "descripcion": "No hay descripción"
+    },
+    {
+        "id": 4,
+        "artista": "Flawed Mangoes",
+        "oyentes": "3.750.064 oyentes mensuales",
+        "imagenGrupo": "/audio/flawed.webp",
+        "descripcion": "No hay descripción"
+    },
+    {
+        "id": 5,
+        "artista": "Flawed Mangoes",
+        "oyentes": "3.750.064 oyentes mensuales",
+        "imagenGrupo": "/audio/flawed.webp",
+        "descripcion": "No hay descripción"
+    },
+    {
+        "id": 6,
+        "artista": "indigo la End",
+        "oyentes": "1.058.763 oyentes mensuales",
+        "imagenGrupo": "/audio/indigo-la-end.webp",
+        "descripcion": "indigo la End es una banda de rock japonesa liderada por el vocalista y compositor Enon Kawatani. La banda lanzó su obra extendida debut en 2012 con el sello independiente Space Shower Records, y luego firmaron con el sub-sello Unborde de Warner."
+    },
+    {
+        "id": 7,
+        "artista":"indigo la End",
+        "oyentes": "1.058.763 oyentes mensuales",
+        "imagenGrupo": "/audio/indigo-la-end.webp",
+        "descripcion": "indigo la End es una banda de rock japonesa liderada por el vocalista y compositor Enon Kawatani. La banda lanzó su obra extendida debut en 2012 con el sello independiente Space Shower Records, y luego firmaron con el sub-sello Unborde de Warner."
+    },
+    {
+        "id": 8,
+        "artista": "Rod Waves",
+        "oyentes": "7.017.049 oyentes mensuales",
+        "imagenGrupo": "/audio/25.webp",
+        "descripcion": "Rodarius Marcell Green, conocido por su nombre artístico Rod Wave, es un rapero, cantante y compositor estadounidense.​Firmado por Alamo Records, Green es conocido por su fuerte voz y la incorporación de hip-hop y R&B, habiendo sido reconocido como un pionero del trap-soul.",
+        "merch" : [
+            {"id" : "Camiseta-1", "titulo" : "Camiseta-1", "tipo": "Camiseta", "precio" : "$20 USD", "imagen" : "/tienda/camiseta-rod.webp", "artista": "Rod Waves"},
+            {"id" : "Camiseta-2", "titulo" : "Camiseta-2", "tipo": "Camiseta", "precio" : "$25 USD", "imagen" : "/tienda/camiseta-rod-2.webp", "artista": "Rod Waves"},
+            {"id" : "Camiseta-3", "titulo" : "Camiseta-3", "tipo": "Camiseta", "precio" : "$25 USD", "imagen" : "/tienda/camiseta-rod-3.webp", "artista": "Rod Waves"}
+        ]
+    },
+    {
+        "id": 9,
+        "artista": "50 Cent",
+        "oyentes": "38.014.842 oyentes mensuales",
+        "imagenGrupo": "/audio/50cents.webp",
+        "descripcion": "Curtis James Jackson, más conocido por su nombre artístico 50 Cent, es un rapero y actor estadounidense. Alcanzó la fama mundial con el lanzamiento de sus álbumes Get Rich or Die Tryin' y The Massacre, ambos de ellos logrando éxito multi-platino.",
+        "merch" : [
+            {"id" : "Camiseta-4", "titulo" : "Camiseta-1", "tipo": "Camiseta", "precio" : "$20 USD", "imagen" : "/tienda/camiseta-50.webp", "artista": "50 Cent"},
+            {"id" : "Poster", "titulo" : "Poster", "tipo": "Poster", "precio" : "$25 USD", "imagen" : "/tienda/poster-50.webp", "artista": "50 Cent"}
+        ]
+    },
+    {
+        "id": 10,
+        "artista": "Trueno",
+        "oyentes": "19.166.351 oyentes mensuales",
+        "imagenGrupo": "/audio/trueno-foto.webp",
+        "descripcion": "Mateo Palacios Corazzina, conocido por su nombre artístico Trueno, es un rapero, cantante y compositor argentino.​​​Comenzó su carrera en las batallas de freestyle a los catorce años, cuando intentó participar en los torneos porteños A Cara de Perro Zoo Juniors y Red Bull Regional.",
+        "merch" : [
+            {"id" : "Camiseta-5", "titulo" : "Camiseta Trueno", "tipo": "Camiseta", "precio" : "$20 USD", "imagen" : "/tienda/camiseta-trueno.webp", "artista": "Trueno"},
+            {"id" : "Crocks", "titulo" : "Crocks Trueno", "tipo": "Croks", "precio" : "$25 USD", "imagen" : "/tienda/crocks.webp", "artista": "Trueno"}
+        ]
+    },
+    {
+        "id": "11",
+        "artista": "Central Cee",
+        "imagen": "/audio/walk-in-wardrobe.webp",
+        "merch" : [
+            {"id" : "Camiseta-6", "titulo" : "Camiseta-1", "tipo": "Camiseta", "precio" : "$20 USD", "imagen" : "/tienda/camiseta-central.webp", "artista": "Central Cee"},
+            {"id" : "Collar", "titulo" : "Collar", "tipo": "Collar", "precio" : "$25 USD", "imagen" : "/tienda/collar-central.webp", "artista": "Central Cee"}
+        ]
+    }
+]

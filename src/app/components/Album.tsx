@@ -7,46 +7,99 @@ import defaultAlbum from "../../assets/img/defaultAlbum.jpg";
 
 const AlbumContainer = styled.div`
   display: flex;
+  position: relative;
   flex-direction: column;
-  padding: 10px;
   border-radius: 12px;
   align-items: center;
-  justify-content: center;
   color: white;
   cursor: pointer;
-  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
   transition: all 0.1s linear;
-  background-color: ${colors.primary};
-
+  background-color: ${colors.tertiary};
+  border: 1px solid transparent;
   &:hover {
-    background-color: ${colors.secondary};
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
-    transform: translate(-2px, -2px);
-
-    &:hover > span {
-      color: ${colors.background};
-    }
+    border: 1px solid ${colors.primary};
   }
 `;
 
 const AlbumName = styled.span`
-  font-size: 16px;
-  margin-top: 10px;
-  width: 80%;
+  font-size: 0.9rem;
+  padding-top: 10px;
+  margin: auto;
+  width: 90%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   text-align: center;
 `;
 
-export const Album = ({ name }: { name: string }) => {
+const AlbumGenre = styled.div`
+  font-size: 0.7rem;
+  padding: 5px 10px;
+  border-radius: 10px;
+  background-color: ${colors.primary};
+  opacity: 0.8;
+  margin-top: 5px;
+`;
+
+const AlbumYear = styled.div`
+  font-size: 0.7rem;
+  padding: 5px 10px;
+  border-radius: 10px;
+  margin-top: 5px;
+  opacity: 0.7;
+`;
+
+const AlbumPrice = styled.div`
+  font-size: 0.7rem;
+  padding: 5px 10px;
+  border-radius: 7px;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  background-color: ${colors.background};
+  z-index: 1;
+`;
+
+const AlbumRow = styled.div`
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 5px 0;
+`;
+
+export const Album = ({
+  name,
+  image,
+  genre,
+  price,
+  year,
+}: {
+  name: string;
+  image: string;
+  genre: string;
+  price: string;
+  year: string;
+}) => {
   return (
     <AlbumContainer>
       <Image
-        src={defaultAlbum}
-        style={{ borderRadius: 10, padding: 0 }}
-        width={120}
-        height={120}
+        src={image || defaultAlbum}
+        style={{
+          objectFit: "cover",
+          borderTopLeftRadius: 10,
+          borderTopRightRadius: 10,
+        }}
+        width={160}
+        height={160}
         alt="album"
       />
       <AlbumName>{name}</AlbumName>
+      <AlbumRow>
+        <AlbumYear>{year}</AlbumYear>
+        <AlbumGenre>{genre}</AlbumGenre>
+      </AlbumRow>
+      <AlbumPrice>{price}€</AlbumPrice>
     </AlbumContainer>
   );
 };
