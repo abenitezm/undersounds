@@ -3,6 +3,7 @@ import styled from "styled-components";
 import colors from "../colors";
 import { useState } from "react";
 import { Album } from "./AlbumReproducer";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import Link from "next/link";
 
 
@@ -11,7 +12,7 @@ const ArtistCardContainer = styled.div`
     border-radius: 10px;
     overflow: hidden;
     flex-direction: column;
-    height: 60vh;
+    height: 70vh;
     margin-top: 30px;
 `;
 
@@ -70,71 +71,31 @@ const ArtistInfoContainer = styled.div`
 `;
 
 const AnimatedSeguirButton = styled.div`
-    
-    .btn:link,
-    .btn:visited {
-        text-transform: uppercase;
-        text-decoration: none;
-        padding: 5px 10px;
-        display: inline-block;
-        border-radius: 50px;
-        transition: all .2s;
-        position: absolute;
-    }
+    border-radius: 10px;
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: gray;
+    margin: 0 auto;
+    margin-left: 0;
+    margin-bottom: 10px;
+`;
 
-    .btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    }
-
-    .btn:active {
-        transform: translateY(-1px);
-        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-    }
-
-    .btn-white {
-        background-color: #fff;
-        color: #777;
-    }
-
-    .btn::after {
-        content: "";
-        display: inline-block;
-        height: 100%;
-        width: 100%;
-        border-radius: 100px;
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: -1;
-        transition: all .4s;
-    }
-
-    .btn-white::after {
-        background-color: #fff;
-    }
-
-    .btn:hover::after {
-        transform: scaleX(1.2) scaleY(1.3);
-        opacity: 0;
-    }
-
-    .btn-animated {
-        animation: moveInBottom 5s ease-out;
-        animation-fill-mode: backwards;
-    }
-
-    @keyframes moveInBottom {
-        0% {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        100% {
-            opacity: 1;
-            transform: translateY(0px);
-        }
-    }
+const Button = styled.button`
+    display: flex;
+    align-items: center;
+    text-align: center;
+    gap: 5px;
+    background-color: ${colors.tertiary};
+    color: ${colors.secondary};
+    border: none;
+    width: 100%;
+    padding: 8px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.9rem;
 `;
 
 const ArtistName = styled.h3`
@@ -150,16 +111,19 @@ export default function ArtistCard( {album} : { album : Album } ){
 
     return (
         <ArtistCardContainer>
-            <Link href={`artist/${album.idAlbum}`}><ArtistImageContainer imageurl = {album.imagenGrupo}>
+            <Link href={`artist/${album.artista}`}><ArtistImageContainer imageurl = {album.imagenGrupo}>
                 <div className="artist-text">Información sobre el artista</div>
             </ArtistImageContainer></Link>
             <ArtistInfoContainer>
-                <Link href={`artist/${album.idAlbum}`}><ArtistName>{album.artista}</ArtistName></Link>
+                <Link href={`artist/${album.artista}`}><ArtistName>{album.artista}</ArtistName></Link>
                 <p className="followers">{album.oyentes}</p>
-                <AnimatedSeguirButton className="text-box" onClick={ () => setSiguiendo(!siguiendo)}>
-                    <a href="#" className="btn btn-white btn-animate">{siguiendo ? "Siguiendo" : "Seguir"}</a>
+                <AnimatedSeguirButton>
+                    <Button  onClick={ () => setSiguiendo(!siguiendo)}>
+                        <FavoriteIcon />
+                        {siguiendo ? "Siguiendo" : "Seguir"}
+                    </Button>
                 </AnimatedSeguirButton>
-                <p className="description">{album.descripcion}</p>
+                <p className="description" style={{marginTop: "-5px"}}>{album.descripcion}</p>
             </ArtistInfoContainer>
         </ArtistCardContainer>
     );

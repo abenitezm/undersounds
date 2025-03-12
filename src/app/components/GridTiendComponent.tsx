@@ -5,6 +5,7 @@ import styled from "styled-components";
 import colors from "../colors";
 import Link from "next/link";
 import { useState } from "react";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PrimaryButton from "./PrimaryButton";
 
 const GridContainer = styled.div<{ $expandir : boolean}>`
@@ -92,6 +93,21 @@ const BotonMasResultados = styled.button`
   }
 `;
 
+const BuyButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background-color: ${colors.background};
+  color: ${colors.secondary};
+  border: none;
+  padding: 5px 8px;
+  margin-left: 10px;
+  margin-bottom: 5px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+`;
+
 type GridComponentProps = {
     data : any[]; //Datos recibidos
     onMerchClick : (merchId : string) => void;
@@ -125,8 +141,14 @@ export default function GridContent( { data, onMerchClick } : GridComponentProps
                     <MerchImg src = { elemento.imagen } alt = { elemento.titulo } />
                     <Title>{ elemento.titulo }</Title>
                     <Tipo>{ elemento.tipo }</Tipo>
-                    <Precio>{ elemento.precio}</Precio>
-                    <ArtistName><Link href={`/artist/${elemento.id}`}>{ elemento.artista }</Link></ArtistName> 
+                    <ArtistName><Link href={`/artist/${elemento.id}`}>{ elemento.artista }</Link></ArtistName>
+                    <span style={{display:"flex", flexDirection:"row", alignItems:"center"}}>
+                        <Precio>{ elemento.precio}</Precio>
+                        <BuyButton>
+                            <ShoppingCartIcon />
+                            Comprar
+                        </BuyButton>
+                    </span>
                 </GridItem>
             ))}
             <PrimaryButton onClick = {() => setExpandir(!expandir)}

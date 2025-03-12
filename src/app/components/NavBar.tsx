@@ -78,7 +78,7 @@ export default function NavBar() {
     return (
         <Header>
             <Link href = "/">
-                <Logo src="./logo.svg" alt="Logo Undersounds" />
+                <Logo src="/logo.svg" alt="Logo Undersounds" />
             </Link>
             <ButtonBox>
                 <NavButton>

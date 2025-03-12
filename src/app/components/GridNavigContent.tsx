@@ -122,7 +122,7 @@ export default function GridContent( { data, onAlbumClick } : GridComponentProps
                     <AlbumImg src = { elemento.imagen } alt = { elemento.titulo } />
                     <Title>{ elemento.titulo }</Title>
                     <Genre>{ elemento.genre }</Genre>
-                    <ArtistName><Link href={`/artist/${elemento.id}`}>{ elemento.artista }</Link></ArtistName> 
+                    <ArtistName><Link href={`/artist/${elemento.artista}`}>{ elemento.artista }</Link></ArtistName> 
                 </GridItem>
             ))}
             <PrimaryButton onClick = {() => setExpandir(!expandir)}

@@ -95,7 +95,8 @@ const BotonAdicional = styled.button`
     background-color: ${colors.tertiary};    
     border:none;
     color: ${colors.secondary};
-
+    border: 1px solid transparent;
+    
     &:hover{
         border: 1px solid white;
     }

@@ -5,6 +5,7 @@ import colors from "../colors";
 import { Play, ChevronsLeft, ChevronsRight,  Shuffle, Pause} from "lucide-react"; 
 import ArtistCard from "./ArtistCard";
 import CopiarEnlaceNavegacion from "./CopiarEnlaceNavegacion";
+import { audio } from "framer-motion/client";
 
 {/* Tipos de datos definidos */}
 
@@ -67,12 +68,32 @@ const CancionLista = styled.li`
     }
 `;
 
+const PagarContainer = styled.div`
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    background: rgba(0, 0, 0, 0.6);
+    color: ${colors.primary};
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+`;
+
 
 
 export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
     const [currentSong, setCurrentSong] = useState<Cancion | null>(null);
     const [songTime, setSongTime] = useState(0);
+    const [progreso, setProgreso] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
+    const [pagar, setPagar] = useState(false);
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
     {/* Si existe una canción a escuchar, se reproduce */}
@@ -86,6 +107,32 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
             }
         }
     }, [currentSong, isPlaying]); //Depende useEffect de los valores de estas dos variables
+
+    /* Sirve para la actualización constante del tiempo de la canción que se está escuchando */
+    useEffect(() => {
+        const actualizarProgreso = () => {
+            if ( audioRef.current ){
+                const porcentaje = audioRef.current ? (audioRef.current.currentTime / audioRef.current.duration) * 100 : 0;
+                setProgreso(porcentaje);
+            }
+            /* Si estás mas de 90 segundos escuchándola, tienes que pagar */
+            if ( audioRef.current && audioRef.current.currentTime >= 90){
+                audioRef.current.pause();
+                setPagar(true);
+
+            } else {
+                if ( isPlaying ){
+                    audioRef.current?.play();
+                    setPagar(false);
+                }
+            }
+        };
+
+        audioRef.current?.addEventListener("timeupdate", actualizarProgreso);
+        return () => {
+            audioRef.current?.removeEventListener("timeupdate", actualizarProgreso);
+        };
+    }, [currentSong, isPlaying]);
 
     {/* Controlador para reproducir canciones */}
     const reproducirSong = ( song : Cancion ) => {
@@ -149,7 +196,17 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
         <ReproducerContainer>
             <h2 style={{ textAlign: "center" }}>{album.title}</h2>
             <audio ref = {audioRef} ></audio>
-            <img src = {currentSong?.image} style = {{ width:"330px", height:"300px", alignSelf: "center", borderRadius: "10px"}} alt = "foto canción" />
+            <img src = {currentSong?.image} style = {{ 
+                width:"43.2vh", 
+                height:"300px",
+                position:"relative", 
+                alignSelf: "center", 
+                borderRadius: "10px",
+                opacity: pagar ? 0.4 : 1,
+                transition: "opacity 0.5s ease-in-out"}} 
+                alt = "foto canción"
+            />
+            {pagar && ( <PagarContainer>Demo Gratuita Finalizada</PagarContainer>)}
             <BotonesControl>
                 <ChevronsLeft onClick = {() => reproducirCancionAnterior(album.canciones)}/>
                 { isPlaying ? (
@@ -157,6 +214,14 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
                 ) : (
                     <Play onClick={ () => reproducirSong(album.canciones[0])} />
                 )}
+                <label htmlFor="progress-bar"><input id="progress-bar" type="range" min="0" max="100" value={progreso} 
+                    onChange={(e : any) =>{
+                        const nuevoTiempo = audioRef.current?.duration ? (audioRef.current.duration * e.target.value) / 100 : 0;
+                        if (audioRef.current) {
+                            audioRef.current.currentTime = nuevoTiempo;
+                        }
+                        setProgreso(e.target.value);
+                    }}/></label>
                 <ChevronsRight onClick = {() => reproducirSiguienteCancion(album.canciones)} />
                 <Shuffle onClick = {() => shuffleReproducer(album.canciones)} />
             </BotonesControl>
