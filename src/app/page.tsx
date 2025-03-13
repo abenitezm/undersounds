@@ -10,6 +10,7 @@ import NavBar from "./components/NavBar";
 import FancyButton from "./components/FancyButton";
 import Foto from "./components/Foto";
 import Link from "next/link";
+import HomeGrid from "./components/HomeGrid";
 
 
 const rainbowColors = ["#A8DADC", "#F4A261", "#E76F51", "#457B9D", "#2A9D8F"];
@@ -18,9 +19,16 @@ const rainbowColors = ["#A8DADC", "#F4A261", "#E76F51", "#457B9D", "#2A9D8F"];
 export default function Home() {
   return (
     <>
+      <HomeGrid />
+      <p style={{ fontSize: '1.1rem', color: colors.secondary, paddingTop: '20px', paddingBottom: '20px'}}>
+        Los fans han pagado a los artistas 
+        <strong style={{ color: colors.primary, fontSize: '1.3rem' }}> 1.46 billones de euros </strong> 
+        usando Undersounds, y 
+        <strong style={{ color: colors.primary, fontSize: '1.3rem' }}> 194 millones de euros </strong> 
+        en el último año.
+      </p>
+
       <div style={ styles.container }>
-        <PrimaryButton text={"Prueba"} onClick={() => alert("Prueba")} />
-        <SecondaryButton text={"Prueba2"} onClick={() => alert("Prueba2")} />
         <FancyButton title="Explorar todo" imageSrc="prettyButtons/all.png" bgColor="#A8DADC"
           onClick={() => alert("Cassette")} />
         <FancyButton title="Vinilo" imageSrc="prettyButtons/vinyl.png" bgColor="#F4A261"
@@ -32,7 +40,6 @@ export default function Home() {
         <FancyButton title="Camisetas" imageSrc="prettyButtons/tshirt.png" bgColor="#2A9D8F"
           onClick={() => alert("Cassette")} />
       </div>
-      <Foto src = "/prettyButtons/cassette.png" title="hola" description="mundo"/>
     </>
   );
 }
@@ -44,6 +51,8 @@ const styles: { container: CSSProperties } = {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    gap: "20px"
+    gap: "20px",
+    paddingTop: "20px",
+    paddingBottom: "20px"
   },
 };

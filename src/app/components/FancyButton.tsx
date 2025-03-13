@@ -11,9 +11,9 @@ interface CategoryButtonProps {
 }
 
 const Button = styled.button`
-    background-color: ${props => props.color || 'white'};
-  width: 160px;
-  height: 180px;
+  background-color: ${props => props.color || colors.secondary};
+  width: 215px;
+  height: 240px;
   border-radius: 15px;
   display: flex;
   align-items: flex-start;
@@ -23,10 +23,14 @@ const Button = styled.button`
   cursor: pointer;
   position: relative;
   overflow: hidden;
-  transition: background-color 0.2s ease-in-out;
+  transition: background-color 0.3s ease-in-out;
 
   &:hover {
     background-color: ${colors.secondary};
+  }
+
+  &:hover .image {
+    transform: scale(1.1);
   }
 `;
 
@@ -34,14 +38,14 @@ const Title = styled.span`
   position: absolute;
   top: 10px;
   left: 15px;
-  font-size: 18px;
+  font-size: 22px;
   font-weight: bold;
   color: ${colors.tertiary};
   z-index: 2;
 `;
 
 const Image = styled.img`
-  width: 150px;
+  width: 200px;
   height: auto;
   object-fit: cover;
   position: absolute;
@@ -52,13 +56,14 @@ const Image = styled.img`
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  transition: transform 0.3s ease-in-out;
 `;
 
 const CategoryButton: React.FC<CategoryButtonProps> = ({ title, imageSrc, bgColor, onClick }) => {
   return (
     <Button onClick={onClick} color={bgColor}>
         <Title>{title}</Title>
-        <Image src={imageSrc} alt={title} />
+        <Image className="image" src={imageSrc} alt={title} />
     </Button>
   );
 };
