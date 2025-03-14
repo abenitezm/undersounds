@@ -21,8 +21,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${montserrat.className} antialiased`}>
         <NavBar />
-        <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
-        {/* Separación del audio para reproducirlo en todas las páginas */}
+        <div style={{ paddingTop: "110px" }}>
+          <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+          {/* Separación del audio para reproducirlo en todas las páginas */}
+        </div>
       </body>
     </html>
   );

@@ -18,6 +18,8 @@ const Header = styled.header`
     background: ${colors.tertiary};
     padding: 10px 20px;
     width: 100%;
+    position: fixed;
+    z-index:100;
 `;
 
 const Logo = styled.img`
