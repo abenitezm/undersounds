@@ -148,7 +148,7 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
         setIsPlaying(false);
     }
 
-    const reproducirSiguienteCancion = ( songs : Cancion[] ) => {
+    const reproducirSiguienteCancion = ( songs : Cancion[] ): void => {
         /* Caso base, si las canciones se encuentran vacías termino */
         if ( songs.length === 0 ){
             return;
