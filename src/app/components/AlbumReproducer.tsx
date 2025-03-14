@@ -214,7 +214,7 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
                 ) : (
                     <Play onClick={ () => reproducirSong(album.canciones[0])} />
                 )}
-                <label htmlFor="progress-bar"><input id="progress-bar" type="range" min="0" max="100" value={progreso} 
+                <label htmlFor="progress-bar"><input id="progress-bar" type="range" min="0" max="100" value={isNaN(progreso) ? "0" : progreso} 
                     onChange={(e : any) =>{
                         const nuevoTiempo = audioRef.current?.duration ? (audioRef.current.duration * e.target.value) / 100 : 0;
                         if (audioRef.current) {

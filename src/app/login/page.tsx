@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import colors from '../colors';
 import PrimaryButton from '../components/PrimaryButton';
 import {toast, ToastContainer } from "react-toastify";
+import Link from 'next/link';
 
 const Container = styled.div`
     display: flex;
@@ -26,9 +27,9 @@ const Form = styled.form`
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 `;
 
-const Input = styled.input`
+const Input = styled.input<{$errorInputs : boolean}>`
     padding: 15px;
-    border: 1px solid ${colors.primary};
+    border: 2px solid ${({$errorInputs}) => ($errorInputs ? "red" : "${colors.primary}")};
     border-radius: 5px;
     font-size: 16px;
 `;
@@ -54,6 +55,9 @@ export default function Page() {
     const manejadorInputs = () => {
         if (!email && !password){
             toast.error("Tienes que introducir valores en los dos campos");
+            setErrorInputs(!errorInputs);
+        } else {
+            toast.success("Has iniciado sesión correctamente");
         }
     }
 
@@ -66,14 +70,17 @@ export default function Page() {
                     placeholder="Correo Electrónico"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    $errorInputs  = {errorInputs}
                 />
                 <Input
                     type="password"
                     placeholder="Contraseña"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    $errorInputs  = {errorInputs}
                 />
-                <PrimaryButton text={"Inicio sesión"} onClick={() => alert("Inicio Sesion")} />
+                <ToastContainer position="bottom-center" autoClose={3000}/>
+                <PrimaryButton text={"Inicio sesión"} onClick={manejadorInputs}/>
             </Form>
         </Container>
     );
