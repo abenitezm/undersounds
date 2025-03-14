@@ -14,7 +14,7 @@ const GridContainer = styled.div<{ $expandir : boolean}>`
     justify-content: start;
     justify-items: start;
     margin-left: 0;
-    max-width: 70%;
+    max-width: 100%;
     margin-right: auto;
     height: ${({ $expandir }) => ($expandir ? "350px" : "auto")};
     overflow-y: ${({ $expandir }) => ($expandir ? "auto" : "visible")};

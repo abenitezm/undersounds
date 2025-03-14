@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import colors from '../colors';
 import PrimaryButton from '../components/PrimaryButton';
+import {toast, ToastContainer } from "react-toastify";
 
 const Container = styled.div`
     display: flex;
@@ -41,6 +42,7 @@ const Logo = styled.img`
 export default function Page() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errorInputs, setErrorInputs] = useState(false);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -48,6 +50,12 @@ export default function Page() {
         console.log('Correo:', email);
         console.log('Contraseña:', password);
     };
+
+    const manejadorInputs = () => {
+        if (!email && !password){
+            toast.error("Tienes que introducir valores en los dos campos");
+        }
+    }
 
     return (
         <Container>

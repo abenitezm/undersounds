@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useState } from "react";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PrimaryButton from "./PrimaryButton";
+import ShopValidator from "../components/ShopValidator";
 
 const GridContainer = styled.div<{ $expandir : boolean}>`
     display: grid;
@@ -125,32 +126,42 @@ export type Merch = {
 export default function GridContent( { data, onMerchClick } : GridComponentProps) {
 
     const [expandir, setExpandir] = useState(false);
+    const [validacionTienda, setValidacionTienda] = useState(false);
+    const [imagenMerch, setImagenMerch] = useState("");
     const enseñarMasContenido = expandir ? data : data.slice(0, 6); 
 
     const manejadorElementoMerch = (merchId : string ) => {
         onMerchClick(merchId);
-        console.log("hey");
     };
+
+    const manejadorImagen = (imagen : any) => {
+        setImagenMerch(imagen);
+    }
+
+    const manejadorValidador = () => {
+        setValidacionTienda(!validacionTienda);
+    }
 
     return (
         /* Cargamos el contenedor donde almacenaremos los productos */
         <GridContainer $expandir={expandir}>
             {/* Recorremos los datos del JSON para mostrar su contenido de una manera bonita visualmente*/}
             {enseñarMasContenido.map(( elemento : any ) => (
-                <GridItem key = { elemento.id } onClick = {() => manejadorElementoMerch(elemento.id)}>
-                    <MerchImg src = { elemento.imagen } alt = { elemento.titulo } />
+                <GridItem key = { elemento.id } onClick = {() => { manejadorElementoMerch(elemento.id); manejadorImagen(elemento); }}>
+                    <MerchImg src = { elemento.imagen } alt = { elemento.titulo }/>
                     <Title>{ elemento.titulo }</Title>
                     <Tipo>{ elemento.tipo }</Tipo>
                     <ArtistName><Link href={`/artist/${elemento.id}`}>{ elemento.artista }</Link></ArtistName>
                     <span style={{display:"flex", flexDirection:"row", alignItems:"center"}}>
                         <Precio>{ elemento.precio}</Precio>
-                        <BuyButton>
+                        <BuyButton onClick = {manejadorValidador}>
                             <ShoppingCartIcon />
                             Comprar
                         </BuyButton>
                     </span>
                 </GridItem>
             ))}
+            {validacionTienda && <ShopValidator isOpen={validacionTienda} onClose={manejadorValidador} imagen={imagenMerch} />}
             <PrimaryButton onClick = {() => setExpandir(!expandir)}
                 text = { expandir ? "Ver menos resultados" : "Ver más resultados" }>
             </PrimaryButton>

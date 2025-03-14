@@ -77,6 +77,7 @@ export default function NavBar() {
     const handleCloseNotificación = (id: number) => {
         setNotificaciones(notificaciones.filter(notificación => notificación.id !== id));
     };
+
     return (
         <Header>
             <Link href = "/">
@@ -97,7 +98,9 @@ export default function NavBar() {
                 </Link>
                 <NotificationsIcon fontSize="large" onClick={handleToggleDropdown} style={{ cursor: 'pointer' }}/>
                 <LibraryMusicIcon fontSize="large"/>
-                <AccountCircleIcon fontSize="large"/>
+                <Link href="/login">
+                    <AccountCircleIcon fontSize="large"/>
+                </Link>
             </div>
             <NotificacionesDropdown
                 visible={dropdownVisible}
