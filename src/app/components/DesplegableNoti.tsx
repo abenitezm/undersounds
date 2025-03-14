@@ -3,7 +3,7 @@ import styled from "styled-components";
 import colors from "../colors";
 import Notificación from "./Notificación";
 
-const DropdownContainer = styled.div<{ visible: boolean }>`
+const DropdownContainer = styled.div<{ $isVisible: boolean }>`
     position: absolute;
     top: 65px;
     right: 100px;
@@ -15,7 +15,7 @@ const DropdownContainer = styled.div<{ visible: boolean }>`
     max-height: 400px;
     overflow-y: auto;
     z-index: 1000;
-    display: ${props => (props.visible ? 'block' : 'none')};
+    display: ${props => (props.$isVisible ? 'block' : 'none')};
 `;
 
 type NotificacionesDropdownProps = {
@@ -26,7 +26,7 @@ type NotificacionesDropdownProps = {
 
 export default function NotificacionesDropdown({ visible, notificaciones, onClose }: NotificacionesDropdownProps) {
     return (
-        <DropdownContainer visible={visible}>
+        <DropdownContainer $isVisible={visible}>
             {notificaciones.map(notificación => (
                 <Notificación
                     key={notificación.id}
