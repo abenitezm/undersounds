@@ -18,17 +18,16 @@ const Header = styled.header`
     position: sticky;
 `;
 
-const Logo = styled.img`
+const Espacio = styled.div`
     height: 60px;
     width: auto;
+    color: transparent;
 `;
 
 export default function NavBar() {
     return (
         <Header>
-            <Link href = "/">
-                <Logo src="/logo.svg" alt="Logo Undersounds" />
-            </Link>
+            <Espacio />
         </Header>
     );
 }
