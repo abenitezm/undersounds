@@ -1,15 +1,8 @@
 "use client";
 
 import colors from "./colors";
-import ActivityRow from "./components/ActivityRow";
-import { Album } from "./components/Album";
-import PrimaryButton from "./components/PrimaryButton";
-import SecondaryButton from "./components/SecondaryButton";
 import { CSSProperties } from "react";
-import NavBar from "./components/NavBar";
 import FancyButton from "./components/FancyButton";
-import Foto from "./components/Foto";
-import Link from "next/link";
 import HomeGrid from "./components/HomeGrid";
 
 
@@ -30,15 +23,15 @@ export default function Home() {
 
       <div style={ styles.container }>
         <FancyButton title="Explorar todo" imageSrc="prettyButtons/all.png" bgColor="#A8DADC"
-          onClick={() => alert("Cassette")} />
+          onClick={() => alert("Explorar")} />
         <FancyButton title="Vinilo" imageSrc="prettyButtons/vinyl.png" bgColor="#F4A261"
-          onClick={() => alert("Cassette")} />
+          onClick={() => alert("Vinilo")} />
         <FancyButton title="CDs" imageSrc="prettyButtons/cd.png" bgColor="#E76F51"
-          onClick={() => alert("Cassette")} />
+          onClick={() => alert("CDs")} />
         <FancyButton title="Cassettes" imageSrc="prettyButtons/cassette.png" bgColor="#457B9D"
-          onClick={() => alert("Cassette")} />
-        <FancyButton title="Camisetas" imageSrc="prettyButtons/tshirt.png" bgColor="#2A9D8F"
-          onClick={() => alert("Cassette")} />
+          onClick={() => alert("Cassettes")} />
+        <FancyButton title="Merch" imageSrc="prettyButtons/tshirt.png" bgColor="#2A9D8F"
+          onClick={() => alert("Merch")} />
       </div>
     </>
   );
