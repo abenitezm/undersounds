@@ -20,10 +20,10 @@ const ArtistCardContainer = styled.div`
 la url de la imagen para no tener que meter una etiqueta 
 img dentro de el mismo.
  */
-const ArtistImageContainer = styled.div<{ imageurl : string }>`
+const ArtistImageContainer = styled.div<{ $imageurl : string }>`
     position: relative;
     height: 50%; //La mitad superior
-    background-image: url(${(props) => props.imageurl});
+    background-image: url(${(props) => props.$imageurl});
     background-size: cover;
     background-position: center;
 
@@ -111,7 +111,7 @@ export default function ArtistCard( {album} : { album : Album } ){
 
     return (
         <ArtistCardContainer>
-            <Link href={`artist/${album.artista}`}><ArtistImageContainer imageurl = {album.imagenGrupo}>
+            <Link href={`artist/${album.artista}`}><ArtistImageContainer $imageurl = {album.imagenGrupo}>
                 <div className="artist-text">Información sobre el artista</div>
             </ArtistImageContainer></Link>
             <ArtistInfoContainer>

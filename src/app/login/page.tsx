@@ -5,6 +5,7 @@ import colors from '../colors';
 import PrimaryButton from '../components/PrimaryButton';
 import {toast, ToastContainer } from "react-toastify";
 import Link from 'next/link';
+import { useAuth } from "../components/AuthContext";
 
 const Container = styled.div`
     display: flex;
@@ -44,6 +45,7 @@ export default function Page() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorInputs, setErrorInputs] = useState(false);
+    const { setUserRole } = useAuth();
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -52,12 +54,13 @@ export default function Page() {
         console.log('Contraseña:', password);
     };
 
-    const manejadorInputs = () => {
+    const manejadorInputs = async() => {
         if (!email && !password){
             toast.error("Tienes que introducir valores en los dos campos");
             setErrorInputs(!errorInputs);
         } else {
             toast.success("Has iniciado sesión correctamente");
+            setUserRole("registrado");
         }
     }
 
@@ -79,9 +82,16 @@ export default function Page() {
                     onChange={(e) => setPassword(e.target.value)}
                     $errorInputs  = {errorInputs}
                 />
-                <ToastContainer position="bottom-center" autoClose={3000}/>
-                <PrimaryButton text={"Inicio sesión"} onClick={manejadorInputs}/>
             </Form>
+            <ToastContainer position="bottom-center" autoClose={3000}/>
+            {/* Si hay error, no se puede hacer el enlace */}
+            {errorInputs ? (
+                <PrimaryButton text={"Inicio sesión"} onClick={manejadorInputs} />
+            ) : (
+                <Link href="/" passHref>
+                    <PrimaryButton text={"Inicio sesión"} onClick={manejadorInputs}/>
+                </Link>
+            )}
         </Container>
     );
 }
