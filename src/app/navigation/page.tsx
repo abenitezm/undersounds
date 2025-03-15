@@ -28,6 +28,8 @@ const albumData : Album[] = data.map((cancion) => {
         oyentes: cancion.oyentes,
         imagenGrupo: cancion.imagenGrupo,
         descripcion: cancion.descripcion,
+        comentarios: cancion.comentarios,
+        comentador: cancion.comentador
     } as Album;
 });
 
@@ -42,6 +44,7 @@ export default function NavigationPage() {
     const manejadorAlbum = ( albumId : number ) => {
         if ( albumId >= 0 && albumId < albumData.length ){
             setSelectedAlbum(albumData[albumId]);
+            console.log(albumData[albumId].comentarios);
         } else {
             console.error("Indice del album fuera de rango");
         }

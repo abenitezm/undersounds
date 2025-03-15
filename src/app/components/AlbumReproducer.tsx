@@ -29,6 +29,8 @@ export type Album = {
     oyentes : string;
     imagenGrupo : string;
     descripcion : string;
+    comentarios : string;
+    comentador : string;
 }
 
 type AlbumReproducerProps = {
