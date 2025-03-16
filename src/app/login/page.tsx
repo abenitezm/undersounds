@@ -36,9 +36,21 @@ const Input = styled.input<{$errorInputs : boolean}>`
 `;
 
 const Logo = styled.img`
-    height: 100px;
+    height: 80px;
     width: auto;
     margin-bottom: 40px;
+`;
+
+const ButtonContainer = styled.div`
+    display: flex;
+    justify-content: center;
+`;
+
+const TextContainer = styled.div`
+    margin-top: -30px;
+    margin-bottom: -30px;
+    text-align: center;
+    color: ${colors.secondary};
 `;
 
 export default function Page() {
@@ -82,16 +94,21 @@ export default function Page() {
                     onChange={(e) => setPassword(e.target.value)}
                     $errorInputs  = {errorInputs}
                 />
+                <ButtonContainer>
+                    {/* Si hay error, no se puede hacer el enlace */}
+                    {errorInputs ? (
+                        <PrimaryButton text={"Inicio sesión"} onClick={manejadorInputs} />
+                    ) : (
+                        <Link href="/" passHref>
+                            <PrimaryButton text={"Inicio sesión"} onClick={manejadorInputs}/>
+                        </Link>
+                    )}
+                </ButtonContainer>
+                <TextContainer>
+                    <p>Si no tienes cuenta, <Link href="/signup">regístrate</Link></p>
+                </TextContainer>
             </Form>
             <ToastContainer position="bottom-center" autoClose={3000}/>
-            {/* Si hay error, no se puede hacer el enlace */}
-            {errorInputs ? (
-                <PrimaryButton text={"Inicio sesión"} onClick={manejadorInputs} />
-            ) : (
-                <Link href="/" passHref>
-                    <PrimaryButton text={"Inicio sesión"} onClick={manejadorInputs}/>
-                </Link>
-            )}
         </Container>
     );
 }
