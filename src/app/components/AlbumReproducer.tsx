@@ -47,7 +47,7 @@ const ReproducerContainer = styled.div`
     position: fixed; //Para mantenerlo fijo
     right: 60px;
     top: 60pxpx;
-    width: 50vh;
+    width: 52vh;
     max-height: calc(100vh - 80px);
     overflow-y: auto;
 `;
