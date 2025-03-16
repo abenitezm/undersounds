@@ -1,13 +1,16 @@
 'use client';
 
 import React from "react";
-import styled from "styled-components";
+import { styled, keyframes } from "styled-components";
 import colors from "../colors";
 import Link from "next/link";
 import { useState } from "react";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PrimaryButton from "./PrimaryButton";
 import ShopValidator from "../components/ShopValidator";
+import { useAuth } from "../components/AuthContext";
+import { toast, ToastContainer } from "react-toastify";
+import { animacionEntrada }  from "../components/ShopValidator";
 
 const GridContainer = styled.div<{ $expandir : boolean}>`
     display: grid;
@@ -109,6 +112,52 @@ const BuyButton = styled.button`
   font-size: 0.9rem;
 `;
 
+const DeployRestrictiveBackground = styled.div<{ $isOpen : boolean }>`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px); // Agrega un desenfoque al fondo
+    display: ${({$isOpen}) => ($isOpen ? "flex" : "none")};
+    align-items: center;
+    justify-content: center;
+    z-index: 103;
+`;
+
+const DeployContent = styled.div`
+    background: ${colors.background};
+    color: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+    animation: ${animacionEntrada} 0.3s ease-in-out;
+    position: relative;
+    max-width: 700px;
+    height: 70vh;
+    width: 90%;
+    text-align: center;
+    margin-bottom: 10px;
+    z-index: 104;
+`;
+
+const BotonCerrar = styled.button`
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    background: ${colors.background};
+    color: ${colors.secondary};
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+
+    &:hover {
+        background: ${colors.primary};
+    }
+`;
+
 type GridComponentProps = {
     data : any[]; //Datos recibidos
     onMerchClick : (merchId : string) => void;
@@ -128,6 +177,8 @@ export default function GridContent( { data, onMerchClick } : GridComponentProps
     const [expandir, setExpandir] = useState(false);
     const [validacionTienda, setValidacionTienda] = useState(false);
     const [imagenMerch, setImagenMerch] = useState("");
+    const { userRole } = useAuth();
+    const [isOpen, setIsOpen] = useState(false);
     const enseñarMasContenido = expandir ? data : data.slice(0, 6); 
 
     const manejadorElementoMerch = (merchId : string ) => {
@@ -139,7 +190,19 @@ export default function GridContent( { data, onMerchClick } : GridComponentProps
     }
 
     const manejadorValidador = () => {
-        setValidacionTienda(!validacionTienda);
+        if ( userRole !== "invitado"){
+            setValidacionTienda(!validacionTienda);
+        } else {
+            toast.warn("¡Ciudado!, debes de iniciar sesión", {
+                position: "bottom-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                theme: "light"
+            });
+        }
     }
 
     return (
@@ -154,17 +217,35 @@ export default function GridContent( { data, onMerchClick } : GridComponentProps
                     <ArtistName><Link href={`/artist/${elemento.id}`}>{ elemento.artista }</Link></ArtistName>
                     <span style={{display:"flex", flexDirection:"row", alignItems:"center"}}>
                         <Precio>{ elemento.precio}</Precio>
-                        <BuyButton onClick = {manejadorValidador}>
+                        <BuyButton onClick = {() => {manejadorValidador(); 
+                            if(userRole === "invitado"){
+                                setIsOpen(true);
+                                <ToastContainer />
+                                
+                            }}}>
                             <ShoppingCartIcon />
                             Comprar
                         </BuyButton>
                     </span>
                 </GridItem>
             ))}
+            {!validacionTienda &&
+                <DeployRestrictiveBackground $isOpen={isOpen}>
+                    <DeployContent>
+                        <ToastContainer/>
+                        <h2 style={{ padding: "50px"}}>Debes iniciar sesión para acceder a este contenido</h2>
+                        <BotonCerrar onClick={() => setIsOpen(false)}>✖</BotonCerrar>
+                        <Link href="/login">
+                            <PrimaryButton text="Iniciar Sesión" onClick={() => {}} style={{textAlign: "center"}}/>
+                        </Link>
+                    </DeployContent>
+                </DeployRestrictiveBackground>
+            }
             {validacionTienda && <ShopValidator isOpen={validacionTienda} onClose={manejadorValidador} imagen={imagenMerch} />}
             <PrimaryButton onClick = {() => setExpandir(!expandir)}
                 text = { expandir ? "Ver menos resultados" : "Ver más resultados" }>
             </PrimaryButton>
+
         </GridContainer>
     );
 }

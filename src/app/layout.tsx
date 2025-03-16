@@ -5,6 +5,7 @@ import StyledComponentsRegistry from "@/lib/registry";
 import NavBar from "./components/NavBar";
 import { Montserrat } from "next/font/google";
 import TopMargin from "./components/TopMargin";
+import { AuthProvider } from "./components/AuthContext";
 
 const montserrat = Montserrat( { subsets: ['latin'], weight: "400"} );
 
@@ -19,13 +20,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${montserrat.className} antialiased`}>
-        <NavBar />
-        <TopMargin />
-        <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
-        {/* Separación del audio para reproducirlo en todas las páginas */}
-      </body>
-    </html>
+    <AuthProvider>
+      <html lang="en">
+        <body className={`${montserrat.className} antialiased`}>
+          <NavBar />
+          <TopMargin />
+          <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+          {/* Separación del audio para reproducirlo en todas las páginas */}
+        </body>
+      </html>
+    </AuthProvider>
   );
 }

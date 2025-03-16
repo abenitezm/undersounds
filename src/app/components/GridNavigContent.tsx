@@ -6,6 +6,12 @@ import colors from "../colors";
 import Link from "next/link";
 import { useState } from "react";
 import PrimaryButton from "./PrimaryButton";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Navigation, Pagination } from "swiper/modules";
+
 
 const GridContainer = styled.div<{ $expandir : boolean}>`
     display: grid;

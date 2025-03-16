@@ -1,12 +1,15 @@
 'use client';
 import { useState, useRef, useEffect } from "react";
-import styled from "styled-components";
+import { styled , keyframes} from "styled-components";
 import colors from "../colors";
 import { Play, ChevronsLeft, ChevronsRight,  Shuffle, Pause} from "lucide-react"; 
 import ArtistCard from "./ArtistCard";
 import CopiarEnlaceNavegacion from "./CopiarEnlaceNavegacion";
-import { audio } from "framer-motion/client";
-
+import { useAuth } from "../components/AuthContext";
+import { animacionEntrada }  from "../components/ShopValidator";
+import { toast, ToastContainer } from "react-toastify";
+import Link from 'next/link';
+import PrimaryButton from "./PrimaryButton";
 {/* Tipos de datos definidos */}
 
 type Cancion = {
@@ -26,6 +29,8 @@ export type Album = {
     oyentes : string;
     imagenGrupo : string;
     descripcion : string;
+    comentarios : string;
+    comentador : string;
 }
 
 type AlbumReproducerProps = {
@@ -86,32 +91,88 @@ const PagarContainer = styled.div`
     text-align: center;
 `;
 
+const DeployRestrictiveBackground = styled.div<{ $isOpen : boolean }>`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px); // Agrega un desenfoque al fondo
+    display: ${({$isOpen}) => ($isOpen ? "flex" : "none")};
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+`;
+
+const DeployContent = styled.div`
+    background: ${colors.background};
+    color: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+    animation: ${animacionEntrada} 0.3s ease-in-out;
+    position: relative;
+    max-width: 700px;
+    height: 70vh;
+    width: 90%;
+    text-align: center;
+    margin-bottom: 10px;
+    z-index: 101;
+`;
+
+const BotonCerrar = styled.button`
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    background: ${colors.background};
+    color: ${colors.secondary};
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+
+    &:hover {
+        background: ${colors.primary};
+    }
+`;
 
 
 export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
     const [currentSong, setCurrentSong] = useState<Cancion | null>(null);
-    const [songTime, setSongTime] = useState(0);
+    const [isOpen, setIsOpen] = useState(true);
     const [progreso, setProgreso] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
     const [pagar, setPagar] = useState(false);
     const audioRef = useRef<HTMLAudioElement | null>(null);
+    const { userRole } = useAuth();
 
     {/* Si existe una canción a escuchar, se reproduce */}
     useEffect(() => {
-        if ( audioRef.current ){
+        if ( audioRef.current && userRole === "registrado" ){
             audioRef.current.src = currentSong?.url || '';
             if ( isPlaying ){
                 audioRef.current.play();
             } else {
                 audioRef.current.pause();
             }
+        } else {
+            toast.warn("¡Ciudado!, debes de iniciar sesión", {
+                position: "bottom-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                theme: "light"
+            });
         }
-    }, [currentSong, isPlaying]); //Depende useEffect de los valores de estas dos variables
+    }, [currentSong, isPlaying, userRole]); //Depende useEffect de los valores de estas dos variables
 
     /* Sirve para la actualización constante del tiempo de la canción que se está escuchando */
     useEffect(() => {
         const actualizarProgreso = () => {
-            if ( audioRef.current ){
+            if ( audioRef.current && userRole === "registrado"){
                 const porcentaje = audioRef.current ? (audioRef.current.currentTime / audioRef.current.duration) * 100 : 0;
                 setProgreso(porcentaje);
             }
@@ -194,10 +255,10 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
 
     return (
         <ReproducerContainer>
-            <h2 style={{ textAlign: "center" }}>{album.title}</h2>
+            <h2 style={{ textAlign: "center", marginBottom: "10px" }}>{album.title}</h2>
             <audio ref = {audioRef} ></audio>
-            <img src = {currentSong?.image} style = {{ 
-                width:"43.2vh", 
+            <img src = {album.canciones[0].image} style = {{ 
+                width:"45.5vh", 
                 height:"300px",
                 position:"relative", 
                 alignSelf: "center", 
@@ -208,12 +269,24 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
             />
             {pagar && ( <PagarContainer>Demo Gratuita Finalizada</PagarContainer>)}
             <BotonesControl>
-                <ChevronsLeft onClick = {() => reproducirCancionAnterior(album.canciones)}/>
-                { isPlaying ? (
+                <ChevronsLeft onClick = {() => reproducirCancionAnterior(album.canciones)}/>  
+                { isPlaying && userRole === "registrado" ? (
                     <Pause onClick={pausarSong} />
                 ) : (
                     <Play onClick={ () => reproducirSong(album.canciones[0])} />
                 )}
+                { userRole === "invitado" && 
+                    <DeployRestrictiveBackground $isOpen={isOpen}>
+                        <ToastContainer/>
+                        <DeployContent>
+                            <h2 style={{ padding: "50px"}}>Debes iniciar sesión para acceder a este contenido</h2>
+                            <BotonCerrar onClick={() => setIsOpen(false)}>✖</BotonCerrar>
+                            <Link href="/login">
+                                <PrimaryButton text="Iniciar Sesión" onClick={() => {}} style={{textAlign: "center"}}/>
+                            </Link>
+                        </DeployContent>
+                    </DeployRestrictiveBackground>  
+                }
                 <label htmlFor="progress-bar"><input id="progress-bar" type="range" min="0" max="100" value={isNaN(progreso) ? "0" : progreso} 
                     onChange={(e : any) =>{
                         const nuevoTiempo = audioRef.current?.duration ? (audioRef.current.duration * e.target.value) / 100 : 0;
@@ -231,7 +304,7 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
                         <span>{cancion.titulo} - {cancion.time}</span>
                     </CancionLista>
                 ))}
-                <CopiarEnlaceNavegacion />
+                { userRole === "registrado" && <CopiarEnlaceNavegacion url={currentSong?.url || ''}/>}
             </ListaCanciones>
             <ArtistCard album={album}/>
         </ReproducerContainer>

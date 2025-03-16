@@ -6,11 +6,10 @@ import colors from "../colors";
 import "react-toastify/ReactToastify.css";
 import { motion } from "framer-motion";
 import {toast, ToastContainer } from "react-toastify";
-import { duration } from "@mui/material";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { OnApproveData, OnApproveActions } from "@paypal/paypal-js";
 
-const animacionEntrada = keyframes`
+export const animacionEntrada = keyframes`
     from { opacity: 0; transform: scale(0.9); }
     to { opacity: 1; transform: scale(1); }
 `;

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Album } from "./AlbumReproducer";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Link from "next/link";
+import PrimaryButton from "./PrimaryButton";
 
 
 const ArtistCardContainer = styled.div`
@@ -12,7 +13,7 @@ const ArtistCardContainer = styled.div`
     border-radius: 10px;
     overflow: hidden;
     flex-direction: column;
-    height: 70vh;
+    height: 120vh;
     margin-top: 30px;
 `;
 
@@ -20,10 +21,10 @@ const ArtistCardContainer = styled.div`
 la url de la imagen para no tener que meter una etiqueta 
 img dentro de el mismo.
  */
-const ArtistImageContainer = styled.div<{ imageurl : string }>`
+const ArtistImageContainer = styled.div<{ $imageurl : string }>`
     position: relative;
-    height: 50%; //La mitad superior
-    background-image: url(${(props) => props.imageurl});
+    height: 30%; //La mitad superior
+    background-image: url(${(props) => props.$imageurl});
     background-size: cover;
     background-position: center;
 
@@ -41,7 +42,7 @@ const ArtistImageContainer = styled.div<{ imageurl : string }>`
 `;
 
 const ArtistInfoContainer = styled.div`
-    height: 50%; //La mitad inferior
+    height: 70%; //La mitad inferior
     background-color: ${colors.background};
     padding: 15px;
     display: flex;
@@ -104,14 +105,105 @@ const ArtistName = styled.h3`
     }   
 `;
 
+const CommentSectionContainer = styled.div`
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    margin-bottom: 55px;
+`;
+
+const SeccionValoraciones = styled.h3`
+    color: ${colors.primary};
+    font-size: 14px;
+`;
+
+const LineaEstetica = styled.div`
+    width: 100%;
+    height: 2px;
+    border-radius: 10px;
+    background-color: ${colors.primary};
+`;
+
+const Comment = styled.textarea<{ $addComment : boolean }>`
+    text-align: left;
+    height: 90px;
+    width: 100%;
+    border-radius: 10px;
+    background-color: ${colors.tertiary};
+    color: ${colors.primary};
+    padding: 12px;
+    font-size: 14px;
+    font-family: 'Arial', sans-serif;
+    resize: vertical;
+    border: 2px solid ${colors.primary};
+    transition: all 0.3s ease;
+    resize: vertical;
+
+    /* Mostrar o esconder basado en $addComment */
+    display: ${({ $addComment }) => ($addComment ? "block" : "none")};
+
+    /* Estilos para el enfoque */
+    &:focus {
+        outline: none;
+        border-color: ${colors.primary}; /* Asegúrate de que tienes un color de resaltado */
+        background-color: ${colors.secondary}; /* Fondo al enfocarse */
+    }
+
+    /* Estilos para el hover */
+    &:hover {
+        border-color: ${colors.secondary};
+    }
+
+    /* Estilos para mejorar la legibilidad */
+    line-height: 1.5;
+    letter-spacing: 0.5px;
+`;
+
+const EnviarButton = styled.button`
+    background-color: ${colors.tertiary}; /* Color de fondo */
+    color: ${colors.secondary}; /* Color del texto */
+    font-size: 14px; /* Tamaño de la fuente */
+    padding: 10px 20px; /* Espaciado interno */
+    border-radius: 10px; /* Bordes redondeados */
+    border: 2px solid ${colors.primary}; /* Borde del botón */
+    cursor: pointer; /* Cambiar el cursor cuando se pasa por encima */
+    width: 100%;
+    transition: all 0.3s ease; /* Transición suave para los efectos */
+
+    /* Efectos de hover */
+    &:hover {
+        background-color: ${colors.secondary}; /* Cambia el fondo cuando el mouse pasa por encima */
+        border-color: ${colors.primary}; /* Cambia el color del borde en hover */
+        color: ${colors.tertiary};
+    }
+
+    /* Efectos al hacer clic */
+    &:active {
+        transform: scale(0.98); /* Reduce ligeramente el tamaño al hacer clic */
+        background-color: ${colors.tertiary}; /* Fondo cuando se hace clic */
+    }
+`;
+
+const CommentContainer = styled.div`
+    display: flex;
+    flex-direction: column; /* Apila los elementos verticalmente */
+    align-items: center; /* Centra los elementos en el eje horizontal */
+    gap: 10px; /* Espaciado entre la caja de texto y el botón */
+    width: 100%;
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
+`;
 
 export default function ArtistCard( {album} : { album : Album } ){
 
     const [siguiendo, setSiguiendo] = useState(false);
+    const [addComment, setAddComment] = useState(false);
 
     return (
         <ArtistCardContainer>
-            <Link href={`artist/${album.artista}`}><ArtistImageContainer imageurl = {album.imagenGrupo}>
+            <Link href={`artist/${album.artista}`}><ArtistImageContainer $imageurl = {album.imagenGrupo}>
                 <div className="artist-text">Información sobre el artista</div>
             </ArtistImageContainer></Link>
             <ArtistInfoContainer>
@@ -124,6 +216,19 @@ export default function ArtistCard( {album} : { album : Album } ){
                     </Button>
                 </AnimatedSeguirButton>
                 <p className="description" style={{marginTop: "-5px"}}>{album.descripcion}</p>
+                <CommentSectionContainer>
+                    <SeccionValoraciones>Comentarios y valoraciones</SeccionValoraciones>
+                    <LineaEstetica />
+                    <p className="Comentario" style={{paddingTop: "10px", fontSize: "13px"}}><i>{album.comentarios}</i></p>
+                    <p className="Comentador" style={{color: "#76ABAE", marginBottom: "10px"}}><a href="#"><i>{album.comentador}</i></a></p>
+                    <PrimaryButton text="Añadir Comentario" onClick={() => setAddComment(!addComment)} style={{fontSize: "13px", borderRadius: "10px", width: "100%", marginBottom: "10px"}}/>
+                    {addComment &&
+                        <CommentContainer>
+                            <Comment $addComment={addComment} />
+                            <EnviarButton>Enviar</EnviarButton>
+                        </CommentContainer>
+                    }
+                </CommentSectionContainer>
             </ArtistInfoContainer>
         </ArtistCardContainer>
     );

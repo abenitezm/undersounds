@@ -7,8 +7,6 @@ import data from "../bd.json";
 import GridComponent from "../components/GridNavigContent";
 import AlbumReproducer, { Album } from "../components/AlbumReproducer";
 import { styled } from "styled-components";
-import colors from "../colors";
-
 
 const GlobalContainer = styled.div`
     display: flex;
@@ -28,6 +26,8 @@ const albumData : Album[] = data.map((cancion) => {
         oyentes: cancion.oyentes,
         imagenGrupo: cancion.imagenGrupo,
         descripcion: cancion.descripcion,
+        comentarios: cancion.comentarios,
+        comentador: cancion.comentador
     } as Album;
 });
 
@@ -42,6 +42,7 @@ export default function NavigationPage() {
     const manejadorAlbum = ( albumId : number ) => {
         if ( albumId >= 0 && albumId < albumData.length ){
             setSelectedAlbum(albumData[albumId]);
+            console.log(albumData[albumId].comentarios);
         } else {
             console.error("Indice del album fuera de rango");
         }
