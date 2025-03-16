@@ -34,7 +34,6 @@ const GridItem = styled.div`
     display: flex;
     flex-direction: column;
     gap: 8px;
-    overflow: hidden;
 
     &:hover {
         transform: scale(1.05);
