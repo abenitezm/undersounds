@@ -47,7 +47,7 @@ const ReproducerContainer = styled.div`
     position: fixed; //Para mantenerlo fijo
     right: 60px;
     top: 60pxpx;
-    width: 50vh;
+    width: 52vh;
     max-height: calc(100vh - 80px);
     overflow-y: auto;
 `;
@@ -255,10 +255,10 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
 
     return (
         <ReproducerContainer>
-            <h2 style={{ textAlign: "center" }}>{album.title}</h2>
+            <h2 style={{ textAlign: "center", marginBottom: "10px" }}>{album.title}</h2>
             <audio ref = {audioRef} ></audio>
-            <img src = {currentSong?.image} style = {{ 
-                width:"43.2vh", 
+            <img src = {album.canciones[0].image} style = {{ 
+                width:"45.5vh", 
                 height:"300px",
                 position:"relative", 
                 alignSelf: "center", 
@@ -304,7 +304,7 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
                         <span>{cancion.titulo} - {cancion.time}</span>
                     </CancionLista>
                 ))}
-                <CopiarEnlaceNavegacion />
+                { userRole === "registrado" && <CopiarEnlaceNavegacion url={currentSong?.url || ''}/>}
             </ListaCanciones>
             <ArtistCard album={album}/>
         </ReproducerContainer>

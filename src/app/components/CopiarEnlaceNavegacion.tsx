@@ -7,15 +7,16 @@ import styled from "styled-components";
 import { toast, ToastContainer} from "react-toastify";
 import "react-toastify/ReactToastify.css";
 import { motion } from "framer-motion";
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 const IconosCompartirLike = styled.div`
-    margin-left: 278px;
+    margin-left: 81%;
     margin-top: -33px;
     width: 50px;
 
 `;
 
-export default function CopiarEnlaceNavegacion(){
+export default function CopiarEnlaceNavegacion({url} : { url : string}){
     /* Almacenamiento de la ruta */
     const [ ruta, setRuta ] = useState(""); //Donde se guarda la URL
     const router = useRouter();
@@ -54,6 +55,18 @@ export default function CopiarEnlaceNavegacion(){
         }
     };
 
+    const descarga = async () => {
+        toast.success(" ¡Descarga de audio completada!", {
+            position: "bottom-center",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            theme: "light" // se puede cambiar a "colored" o "dark".
+        });
+    };
+
     const añadirFavoritos = async () => {
         try {
             setClicked(true);
@@ -88,7 +101,15 @@ export default function CopiarEnlaceNavegacion(){
                 onClick={añadirFavoritos}
                 style={{ cursor: "pointer", color : clicked ? "green" : "white"}}
             >
-            <CircleCheck />
+                <CircleCheck />
+            </motion.div>
+            <motion.div
+                whileTap={{ scale: 0.8 }}
+                whileHover={{ scale: 1.1}}
+                onClick={descarga}
+                style={{ cursor: "pointer"}}
+            >
+                <a href={url} download><FileDownloadIcon /></a>
             </motion.div>
             <ToastContainer />
         </IconosCompartirLike> 

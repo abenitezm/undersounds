@@ -7,8 +7,6 @@ import data from "../bd.json";
 import GridComponent from "../components/GridNavigContent";
 import AlbumReproducer, { Album } from "../components/AlbumReproducer";
 import { styled } from "styled-components";
-import colors from "../colors";
-
 
 const GlobalContainer = styled.div`
     display: flex;
