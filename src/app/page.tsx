@@ -1,13 +1,12 @@
 "use client";
 
 import colors from "./colors";
-import { CSSProperties } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 import FancyButton from "./components/FancyButton";
 import HomeGrid from "./components/HomeGrid";
-
-
-const rainbowColors = ["#A8DADC", "#F4A261", "#E76F51", "#457B9D", "#2A9D8F"];
-
+import Albums from "./bd.json" 
+import AlbumCard from "./components/AlbumCard";
+import Novedades from "./components/Novedades";
 
 export default function Home() {
   return (
@@ -33,10 +32,13 @@ export default function Home() {
         <FancyButton title="Merch" imageSrc="prettyButtons/tshirt.png" bgColor="#2A9D8F"
           onClick={() => alert("Merch")} />
       </div>
+
+      <div style={ styles.container }>
+        <Novedades />
+      </div>
     </>
   );
 }
-
 
 const styles: { container: CSSProperties } = {
   container: {
@@ -47,5 +49,5 @@ const styles: { container: CSSProperties } = {
     gap: "20px",
     paddingTop: "20px",
     paddingBottom: "20px"
-  },
+  }
 };
