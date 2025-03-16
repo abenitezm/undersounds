@@ -1,0 +1,47 @@
+[
+  {
+    "id": 0,
+    "titulo": "MOLTING AND DANCING",
+    "artista": "indigo la End",
+    "imagen": "/audio/Lauren.webp",
+    "genre": "Pop",
+    "oyentes": "1.058.763 oyentes mensuales",
+    "imagenGrupo": "/audio/indigo-la-end.webp"
+  },
+  {
+    "id": 1,
+    "titulo": "SHATTERED MEMORIES",
+    "artista": "Echoes of Silence",
+    "imagen": "/audio/Whispers.webp",
+    "genre": "Indie Rock",
+    "oyentes": "2.314.590 oyentes mensuales",
+    "imagenGrupo": "/audio/echoes-of-silence.webp"
+  },
+  {
+    "id": 2,
+    "titulo": "UNDER THE MOONLIGHT",
+    "artista": "Celestial Dreamers",
+    "imagen": "/audio/Moonlight.webp",
+    "genre": "Electronic",
+    "oyentes": "524.102 oyentes mensuales",
+    "imagenGrupo": "/audio/celestial-dreamers.webp"
+  },
+  {
+    "id": 3,
+    "titulo": "SWEET DESIRE",
+    "artista": "Neon Vibes",
+    "imagen": "/audio/SweetDesire.webp",
+    "genre": "R&B",
+    "oyentes": "836.423 oyentes mensuales",
+    "imagenGrupo": "/audio/neon-vibes.webp"
+  },
+  {
+    "id": 4,
+    "titulo": "THE LOST HORIZON",
+    "artista": "Wanderlust Sounds",
+    "imagen": "/audio/LostHorizon.webp",
+    "genre": "Ambient",
+    "oyentes": "147.320 oyentes mensuales",
+    "imagenGrupo": "/audio/wanderlust-sounds.webp"
+  }
+]
