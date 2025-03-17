@@ -23,12 +23,7 @@ const FooterText = styled.p`
     margin: 0;
 `;
 
-const FooterLinks = styled.div`
-    display: flex;
-    gap: 20px;
-`;
-
-const FooterLink = styled.a`
+const FooterLink = styled.div`
     color: ${colors.secondary};
     text-decoration: none;
 
@@ -37,12 +32,12 @@ const FooterLink = styled.a`
     }
 `;
 
-const SocialLinks = styled.div`
+const FooterLinks = styled.div`
     display: flex;
-    gap: 15px;
+    gap: 20px;
 `;
 
-const SocialLink = styled.a`
+const SocialLink = styled.div`
     color: ${colors.secondary};
     font-size: 24px;
 
@@ -51,30 +46,47 @@ const SocialLink = styled.a`
     }
 `;
 
+const SocialLinks = styled.div`
+    display: flex;
+    gap: 15px;
+`;
+
 export default function Footer() {
     return (
         <FooterContainer>
-            <FooterText>Undersounds</FooterText>
+            <FooterText>Undersounds 2025</FooterText>
             <FooterLinks>
-                <Link href="/about" passHref>
-                    <FooterLink >Sobre nosotros</FooterLink>
-                </Link>
-                <Link href="/contact" passHref>
-                    <FooterLink >Contacto</FooterLink>
-                </Link>
-                <Link href="/privacy" passHref>
-                    <FooterLink >Política de privacidad</FooterLink>
-                </Link>
+                <FooterLink>
+                    <Link href="/about" passHref>
+                        Sobre nosotros
+                    </Link>
+                </FooterLink>
+                <FooterLink>
+                    <Link href="/contact" passHref>
+                        Contacto
+                    </Link>
+                </FooterLink>
+                <FooterLink>
+                    <Link href="/privacy" passHref>
+                        Política de privacidad
+                    </Link>
+                </FooterLink>
             </FooterLinks>
             <SocialLinks>
-                <SocialLink href="https://www.facebook.com" >
-                    <FacebookIcon />
+                <SocialLink>
+                    <Link href="https://www.facebook.com" >
+                        <FacebookIcon />
+                    </Link>
                 </SocialLink>
-                <SocialLink href="https://www.twitter.com" >
-                    <TwitterIcon />
+                <SocialLink>
+                    <Link href="https://www.twitter.com" >
+                        <TwitterIcon />
+                    </Link>
                 </SocialLink>
-                <SocialLink href="https://www.instagram.com" >
-                    <InstagramIcon />
+                <SocialLink>
+                    <Link href="https://www.instagram.com" >
+                        <InstagramIcon />
+                    </Link>
                 </SocialLink>
             </SocialLinks>
         </FooterContainer>
