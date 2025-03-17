@@ -5,6 +5,8 @@ import styled from "styled-components";
 import colors from "../colors";
 import Link from "next/link";
 
+
+
 const GridContainer = styled.div`
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -46,18 +48,17 @@ const ArtistName = styled.p`
     }
 `;
 
-const Title = styled.h2`
-    font-size: 14px;
+const Title = styled.h1`
+    font-size: 18px;
     margin: 10px 0;
 `;
 
-const Genre = styled.h3`
-    font-size: 14px;
-    margin: 10px 0;
-    color: ${colors.secondary};
+const Oyentes = styled.h3`
+    font-size: 12px;
+    color: black;
 `;
 
-const SongImg = styled.img`
+const ArtistImg = styled.img`
     width: 187px;
     height: 187px;
     border-radius: 10px;
@@ -68,7 +69,7 @@ type GridComponentProps = {
 //    onAlbumClick: (songId: number) => void; // Función para manejar el clic en la canción
 }
 
-const GridFavoritas = ({ data, }: GridComponentProps) => {
+const GridSiguiendo = ({ data } : GridComponentProps) => {
 
     // Función para manejar el clic en cada elemento y pasar el ID a la función en el componente padre
     const manejadorElementoMostrado = (albumId: number) => {
@@ -81,16 +82,15 @@ const GridFavoritas = ({ data, }: GridComponentProps) => {
             {/* Recorremos los datos del JSON para mostrar su contenido */}
             {data.map((elemento: any) => (
                 <GridItem key={elemento.id} onClick={() => manejadorElementoMostrado(elemento.id)}>
-                     <Link href={`/artist/${elemento.artista}`}>
-                    <SongImg src={elemento.imagen} alt={elemento.titulo} />
-                    <Title>{elemento.titulo}</Title>
-                    <Genre>{elemento.genre}</Genre>
-                    <ArtistName>{elemento.artista}</ArtistName>
-                    </Link>
+                <Link href={`/artist/${elemento.artista}`}>
+                <ArtistImg src={elemento.imagen} alt={elemento.artista} />
+                <Title>{elemento.artista}</Title>
+                <Oyentes>{elemento.oyentes} oyentes mensuales</Oyentes>
+                </Link>
                 </GridItem>
             ))}
         </GridContainer>
     );
 }
-export default GridFavoritas;
+export default GridSiguiendo;
 
