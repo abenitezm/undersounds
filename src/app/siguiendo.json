@@ -1,0 +1,44 @@
+[
+    {
+        "id": 0,
+        "artista": "indigo la End",
+        "oyentes": 1058763,
+        "imagen": "/audio/indigo-la-end.webp",
+        "descripcion": "indigo la End es una banda de rock japonesa liderada por el vocalista y compositor Enon Kawatani. La banda lanzó su obra extendida debut en 2012 con el sello independiente Space Shower Records, y luego firmaron con el sub-sello Unborde de Warner."
+    },
+    {
+        "id": 1,
+        "artista": "Drake",
+        "oyentes": 81491933,
+        "imagen": "/audio/Drake.webp",
+        "descripcion": "Aubrey Drake Graham conocido simplemente como Drake, es un rapero, cantante, compositor, productor discográfico y actor canadiense. Siendo una figura influyente en la música popular contemporánea, Drake ha sido acreditado por popularizar el canto y la sensibilidad del R&B en el hip hop."
+    },
+    {
+        "id": 2,
+        "artista": "Beach Bunny",
+        "oyentes": 6805115,
+        "imagen": "/audio/beach-bunny-group.webp",
+        "descripcion": "Beach Bunny es una banda estadounidense de power pop originaria de Chicago, Illinois, y activa desde 2015. Alcanzó parte de su fama después de que sus canciones «Prom Queen» y «Cloud 9» se viralizaron en TikTok durante 2019 y 2020."
+    },
+    {
+        "id": 3,
+        "artista": "Flawed Mangoes",  
+        "oyentes": 3750064,
+        "imagen": "/audio/flawed.webp",
+        "descripcion": "No hay descripción"
+    },
+    {
+        "id": 4,
+        "artista": "Rod Waves",
+        "oyentes": 3750064,
+        "imagen": "/audio/25.webp",
+        "descripcion": "No hay descripción"
+    },
+    {
+        "id": 5,
+        "artista": "50 cent",
+        "oyentes": 3750064,
+        "imagen": "/audio/50cents.webp",
+        "descripcion": "No hay descripción"
+    }
+]

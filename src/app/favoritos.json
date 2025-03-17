@@ -1,0 +1,47 @@
+[
+  {
+    "id": 0,
+    "titulo": "Nacht",
+    "artista": "indigo la End",
+    "imagen": "/audio/Lauren.webp",
+    "genre": "Pop",
+    "oyentes": "1.058.763 oyentes mensuales",
+    "imagenGrupo": "/audio/indigo-la-end.webp"
+  },
+  {
+    "id": 1,
+    "titulo": "SHATTERED MEMORIES",
+    "artista": "Echoes of Silence",
+    "imagen": "/audio/Addicted.webp",
+    "genre": "Indie Rock",
+    "oyentes": "2.314.590 oyentes mensuales",
+    "imagenGrupo": "/audio/echoes-of-silence.webp"
+  },
+  {
+    "id": 2,
+    "titulo": "Sunday Scaries",
+    "artista": "Celestial Dreamers",
+    "imagen": "/audio/SundayScaries.jpg",
+    "genre": "Electronic",
+    "oyentes": "524.102 oyentes mensuales",
+    "imagenGrupo": "/audio/celestial-dreamers.webp"
+  },
+  {
+    "id": 3,
+    "titulo": "Cloud 9",
+    "artista": "Beack Bunny",
+    "imagen": "/audio/cloud-9.webp",
+    "genre": "R&B",
+    "oyentes": "836.423 oyentes mensuales",
+    "imagenGrupo": "/audio/neon-vibes.webp"
+  },
+  {
+    "id": 4,
+    "titulo": "Swimming",
+    "artista": "Flawed Mangoes",
+    "imagen": "/audio/Swimming.jpg",
+    "genre": "Ambient",
+    "oyentes": "147.320 oyentes mensuales",
+    "imagenGrupo": "/audio/wanderlust-sounds.webp"
+  }
+]
