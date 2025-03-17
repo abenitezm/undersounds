@@ -99,7 +99,7 @@ export default function Page() {
                     {errorInputs ? (
                         <PrimaryButton text={"Inicio sesión"} onClick={manejadorInputs} />
                     ) : (
-                        <Link href="/" passHref>
+                        <Link href="/Perfil" passHref>
                             <PrimaryButton text={"Inicio sesión"} onClick={manejadorInputs}/>
                         </Link>
                     )}
