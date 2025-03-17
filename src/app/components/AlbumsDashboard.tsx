@@ -7,8 +7,8 @@ import { useEffect, useState } from "react";
 import getArtistAlbums from "../utils/getArtistAlbums";
 
 const ArtistAlbums = styled.div`
-  margintop: 10px;
-  marginleft: 20px;
+  margin-top: 10px;
+  margin-left: 20px;
   display: grid;
   width: 100%;
   grid-template-columns: repeat(4, 1fr);
@@ -17,7 +17,7 @@ const ArtistAlbums = styled.div`
 
 const AlbumsSection = styled.div`
   display: flex;
-  width: 70%;
+  width: 100%;
   flex-direction: column;
   gap: 10px;
 `;

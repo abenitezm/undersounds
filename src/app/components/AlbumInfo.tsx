@@ -59,7 +59,6 @@ const AlbumInfo = ({ id }: { id: string }) => {
       if (data) {
         setAlbum(data);
       }
-      console.log(data);
     }
     fetchData();
   }, []);

@@ -29,7 +29,6 @@ const ProfileInfo = ({ id }: ProfileInfoProps) => {
   useEffect(() => {
     async function fetchData() {
       const data = await getArtistInfo(id);
-      console.log("data del artista", data);
       if (data) {
         setArtist(data);
       }
@@ -187,7 +186,7 @@ const ArtistCity = styled.span`
 
 const ArtistDescription = styled.p`
   text-align: left;
-  font-size: 0.75rem;
+  font-size: 0.9rem;
   color: gray;
   margin: 5px 0;
 `;

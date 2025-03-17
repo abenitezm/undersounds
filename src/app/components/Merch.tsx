@@ -1,12 +1,39 @@
-"use client";
-
-import styled from "styled-components";
 import Image from "next/image";
+import styled from "styled-components";
 import colors from "../colors";
-import defaultAlbum from "../../assets/img/defaultAlbum.jpg";
-import Link from "next/link";
 
-const AlbumContainer = styled.div`
+const Merch = ({
+  title,
+  tipo,
+  price,
+  image,
+}: {
+  title: string;
+  tipo: string;
+  price: number;
+  image: string;
+}) => {
+  return (
+    <MerchContainer>
+      <MerchInfo>
+        <MerchTitle>{title}</MerchTitle>
+        <MerchType>{tipo}</MerchType>
+        <MerchPrice>{price}</MerchPrice>
+      </MerchInfo>
+      <Image
+        src={image}
+        style={{
+          objectFit: "contain",
+          borderRadius: 10,
+        }}
+        layout="fill"
+        alt="album"
+      />
+    </MerchContainer>
+  );
+};
+
+const MerchContainer = styled.div`
   display: flex;
   aspect-ratio: 1 / 1;
   position: relative;
@@ -19,10 +46,9 @@ const AlbumContainer = styled.div`
   border: 2px solid transparent;
   &:hover {
     border: 2px solid ${colors.primary};
-  }
 `;
 
-const AlbumInfo = styled.div`
+const MerchInfo = styled.div`
   position: relative;
   height: 100%;
   border-radius: 10px;
@@ -36,12 +62,12 @@ const AlbumInfo = styled.div`
   padding: 10px;
   opacity: 0;
 
-  ${AlbumContainer}:hover & {
+  ${MerchContainer}:hover & {
     opacity: 1;
   }
 `;
 
-const AlbumName = styled.span`
+const MerchTitle = styled.h3`
   font-size: 1rem;
   width: 90%;
   padding-top: 10px;
@@ -53,7 +79,7 @@ const AlbumName = styled.span`
   text-overflow: ellipsis;
 `;
 
-const AlbumGenre = styled.div`
+const MerchType = styled.p`
   font-size: 0.7rem;
   padding: 5px 10px;
   border-radius: 10px;
@@ -63,15 +89,7 @@ const AlbumGenre = styled.div`
   font-weight: bold;
 `;
 
-const AlbumYear = styled.div`
-  font-size: 0.7rem;
-  padding: 5px 10px;
-  border-radius: 10px;
-  margin-top: 5px;
-  opacity: 0.7;
-`;
-
-const AlbumPrice = styled.div`
+const MerchPrice = styled.p`
   position: absolute;
   font-size: 0.7rem;
   padding: 5px 10px;
@@ -81,38 +99,4 @@ const AlbumPrice = styled.div`
   background-color: ${colors.background};
 `;
 
-export const Album = ({
-  name,
-  image,
-  genre,
-  price,
-  year,
-}: {
-  name: string;
-  image: string;
-  genre: string;
-  price: string;
-  year: string;
-}) => {
-  return (
-    <Link href={`/album/${name}`}>
-      <AlbumContainer>
-        <AlbumInfo>
-          <AlbumName>{name}</AlbumName>
-          <AlbumYear>{year}</AlbumYear>
-          <AlbumGenre>{genre}</AlbumGenre>
-          <AlbumPrice>{price}€</AlbumPrice>
-        </AlbumInfo>
-        <Image
-          src={image || defaultAlbum}
-          style={{
-            objectFit: "contain",
-            borderRadius: 10,
-          }}
-          layout="fill"
-          alt="album"
-        />
-      </AlbumContainer>
-    </Link>
-  );
-};
+export default Merch;

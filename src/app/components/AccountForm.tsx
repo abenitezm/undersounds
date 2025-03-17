@@ -140,6 +140,13 @@ const AccountForm = () => {
     >
   ) => {
     const name = e.target.name;
+    if (name === "darkMode") {
+      setInputs({
+        ...inputs,
+        [name]: (e.target as HTMLInputElement).checked,
+      });
+      return;
+    }
     const value = e.target.value;
     setInputs({
       ...inputs, // Mantengo el resto de campos con el valor que tienen
@@ -155,11 +162,11 @@ const AccountForm = () => {
   return (
     <Form onSubmit={handleSubmit}>
       <SectionInfo>
-        <SectionTitle>Profile info</SectionTitle>
-        <SectionSubtitle>Change your profile basic info</SectionSubtitle>
+        <SectionTitle>Perfil</SectionTitle>
+        <SectionSubtitle>Cambia la información de tu perfil</SectionSubtitle>
       </SectionInfo>
       <FormItem>
-        <FormLabel>Account name</FormLabel>
+        <FormLabel>Nombre de usuario</FormLabel>
         <input
           style={styles.formInput}
           onChange={handleChange}
@@ -172,7 +179,7 @@ const AccountForm = () => {
         </ErrorMessages>
       </FormItem>
       <FormItem>
-        <FormLabel>Account email</FormLabel>
+        <FormLabel>Email de usuario</FormLabel>
         <input
           style={styles.formInput}
           onChange={handleChange}
@@ -185,8 +192,8 @@ const AccountForm = () => {
       </FormItem>
 
       <SectionInfo>
-        <SectionTitle>Security</SectionTitle>
-        <SectionSubtitle>Update your password</SectionSubtitle>
+        <SectionTitle>Seguridad</SectionTitle>
+        <SectionSubtitle>Actualiza tu contraseña</SectionSubtitle>
       </SectionInfo>
 
       <div
@@ -196,7 +203,7 @@ const AccountForm = () => {
         }}
       >
         <FormItem>
-          <FormLabel>Change password</FormLabel>
+          <FormLabel>Cambiar contraseña</FormLabel>
           <input
             style={styles.formInput}
             onChange={handleChange}
@@ -210,7 +217,7 @@ const AccountForm = () => {
         </FormItem>
 
         <FormItem>
-          <FormLabel>Confirm password</FormLabel>
+          <FormLabel>Confirmar contraseña</FormLabel>
           <input
             style={styles.formInput}
             onChange={handleChange}
@@ -226,12 +233,12 @@ const AccountForm = () => {
       </div>
 
       <SectionInfo>
-        <SectionTitle>Additional info</SectionTitle>
-        <SectionSubtitle>Let your fans know more about you!</SectionSubtitle>
+        <SectionTitle>Información adicional</SectionTitle>
+        <SectionSubtitle>¡Cuéntales algo de ti a tus fans!</SectionSubtitle>
       </SectionInfo>
 
       <FormItem>
-        <FormLabel>Bio</FormLabel>
+        <FormLabel>Biografía</FormLabel>
         <textarea
           style={styles.formInput}
           onChange={handleChange}
@@ -240,7 +247,7 @@ const AccountForm = () => {
         />
       </FormItem>
       <FormItem>
-        <FormLabel>Email for fans</FormLabel>
+        <FormLabel>Email para fans</FormLabel>
         <input
           style={styles.formInput}
           onChange={handleChange}
@@ -252,7 +259,7 @@ const AccountForm = () => {
         </ErrorMessages>
       </FormItem>
       <FormItem>
-        <FormLabel>Location</FormLabel>
+        <FormLabel>Localización</FormLabel>
         <input
           style={styles.formInput}
           onChange={handleChange}
@@ -262,7 +269,7 @@ const AccountForm = () => {
       </FormItem>
 
       <FormItem>
-        <FormLabel>Websites</FormLabel>
+        <FormLabel>Sitio web</FormLabel>
         <input
           style={styles.formInput}
           onChange={handleChange}
@@ -272,21 +279,21 @@ const AccountForm = () => {
       </FormItem>
 
       <SectionInfo>
-        <SectionTitle>Preferences</SectionTitle>
-        <SectionSubtitle>Customize your experience</SectionSubtitle>
+        <SectionTitle>Preferencias</SectionTitle>
+        <SectionSubtitle>Personaliza tu experiencia</SectionSubtitle>
       </SectionInfo>
 
       <FormItem>
-        <FormLabel>Preferred language</FormLabel>
+        <FormLabel>Idioma</FormLabel>
         <select
-          style={styles.formInput}
+          style={{ ...styles.formInput, width: "20%" }}
           name="preferredLanguage"
           onChange={handleChange}
         >
-          <option value="en">English</option>
-          <option value="es">Spanish</option>
-          <option value="fr">French</option>
-          <option value="de">German</option>
+          <option value="en">Inglés</option>
+          <option value="es">Español</option>
+          <option value="fr">Francés</option>
+          <option value="de">Alemán</option>
         </select>
       </FormItem>
 
@@ -297,7 +304,7 @@ const AccountForm = () => {
           justifyContent: "flex-start",
         }}
       >
-        <FormLabel>Dark mode</FormLabel>
+        <FormLabel>Modo oscuro</FormLabel>
         <input
           style={{
             ...styles.formInput,
@@ -312,9 +319,9 @@ const AccountForm = () => {
         />
       </FormItem>
 
-      <Button type="submit">Save settings</Button>
+      <Button type="submit">Guardar configuración</Button>
       {changesSaved && (
-        <ConfirmMessage>Your changes have been saved!</ConfirmMessage>
+        <ConfirmMessage>¡Tus cambios se han guardado!</ConfirmMessage>
       )}
 
       <DeleteButton
@@ -323,7 +330,7 @@ const AccountForm = () => {
           console.log("Delete profile");
         }}
       >
-        Delete profile
+        Borrar perfil
       </DeleteButton>
     </Form>
   );

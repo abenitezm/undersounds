@@ -4,15 +4,18 @@ import colors from "../colors";
 import { useState } from "react";
 import AccountForm from "../components/AccountForm";
 import styled from "styled-components";
+import NotificationsForm from "../components/NotificationsForm";
+import PaymentForm from "../components/PaymentForm";
+import MerchForm from "../components/MerchForm";
 
-const menuItems = ["Account", "Notifications", "Payment", "Merch"];
+const menuItems = ["Cuenta", "Notificaciones", "Método de pago", "Merch"];
 
 const SettingsPage = () => {
-  const [selected, setSelected] = useState("Account");
+  const [selected, setSelected] = useState("Cuenta");
 
   return (
     <main style={styles.main}>
-      <h1>Settings</h1>
+      <h1>Configuración</h1>
       <div style={{ display: "flex", flexDirection: "row" }}>
         <SideMenu>
           {menuItems.map((item) => (
@@ -26,10 +29,10 @@ const SettingsPage = () => {
           ))}
         </SideMenu>
         <FormArea>
-          {selected === "Account" && <AccountForm />}
-          {selected === "Notifications" && <h2>Notifications</h2>}
-          {selected === "Payment" && <h2>Payment</h2>}
-          {selected === "Merch" && <h2>Merch</h2>}
+          {selected === "Cuenta" && <AccountForm />}
+          {selected === "Notificaciones" && <NotificationsForm />}
+          {selected === "Método de pago" && <PaymentForm />}
+          {selected === "Merch" && <MerchForm />}
         </FormArea>
       </div>
     </main>
