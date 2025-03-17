@@ -6,6 +6,7 @@ import NavBar from "./components/NavBar";
 import { Montserrat } from "next/font/google";
 import TopMargin from "./components/TopMargin";
 import { AuthProvider } from "./components/AuthContext";
+import Footer from "./components/Footer";
 
 const montserrat = Montserrat( { subsets: ['latin'], weight: "400"} );
 
@@ -27,6 +28,7 @@ export default function RootLayout({
           <TopMargin />
           <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
           {/* Separación del audio para reproducirlo en todas las páginas */}
+          <Footer />
         </body>
       </html>
     </AuthProvider>
