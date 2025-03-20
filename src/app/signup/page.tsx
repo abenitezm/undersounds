@@ -29,9 +29,9 @@ const Form = styled.form`
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 `;
 
-const Input = styled.input`
+const Input = styled.input<{$errorInputs : boolean}>`
     padding: 7px;
-    border: 1px solid ${colors.primary};
+    border: 1px solid ${({$errorInputs}) => ($errorInputs ? "red" : "${colors.primary}")};
     border-radius: 5px;
     font-size: 16px;
 `;
@@ -68,9 +68,15 @@ export default function SignupPage() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [role, setRole] = useState('');
+    const [acceptedTerms, setAcceptedTerms] = useState(false);
     const { setUserRole } = useAuth();
-    const [errorInputs, setErrorInputs] = useState(false);
 
+    // Estados para errores específicos
+    const [emailError, setEmailError] = useState(false);
+    const [passwordError, setPasswordError] = useState(false);
+    const [confirmPasswordError, setConfirmPasswordError] = useState(false);
+    const [roleError, setRoleError] = useState(false);
+    
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         // Aquí puedes manejar el registro
@@ -80,15 +86,34 @@ export default function SignupPage() {
     };
 
     const manejadorInputs = async () => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        // Reinicia los errores
+        setEmailError(false);
+        setPasswordError(false);
+        setConfirmPasswordError(false);
+        setRoleError(false);
+        
         if (!email || !password || !confirmPassword || !role) {
             toast.error("Tienes que introducir valores en todos los campos y seleccionar un rol");
-            setErrorInputs(true);
+            setEmailError(!emailError);
+            setPasswordError(!passwordError);
+            setConfirmPasswordError(!confirmPasswordError);
+            setRoleError(!roleError);
         } else if (password !== confirmPassword) {
             toast.error("Las contraseñas no coinciden");
-            setErrorInputs(true);
-        } else {
+            setPasswordError(!passwordError);
+            setConfirmPasswordError(!confirmPasswordError);
+        }else if(!emailRegex.test(email)){
+            toast.error("Introduce un correo válido");
+            setEmailError(!emailError);
+        } 
+        else if (!acceptedTerms) {
+            toast.error("Tienes que aceptar los términos y condiciones");
+        }
+        else {
             toast.success("Te has registrado correctamente");
             setUserRole(role);
+            window.location.href = '/Perfil'; // Redirigimos a la página principal
         }
     };
 
@@ -99,14 +124,15 @@ export default function SignupPage() {
                 <Botoneselección>
                     <FancyButton
                         title="Fan"
-                        imageSrc="prettyButtons/artista.png"
-                        bgColor={role === 'fan' ? "#D3D3D3" : "#A8DADC"}
+                        imageSrc="prettyButtons/fan.png"
+                        bgColor={role === 'fan' ? "#28a745" : "#A8DADC"}
                         onClick={() => setRole('fan')}
+                        
                     />
                     <FancyButton
                         title="Artista"
                         imageSrc="prettyButtons/artista.png"
-                        bgColor={role === 'artista' ? "#D3D3D3" : "#F4A261"}
+                        bgColor={role === 'artista' ? "#28a745" : "#F4A261"}
                         onClick={() => setRole('artista')}
                     />
                 </Botoneselección>
@@ -115,35 +141,33 @@ export default function SignupPage() {
                     placeholder="Correo Electrónico"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    $errorInputs = {emailError}
                 />
                 <Input
                     type="password"
                     placeholder="Contraseña"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    $errorInputs = {passwordError}
                 />
                 <Input
                     type="password"
                     placeholder="Confirmar Contraseña"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
+                    $errorInputs = {confirmPasswordError}
                 />
                {/* Añadimos un checkbox para aceptar los términos y condiciones */}
                 <CheckboxContainer>
                     <Checkbox
                         type="checkbox"
+                        checked={acceptedTerms}
+                        onChange={(e) => setAcceptedTerms(e.target.checked)}
                     />
                     <span>He leído y acepto los términos y condiciones</span>
                 </CheckboxContainer>
                 <ButtonContainer>
-                    {/* Si hay error, no se puede hacer el enlace */}
-                    {errorInputs ? (
-                        <PrimaryButton text={"Registrarse"} onClick={manejadorInputs} />
-                    ) : (
-                        <Link href="/" passHref>
-                            <PrimaryButton text={"Registarse"} onClick={manejadorInputs}/>
-                        </Link>
-                    )}
+                    <PrimaryButton type="submit" text={"Registrarse"} onClick={manejadorInputs}/>
                 </ButtonContainer>
             </Form>
             <ToastContainer position="bottom-center" autoClose={3000} />
