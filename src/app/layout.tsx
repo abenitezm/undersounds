@@ -7,6 +7,7 @@ import { Montserrat } from "next/font/google";
 import TopMargin from "./components/TopMargin";
 import { AuthProvider } from "./components/AuthContext";
 import Footer from "./components/Footer";
+import { ShoppingCartProvider } from "./components/ShoppingCartContext";
 
 const montserrat = Montserrat({ subsets: ["latin"], weight: "400" });
 
@@ -22,15 +23,17 @@ export default function RootLayout({
 }>) {
   return (
     <AuthProvider>
-      <html lang="en">
-        <body className={`${montserrat.className} antialiased`}>
-          <NavBar />
-          <TopMargin />
-          <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
-          {/* Separación del audio para reproducirlo en todas las páginas */}
-          <Footer />
-        </body>
-      </html>
+      <ShoppingCartProvider>
+        <html lang="en">
+          <body className={`${montserrat.className} antialiased`}>
+            <NavBar />
+            <TopMargin />
+            <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+            {/* Separación del audio para reproducirlo en todas las páginas */}
+            <Footer />
+          </body>
+        </html>
+      </ShoppingCartProvider>
     </AuthProvider>
   );
 }

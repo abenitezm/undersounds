@@ -29,7 +29,7 @@
         "canciones" : [
             {"id": 2, "titulo": "Cloud 9", "url": "/audio/cloud-9-audio.mp3", "image": "/audio/cloud-9.webp", "time": "2:33"}
         ],
-        "artista": "Beack Bunny",
+        "artista": "Beach Bunny",
         "oyentes": "6.805.115 oyentes mensuales",
         "imagenGrupo": "/audio/beach-bunny-group.webp",
         "descripcion": "Beach Bunny es una banda estadounidense de power pop originaria de Chicago, Illinois, y activa desde 2015. Alcanzó parte de su fama después de que sus canciones «Prom Queen» y «Cloud 9» se viralizaron en TikTok durante 2019 y 2020."
