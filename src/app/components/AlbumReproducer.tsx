@@ -31,6 +31,7 @@ export type Album = {
     descripcion : string;
     comentarios : string;
     comentador : string;
+    type : string[];
 }
 
 type AlbumReproducerProps = {
@@ -114,7 +115,7 @@ const DeployContent = styled.div`
     animation: ${animacionEntrada} 0.3s ease-in-out;
     position: relative;
     max-width: 700px;
-    height: 70vh;
+    height: 50vh;
     width: 90%;
     text-align: center;
     margin-bottom: 10px;

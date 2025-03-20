@@ -72,7 +72,7 @@ export default function NavigationPage() {
     return (
 
         <GlobalContainer>
-            <Multiselect/>
+            <Multiselect tipo = "" />
             <GridComponent data = {data} onAlbumClick = {manejadorAlbum}/>
             {selectedAlbum && <AlbumReproducer album={selectedAlbum}/>}
         </GlobalContainer>

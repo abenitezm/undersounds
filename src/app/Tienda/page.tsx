@@ -36,7 +36,7 @@ const ContenedorElementos = styled.div`
     align-items: center;
     width: 1260px;
     height: 640px;
-    background: ${colors.background};
+    background: ${colors.tertiary};
     //background: linear-gradient(135deg, rgba(204, 163, 65, 0.9), rgba(218, 94, 85, 0.9));
     box-shadow: initial;
     color: black;

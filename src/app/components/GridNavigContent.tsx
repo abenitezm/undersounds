@@ -1,16 +1,14 @@
 'use client';
 
 import React from "react";
-import styled from "styled-components";
+import { styled, keyframes } from "styled-components";
 import colors from "../colors";
 import Link from "next/link";
 import { useState } from "react";
 import PrimaryButton from "./PrimaryButton";
-import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { Navigation, Pagination } from "swiper/modules";
 
 
 const GridContainer = styled.div<{ $expandir : boolean}>`
@@ -26,7 +24,18 @@ const GridContainer = styled.div<{ $expandir : boolean}>`
     overflow-x: hidden;
 `;
 
-const GridItem = styled.div`
+const fadeIn = keyframes`
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+`;
+
+const GridItem = styled.div<{ $expandir : boolean}>`
     background-color: ${colors.tertiary};
     padding: 20px;
     border-radius: 10px;
@@ -34,9 +43,13 @@ const GridItem = styled.div`
     display: flex;
     flex-direction: column;
     gap: 8px;
+    transition: all 0.3s ease;
+    animation: ${fadeIn} 0.5s ease;
+
 
     &:hover {
         background-color: ${colors.primary};
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
     }
 `;
 
@@ -72,22 +85,6 @@ const AlbumImg = styled.img`
     border-radius: 10px;
 `;
 
-const BotonMasResultados = styled.button`
-  margin-top: 10px;
-  padding: 8px 16px;
-  background-color: #0070f3;
-  justify-content: center;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-
-  &:hover {
-    background-color: #005bb5;
-  }
-`;
-
 type GridComponentProps = {
     data : any[]; //Datos recibidos
     /* Sirve para almacenar la función que se pasa en el componente padre */
@@ -116,13 +113,14 @@ export default function GridContent( { data, onAlbumClick } : GridComponentProps
     */
 
     const enseñarMasContenido = expandir ? data : data.slice(0, 8); 
+    console.log(enseñarMasContenido);
 
     return (
         /* Cargamos el contenedor donde almacenaremos los productos */
         <GridContainer $expandir={expandir}>
             {/* Recorremos los datos del JSON para mostrar su contenido de una manera bonita visualmente*/}
-            {enseñarMasContenido.map(( elemento : any ) => (
-                <GridItem key = { elemento.id } onClick = {() => manejadorElementoMostrado(elemento.id)}>
+            {enseñarMasContenido.map(( elemento : any) => (
+                <GridItem key = { elemento.id } $expandir = {expandir} onClick = {() => manejadorElementoMostrado(elemento.id)}>
                     <AlbumImg src = { elemento.imagen } alt = { elemento.titulo } />
                     <Title>{ elemento.titulo }</Title>
                     <Genre>{ elemento.genre }</Genre>

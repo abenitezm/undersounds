@@ -8,6 +8,7 @@ import Chips from "./chips";
 import { Chip } from "@mui/material";
 import PrimaryButton from "./PrimaryButton";
 import { filter } from "framer-motion/client";
+import { FilterAltOffSharp } from "@mui/icons-material";
 
 const Container = styled.div`
     position: relative;
@@ -112,7 +113,7 @@ type MultiselectProps = {
 
 */
 
-export default function Multiselect(){
+export default function Multiselect( {tipo} : {tipo : string} ){
     const [mostrarDropdown, setMostrarDropdown] = React.useState(false);
     const [search, setSearch] = React.useState("");
     const dropdownRef = React.useRef<HTMLUListElement>(null);
@@ -244,12 +245,23 @@ export default function Multiselect(){
             {/* Renderización de los Chips que el usuario ha elegido */}
             <ChipsContainer >
                 {
+                    //Comprobación de que he entrado en Vinilo, Cassetes, CDs...
+                    //Si he entrado, quedo marcado un filtro por defecto en base a la página en la que me encuentre.
+                    tipo !== "" && (
+                        <PrimaryButton
+                            text = {tipo}
+                            onClick = {() => {}}
+                            type = "button"
+                        />
+                    )
+                }
+                {
                     filters.map((genre, index) => (
                         <PrimaryButton
                             key = {index}
                             text = {genre}
                             onClick = {() => eliminarFiltros(genre)}
-                            type="button"
+                            type = "button"
                         />
                     ))
                 }

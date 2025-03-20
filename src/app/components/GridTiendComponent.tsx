@@ -20,34 +20,44 @@ const GridContainer = styled.div<{ $expandir : boolean}>`
     justify-items: start;
     margin-left: 0;
     width: 90%;
-    height: ${({ $expandir }) => ($expandir ? "350px" : "570px")};
+    height: ${({ $expandir }) => ($expandir ? "100%" : "570px")};
     overflow-y: ${({ $expandir }) => ($expandir ? "auto" : "visible")};
     padding-right: 10px;
     overflow-x: visible;
 `;
 
+const fadeIn = keyframes`
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+`;
+
 const GridItem = styled.div`
-    background-color: ${colors.tertiary};
+    background-color: ${colors.primary};
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     gap: 8px;
+    transition: all 0.3s ease;
+    animation: ${fadeIn} 0.5s ease; /* Animación de entrada */
 
     &:hover {
-        transform: scale(1.05);
-        background-color: ${colors.primary};
+        transform: scale(1.01);
+        background-color: ${colors.secondary};
+        color: black;
     }
 `;
 
 const ArtistName = styled.p`
     font-size: 14px;
-    color: ${colors.primary};
-
-    ${GridItem}: hover & {
-        color: ${colors.background};
-    }
+    color: ${colors.tertiary};
 
     &:hover {
         text-decoration-line: underline;
@@ -63,14 +73,14 @@ const Title = styled.h2`
 const Tipo = styled.h3`
     font-size: 14px;
     margin: 10px 0;
-    color: ${colors.secondary};
+    color: ${colors.tertiary};
 
 `;
 
 const Precio = styled.h3`
     font-size: 14px;
     margin: 10px 0;
-    color: ${colors.secondary};
+    color: ${colors.tertiary};
 
 `;
 
@@ -79,22 +89,6 @@ const MerchImg = styled.img`
     height: 187px;
     border-radius: 10px;
     object-fit: cotain; //Ajusta la imagen dentro del espacio sin deformarla
-`;
-
-const BotonMasResultados = styled.button`
-  margin-top: 10px;
-  padding: 8px 16px;
-  background-color: #0070f3;
-  justify-content: center;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-
-  &:hover {
-    background-color: #005bb5;
-  }
 `;
 
 const BuyButton = styled.button`
