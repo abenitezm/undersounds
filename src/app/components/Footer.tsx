@@ -9,7 +9,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 
 const FooterContainer = styled.footer`
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
     padding: 20px;
     background-color: ${colors.tertiary};
