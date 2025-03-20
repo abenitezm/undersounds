@@ -24,12 +24,13 @@ const Button = styled.button`
 type ButtonProps = {
     text: string;
     onClick: () => void;
+    type: "button" | "submit" | "reset";
     style ?: React.CSSProperties
 }
 
-export default function PrimaryButton({ text, onClick, style }: ButtonProps) {
+export default function PrimaryButton({ text, onClick, style, type = 'button' }: ButtonProps) {
     return (
-        <Button onClick={onClick} style={style}>
+        <Button onClick={onClick} type={type} style={style}>
             {text}
         </Button>
     );
