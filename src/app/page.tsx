@@ -5,7 +5,6 @@ import { CSSProperties, useEffect, useState } from "react";
 import FancyButton from "./components/FancyButton";
 import HomeGrid from "./components/HomeGrid";
 import Albums from "./bd.json" 
-import AlbumCard from "./components/AlbumCard";
 import Novedades from "./components/Novedades";
 
 export default function Home() {

@@ -7,6 +7,7 @@ import { Search, ArrowUpDown, Clock, Delete} from "lucide-react";
 import Chips from "./chips";
 import { Chip } from "@mui/material";
 import PrimaryButton from "./PrimaryButton";
+import { filter } from "framer-motion/client";
 
 const Container = styled.div`
     position: relative;
@@ -14,10 +15,10 @@ const Container = styled.div`
     flex-direction:column;
     align-items: start;
     gap: 8px;
-    height: 20vh;
+    height: 15vh;
     background-color: ${colors.tertiary};
     border-radius: 10px;
-    width:956.3px;
+    width: 70%;
 `;
 
 const SearchContainer = styled.div`
@@ -95,6 +96,7 @@ const BotonAdicional = styled.button`
     background-color: ${colors.tertiary};    
     border:none;
     color: ${colors.secondary};
+    margin-top: -3%;
     border: 1px solid transparent;
     
     &:hover{
@@ -113,7 +115,7 @@ type MultiselectProps = {
 export default function Multiselect(){
     const [mostrarDropdown, setMostrarDropdown] = React.useState(false);
     const [search, setSearch] = React.useState("");
-    const dropdownRef = React.useRef<HTMLDivElement>(null);
+    const dropdownRef = React.useRef<HTMLUListElement>(null);
     const [filters, setFilters] = React.useState<string[]>([]);
 
     {/* Definición de vector de tipos de géneros que se usarán para facilitar el filtrado */}
@@ -121,8 +123,9 @@ export default function Multiselect(){
 
     {/* Definición de variable que contendrá una función la cual manejará los inputs de texto que se hagan */}
     const manejadorBusqueda = (genre : string) => {
-       {/* Si el genero seleccionado de la lista no está en el vector, se introduce */}
-        if (!filters.includes(genre)) {
+        console.log(genre);
+        {/* Si el genero seleccionado de la lista no está en el vector, se introduce */} 
+        if (!filters.includes(genre) && (generos.includes(search) || generos.includes(genre))) {
             setFilters([...filters, genre]);
         }    
         /* 
@@ -172,9 +175,9 @@ export default function Multiselect(){
             -mousedown: El usuario tiene que presionar inicialmente el botón.
 
         */
-        document.addEventListener("click", cerrarDropdown);
+        document.addEventListener("mousedown", cerrarDropdown);
         return () => {
-            document.removeEventListener("click", cerrarDropdown);
+            document.removeEventListener("mousedown", cerrarDropdown);
         }
 
     }, []);
@@ -186,22 +189,31 @@ export default function Multiselect(){
             {/* Contenedor donde almaceno todos los componentes necesarios de búsqueda por defecto */}
             <SearchContainer>
                 <Search size="24" color={colors.primary} />
-                <Input 
+                <Input id="input"
                     type = "text"
                     placeholder = "Filtra contenido por género"
                     value = {search}
                     onChange = { ( e : any )  => setSearch(e.target.value)} // Cuando cambie el valor del input, se actualiza la varible que guarda las busquedas por teclado
                     onClick = { () => setMostrarDropdown(true)}
+                    onKeyDown={(e : any) => {
+                        /* si se ha pulsado al enter y el input no está vacío entro */
+                        if ( e.key === "Enter" && search.trim() !== ""){
+                            manejadorBusqueda(search.trim());
+                        }
+                    }}
                 />
             </SearchContainer>
 
             {/* Despliegue de las opciones de filtro a elegir en la barra de búsqueda */}
-            <Dropdown className={mostrarDropdown ? "open" : ""}
-            onMouseLeave={ () => setMostrarDropdown(false)}>
+            <Dropdown ref={dropdownRef} className={mostrarDropdown ? "open" : ""}>
                 {
                     generos
+                        /* Filtra los géneros en base al input que yo le estoy metiendo*/
+                        .filter((genero) => 
+                            genero.toUpperCase().includes(search.toUpperCase())
+                        )
                         .map((genero, indice) => (
-                            <DropdownItem key = {indice} onClick = { () => manejadorBusqueda(genero) }>
+                            <DropdownItem key = {indice} onClick = { () => manejadorBusqueda(genero)}>
                                 {genero}
                             </DropdownItem>
                         ))   
@@ -237,6 +249,7 @@ export default function Multiselect(){
                             key = {index}
                             text = {genre}
                             onClick = {() => eliminarFiltros(genre)}
+                            type="button"
                         />
                     ))
                 }

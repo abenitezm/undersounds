@@ -236,14 +236,14 @@ export default function GridContent( { data, onMerchClick } : GridComponentProps
                         <h2 style={{ padding: "50px"}}>Debes iniciar sesión para acceder a este contenido</h2>
                         <BotonCerrar onClick={() => setIsOpen(false)}>✖</BotonCerrar>
                         <Link href="/login">
-                            <PrimaryButton text="Iniciar Sesión" onClick={() => {}} style={{textAlign: "center"}}/>
+                            <PrimaryButton text="Iniciar Sesión" onClick={() => {}} style={{textAlign: "center"}} type="button"/>
                         </Link>
                     </DeployContent>
                 </DeployRestrictiveBackground>
             }
             {validacionTienda && <ShopValidator isOpen={validacionTienda} onClose={manejadorValidador} imagen={imagenMerch} />}
             <PrimaryButton onClick = {() => setExpandir(!expandir)}
-                text = { expandir ? "Ver menos resultados" : "Ver más resultados" }>
+                text = { expandir ? "Ver menos resultados" : "Ver más resultados" } type="button">
             </PrimaryButton>
 
         </GridContainer>
