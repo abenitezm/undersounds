@@ -14,7 +14,20 @@ const GlobalContainer = styled.div`
     justify-content: flex-start;
     gap: 20px;
     margin: 10px 50px 20px 0;
-    width: 90%;
+    width: clamp(300px, 90%, 1400px);
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("/graffiti2.svg") no-repeat center center;
+        background-size: cover;
+        opacity: 1;
+        z-index: -1;
+     }
 `;
 
 const albumData : Album[] = data.map((cancion) => {

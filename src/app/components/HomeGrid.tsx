@@ -10,6 +10,19 @@ const Grid = styled.div`
   padding: 20px 20px 20px 20px;
   grid-template-columns: 1fr 1fr 1fr;
   grid-auto-rows: 200px;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("/graffiti3.svg") no-repeat center center;
+    background-size: cover;
+    opacity: 1;
+    z-index: -1;
+  }
 `;
 
 const Main = styled.div`

@@ -282,7 +282,7 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
                             <h2 style={{ padding: "50px"}}>Debes iniciar sesión para acceder a este contenido</h2>
                             <BotonCerrar onClick={() => setIsOpen(false)}>✖</BotonCerrar>
                             <Link href="/login">
-                                <PrimaryButton text="Iniciar Sesión" onClick={() => {}} style={{textAlign: "center"}}/>
+                                <PrimaryButton text="Iniciar Sesión" onClick={() => {}} style={{textAlign: "center"}} type="button"/>
                             </Link>
                         </DeployContent>
                     </DeployRestrictiveBackground>  

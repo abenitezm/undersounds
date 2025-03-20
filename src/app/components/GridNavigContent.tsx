@@ -21,7 +21,7 @@ const GridContainer = styled.div<{ $expandir : boolean}>`
     justify-items: start;
     max-width: 70%;
     margin-right: auto;
-    height: ${({ $expandir }) => ($expandir ? "350px" : "auto")};
+    height: ${({ $expandir }) => ($expandir ? "100%" : "auto")};
     overflow-y: ${({ $expandir }) => ($expandir ? "auto" : "visible")};
     overflow-x: hidden;
 `;
@@ -36,7 +36,6 @@ const GridItem = styled.div`
     gap: 8px;
 
     &:hover {
-        transform: scale(1.05);
         background-color: ${colors.primary};
     }
 `;
@@ -130,8 +129,8 @@ export default function GridContent( { data, onAlbumClick } : GridComponentProps
                     <ArtistName><Link href={`/artist/${elemento.artista}`}>{ elemento.artista }</Link></ArtistName> 
                 </GridItem>
             ))}
-            <PrimaryButton onClick = {() => setExpandir(!expandir)}
-                text = { expandir ? "Ver menos resultados" : "Ver más resultados" }>
+            <PrimaryButton onClick = {() => setExpandir(!expandir)} type="button" 
+                text={expandir ? "Volver a la vista previa" : "Ver más resultados"} style={{marginBottom: "60px", transform: "none"}}>
             </PrimaryButton>
         </GridContainer>
     );

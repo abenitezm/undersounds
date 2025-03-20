@@ -9,7 +9,6 @@ import { Merch } from "../components/GridTiendComponent";
 
 const Fondo = styled.div`
   position: relative;
-  background: linear-gradient(135deg, rgba(118, 171, 174, 0.8), rgba(49, 54, 63, 0.8));
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -37,7 +36,7 @@ const ContenedorElementos = styled.div`
     align-items: center;
     width: 1260px;
     height: 640px;
-    background: linear-gradient(135deg, rgba(118, 171, 174, 0.8), rgba(49, 54, 63, 0.8));
+    background: ${colors.background};
     //background: linear-gradient(135deg, rgba(204, 163, 65, 0.9), rgba(218, 94, 85, 0.9));
     box-shadow: initial;
     color: black;
