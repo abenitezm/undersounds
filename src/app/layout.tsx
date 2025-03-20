@@ -8,7 +8,7 @@ import TopMargin from "./components/TopMargin";
 import { AuthProvider } from "./components/AuthContext";
 import Footer from "./components/Footer";
 
-const montserrat = Montserrat( { subsets: ['latin'], weight: "400"} );
+const montserrat = Montserrat({ subsets: ["latin"], weight: "400" });
 
 export const metadata: Metadata = {
   title: "UnderSounds",
