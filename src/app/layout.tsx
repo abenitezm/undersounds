@@ -7,7 +7,7 @@ import { Montserrat } from "next/font/google";
 import TopMargin from "./components/TopMargin";
 import { AuthProvider } from "./components/AuthContext";
 import Footer from "./components/Footer";
-import { ShoppingCartProvider } from "./components/ShoppingCartContext";
+import { ShoppingCartProvider } from "@/app/components/ShoppingCartContext";
 
 const montserrat = Montserrat({ subsets: ["latin"], weight: "400" });
 

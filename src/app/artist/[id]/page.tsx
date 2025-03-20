@@ -17,6 +17,7 @@ const ArtistPage = async ({ params }: { params: { id: string } }) => {
           width: "100%",
           display: "flex",
           flexDirection: "column",
+          position: "relative",
           gap: 20,
         }}
       >
@@ -35,6 +36,7 @@ const styles: { [key: string]: CSSProperties } = {
     padding: 20,
     width: "85%",
     display: "flex",
+    position: "relative",
     flexDirection: "row",
   },
 };

@@ -1,9 +1,10 @@
 "use client";
 
 import { createContext, useContext, useState } from "react";
+import data from "../bd.json";
 
 interface CartItem {
-  id: string;
+  id: string | number;
   name: string;
   image: string;
   price: number;
@@ -24,7 +25,22 @@ const ShoppingCartContext = createContext<ShoppingCartContextType | undefined>(
 import { ReactNode } from "react";
 
 export const ShoppingCartProvider = ({ children }: { children: ReactNode }) => {
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const [cart, setCart] = useState<CartItem[]>([
+    {
+      id: data[0].id,
+      name: data[0].titulo,
+      image: data[0].imagen,
+      price: data[0].price,
+      quantity: 1,
+    },
+    {
+      id: data[1].id,
+      name: data[1].titulo,
+      image: data[1].imagen,
+      price: data[1].price,
+      quantity: 1,
+    },
+  ]);
 
   const addToCart = (item: CartItem) => {
     setCart((prevCart) => {
