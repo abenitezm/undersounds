@@ -12,10 +12,9 @@ const FooterContainer = styled.footer`
     justify-content: space-between;
     align-items: center;
     padding: 20px;
+    margin-top: 20px;
     background-color: ${colors.tertiary};
     color: ${colors.secondary};
-    position: fixed;
-    bottom: 0;
     width: 100%;
 `;
 
