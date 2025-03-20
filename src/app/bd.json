@@ -9,6 +9,7 @@
             {"id": 3, "titulo": "BOYFRIEND", "url": "/audio/BOYFRIEND.mp3", "image": "/audio/Lauren.webp", "time": "3:20"}
         ],
         "imagen": "/audio/Lauren.webp",
+       "type": ["Album", "Cassete", "CD"],
         "genre": "Pop",
         "oyentes": "1.058.763 oyentes mensuales",
         "imagenGrupo": "/audio/indigo-la-end.webp",
@@ -22,6 +23,7 @@
             {"id": 1, "titulo": "GIMME A HUG", "url": "/audio/Hug.mp3", "image": "/audio/Hug.jpg", "time": "0:00"}
         ],
         "imagen": "/audio/Hug.jpg",
+       "type": ["Album", "Cassete", "CD"],
         "genre": "Rap",
         "oyentes": "81.491.933 oyentes mensuales",
         "imagenGrupo": "/audio/Drake.webp",
@@ -35,6 +37,7 @@
             {"id": 2, "titulo": "Cloud 9", "url": "/audio/cloud-9-audio.mp3", "image": "/audio/cloud-9.webp", "time": "2:33"}
         ],
         "imagen": "/audio/cloud-9.webp",
+       "type": ["Album", "Cassete", "CD"],
         "genre": "Indie",
         "oyentes": "6.805.115 oyentes mensuales",
         "imagenGrupo": "/audio/beach-bunny-group.webp",
@@ -50,6 +53,7 @@
             {"id": 3, "titulo": "Addicted", "url": "/audio/addicted-audio.mp3", "image": "/audio/Addicted.webp", "time": "0:00"}
         ],
         "imagen": "/audio/Addicted.webp",
+       "type": ["Album", "Cassete"],
         "genre": "Hopecore",
         "oyentes": "3.750.064 oyentes mensuales",
         "imagenGrupo": "/audio/flawed.webp",
@@ -65,6 +69,7 @@
             {"id": 4, "titulo": "Sunday Scaries", "url": "/audio/sunday-audio.mp3", "image": "/audio/SundayScaries.jpg", "time": "0:00"}
         ],
         "imagen": "/audio/SundayScaries.jpg",
+       "type": ["Album", "Vinilo", "Cassete"],
         "genre": "Hopecore",
         "oyentes": "3.750.064 oyentes mensuales",
         "imagenGrupo": "/audio/flawed.webp",
@@ -80,6 +85,7 @@
             {"id": 5, "titulo": "Swimming", "url": "/audio/swimming-audio.mp3", "image": "/audio/Swimming.jpg", "time": "0:00"}
         ],
         "imagen": "/audio/Swimming.jpg",
+       "type": ["Album", "Vinilo", "Cassete"],
         "genre": "Hopecore",
         "oyentes": "3.750.064 oyentes mensuales",
         "imagenGrupo": "/audio/flawed.webp",
@@ -95,6 +101,7 @@
             {"id": 6, "titulo": "CryingEndRoll", "url": "/audio/omokiri-audio.mp3", "image": "/audio/CryingEndRoll.webp", "time": "0:00"}
         ],
         "imagen": "/audio/CryingEndRoll.webp",
+       "type": ["Album", "Vinilo", "Cassete"],
         "genre": "Pop",
         "oyentes": "1.058.763 oyentes mensuales",
         "imagenGrupo": "/audio/indigo-la-end.webp",
@@ -108,6 +115,7 @@
             {"id": 7, "titulo": "Aonooto", "url": "/audio/almond-audio.mp3", "image": "/audio/Aonooto.webp", "time": "0:00"}
         ],
         "imagen": "/audio/Aonooto.webp",
+       "type": ["Album", "Vinilo", "CD"],
         "genre": "Pop",
         "oyentes": "1.058.763 oyentes mensuales",
         "imagenGrupo": "/audio/indigo-la-end.webp",
@@ -121,6 +129,7 @@
             {"id": 8, "titulo": "25", "url": "/audio/25-audio.mp3", "image": "/audio/25.webp", "time": "0:00"}
         ],
         "imagen": "/audio/25.webp",
+       "type": ["Album", "Vinilo", "CD"],
         "genre": "Rap",
         "oyentes": "7.017.049 oyentes mensuales",
         "imagenGrupo": "/audio/25.webp",
@@ -139,6 +148,7 @@
             {"id": 9, "titulo": "In Da Club", "url": "/audio/50-audio.mp3", "image": "/audio/in-da-club.webp", "time": "0:00"}
         ],
         "imagen": "/audio/in-da-club.webp",
+       "type": ["Album", "Vinilo", "CD"],
         "genre": "Hip-Hop",
         "oyentes": "38.014.842 oyentes mensuales",
         "imagenGrupo": "/audio/50cents.webp",
@@ -156,6 +166,7 @@
             {"id": 10, "titulo": "Dance Crip", "url": "/audio/trueno-audio.mp3", "image": "/audio/dance-crip.webp", "time": "0:00"}
         ],
         "imagen": "/audio/dance-crip.webp",
+       "type": ["Album", "Vinilo", "Cassete", "CD"],
         "genre": "Hip-Hop",
         "oyentes": "19.166.351 oyentes mensuales",
         "imagenGrupo": "/audio/trueno-foto.webp",
@@ -170,6 +181,7 @@
         "titulo": "Walk In Wardrobe",
         "artista": "Central Cee",
         "imagen": "/audio/walk-in-wardrobe.webp",
+       "type": ["Album", "Vinilo", "Cassete", "CD"],
         "genre": "Hip-Hop",
         "merch" : [
             {"id" : "Camiseta-6", "titulo" : "Camiseta-1", "tipo": "Camiseta", "precio" : "$20 USD", "imagen" : "/tienda/camiseta-central.webp", "artista": "Central Cee"},
