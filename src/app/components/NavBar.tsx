@@ -154,9 +154,15 @@ export default function NavBar() {
                 <NavButton>
                     <Link href="/navigation">Explorar</Link>
                 </NavButton>
-                <NavButton>Vinilo</NavButton>
-                <NavButton>CDs</NavButton>
-                <NavButton>Cassettes</NavButton>
+                <NavButton>
+                    <Link href="/Vinilos">Vinilos</Link>
+                </NavButton>
+                <NavButton>
+                    <Link href="/CDs">CDs</Link>
+                </NavButton>
+                <NavButton>
+                    <Link href="/Casset">Cassettes</Link>
+                </NavButton>
                 <Link href="/Tienda">
                     <NavButton>Merch</NavButton>
                 </Link>

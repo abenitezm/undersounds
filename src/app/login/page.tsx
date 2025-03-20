@@ -95,7 +95,7 @@ export default function Page() {
         else {
             toast.success("Has iniciado sesión correctamente");
             setUserRole("registrado");
-            window.location.href = "/Perfil"; // Redirigimos a la página principal
+            //window.location.href = "/Perfil"; // Redirigimos a la página principal
         }
     }
 

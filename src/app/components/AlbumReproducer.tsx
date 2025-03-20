@@ -167,6 +167,7 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
                 draggable: false,
                 theme: "light"
             });
+            console.log(userRole);
         }
     }, [currentSong, isPlaying, userRole]); //Depende useEffect de los valores de estas dos variables
 

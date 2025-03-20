@@ -129,7 +129,7 @@ const DeployContent = styled.div`
     animation: ${animacionEntrada} 0.3s ease-in-out;
     position: relative;
     max-width: 700px;
-    height: 70vh;
+    height: 50vh;
     width: 90%;
     text-align: center;
     margin-bottom: 10px;
@@ -185,6 +185,7 @@ export default function GridContent( { data, onMerchClick } : GridComponentProps
 
     const manejadorValidador = () => {
         if ( userRole !== "invitado"){
+            console.log(userRole);
             setValidacionTienda(!validacionTienda);
         } else {
             toast.warn("¡Ciudado!, debes de iniciar sesión", {
