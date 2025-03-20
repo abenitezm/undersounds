@@ -11,6 +11,7 @@ import AlbumSongs from "./AlbumSongs";
 
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Link from "next/link";
+import { useShoppingCart } from "./ShoppingCartContext";
 
 type Album = {
   id: number;
@@ -27,7 +28,7 @@ type Album = {
   genre: string;
   imagenGrupo?: string;
   year?: number;
-  precio?: string;
+  price?: string;
 };
 
 const getAlbumFullDuration = (
@@ -52,6 +53,8 @@ const getAlbumFullDuration = (
 
 const AlbumInfo = ({ id }: { id: string }) => {
   const [album, setAlbum] = useState<Album | null>(null);
+
+  const { addToCart } = useShoppingCart();
 
   useEffect(() => {
     async function fetchData() {
@@ -91,7 +94,15 @@ const AlbumInfo = ({ id }: { id: string }) => {
             {album?.artista}
           </AlbumArtist>
         </Link>
-        <BuyButton>
+        <BuyButton onClick={()=>{
+          addToCart({
+            id: album?.id.toString() || "",
+            name: album?.titulo || "",
+            image: album?.imagen || defaultAlbum,
+            price: parseFloat(album?.price || "0.00"),
+            quantity: 1,
+          });
+        }}>
           <ShoppingCartIcon />
           Comprar
         </BuyButton>
@@ -99,7 +110,7 @@ const AlbumInfo = ({ id }: { id: string }) => {
       <div style={{ width: "70%" }}>
         <AlbumOtherInfo>
           <AlbumInfoRow>
-            {album?.year || "2020"} · {album?.genre} · {album?.precio || "0.00"}{" "}
+            {album?.year || "2020"} · {album?.genre} · {album?.price || "0.00"}{" "}
             €
           </AlbumInfoRow>
           <AlbumInfoSeparator />

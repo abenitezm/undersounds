@@ -16,7 +16,7 @@ const AlbumSongs = ({ canciones }: { canciones: Cancion[] }) => {
     <div>
       {canciones.map((cancion, index) => (
         <>
-          {index !== 0 && <SongSeparator />}
+          {index !== 0 && <SongSeparator key={0} />}
           <Song key={cancion.id}>
             <div style={{ display: "flex", gap: 20 }}>
               <SongIndex>{index + 1}</SongIndex>

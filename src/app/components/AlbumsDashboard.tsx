@@ -40,7 +40,7 @@ const AlbumDashboard = ({ id }: { id: string }) => {
       oyentes: string;
       imagenGrupo: string;
       descripcion: string;
-      precio?: string;
+      price?: string;
       year?: string;
       merch?:
         | string
@@ -70,7 +70,7 @@ const AlbumDashboard = ({ id }: { id: string }) => {
             name={album.titulo}
             image={album.imagen}
             genre={album.genre}
-            price={album?.precio || "0.00"}
+            price={album?.price || "0.00"}
             year={album?.year || "2021"}
           />
         ))}
