@@ -58,7 +58,7 @@ const SearchInput = styled.input<{ $isVisible: boolean }>`
 
 const NavButton = styled.button`
   color: ${colors.secondary};
-  font-size: 28px;
+  font-size: 22px;
   background: none;
   border: none;
   padding: 8px;
@@ -86,23 +86,22 @@ const NavButton = styled.button`
 `;
 
 const IconButton = styled.div`
-  font-size: 46px; /* Tamaño del icono */
+  font-size: 46px;
   cursor: pointer;
-  width: 50px; /* Establecer un tamaño fijo para el contenedor */
-  height: 50px; /* Establecer un tamaño fijo para el contenedor */
-  border-radius: 50%; /* Hace el fondo completamente circular */
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
   transition: background-color 0.3s ease;
-  display: flex; /* Usar flexbox para alinear el icono */
-  align-items: center; /* Centra el icono verticalmente */
-  justify-content: center; /* Centra el icono horizontalmente */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     background-color: ${colors.primary};
   }
 
-  /* Asegura que el icono tenga un tamaño consistente */
   & svg {
-    font-size: 36px !important; /* Asegura que todos los iconos tengan el mismo tamaño */
+    font-size: 36px !important;
   }
 `;
 
