@@ -95,3 +95,7 @@ $ npm run dev --> Aparecerá en la consola la versión de Next.js y el puerto Lo
  ├── .gitignore
  ├── README.md
  └── package.json
+
+ 📧 Contacto
+
+ Si tienes alguna duda, contáctame en [amendoma@alumnos.unex.es].
