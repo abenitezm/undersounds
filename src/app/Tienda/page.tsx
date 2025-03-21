@@ -69,7 +69,7 @@ const merchData: Merch[] = data
         id: merch.id,
         titulo: merch.titulo,
         tipo: merch.tipo,
-        precio: merch.precio,
+        price: merch.price,
         imagen: merch.imagen,
         artista: merch.artista
     })) || []

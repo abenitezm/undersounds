@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React from "react";
 import { styled, keyframes } from "styled-components";
@@ -10,75 +10,72 @@ import PrimaryButton from "./PrimaryButton";
 import ShopValidator from "../components/ShopValidator";
 import { useAuth } from "../components/AuthContext";
 import { toast, ToastContainer } from "react-toastify";
-import { animacionEntrada }  from "../components/ShopValidator";
+import { animacionEntrada } from "../components/ShopValidator";
 
-const GridContainer = styled.div<{ $expandir : boolean}>`
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    justify-content: start;
-    justify-items: start;
-    margin-left: 0;
-    width: 90%;
-    height: ${({ $expandir }) => ($expandir ? "350px" : "570px")};
-    overflow-y: ${({ $expandir }) => ($expandir ? "auto" : "visible")};
-    padding-right: 10px;
-    overflow-x: visible;
+const GridContainer = styled.div<{ $expandir: boolean }>`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  justify-content: start;
+  justify-items: start;
+  margin-left: 0;
+  width: 90%;
+  height: ${({ $expandir }) => ($expandir ? "350px" : "570px")};
+  overflow-y: ${({ $expandir }) => ($expandir ? "auto" : "visible")};
+  padding-right: 10px;
+  overflow-x: visible;
 `;
 
 const GridItem = styled.div`
-    background-color: ${colors.tertiary};
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  background-color: ${colors.tertiary};
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 
-    &:hover {
-        transform: scale(1.05);
-        background-color: ${colors.primary};
-    }
+  &:hover {
+    transform: scale(1.05);
+    background-color: ${colors.primary};
+  }
 `;
 
 const ArtistName = styled.p`
-    font-size: 14px;
-    color: ${colors.primary};
+  font-size: 14px;
+  color: ${colors.primary};
 
-    ${GridItem}: hover & {
-        color: ${colors.background};
-    }
+  ${GridItem}: hover & {
+    color: ${colors.background};
+  }
 
-    &:hover {
-        text-decoration-line: underline;
-    }
+  &:hover {
+    text-decoration-line: underline;
+  }
 `;
 
 const Title = styled.h2`
-    font-size: 14px;
-    margin: 10px 0;
-
+  font-size: 14px;
+  margin: 10px 0;
 `;
 
 const Tipo = styled.h3`
-    font-size: 14px;
-    margin: 10px 0;
-    color: ${colors.secondary};
-
+  font-size: 14px;
+  margin: 10px 0;
+  color: ${colors.secondary};
 `;
 
 const Precio = styled.h3`
-    font-size: 14px;
-    margin: 10px 0;
-    color: ${colors.secondary};
-
+  font-size: 14px;
+  margin: 10px 0;
+  color: ${colors.secondary};
 `;
 
 const MerchImg = styled.img`
-    width: 187px;
-    height: 187px;
-    border-radius: 10px;
-    object-fit: cotain; //Ajusta la imagen dentro del espacio sin deformarla
+  width: 187px;
+  height: 187px;
+  border-radius: 10px;
+  object-fit: cotain; //Ajusta la imagen dentro del espacio sin deformarla
 `;
 
 const BotonMasResultados = styled.button`
@@ -112,140 +109,175 @@ const BuyButton = styled.button`
   font-size: 0.9rem;
 `;
 
-const DeployRestrictiveBackground = styled.div<{ $isOpen : boolean }>`
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px); // Agrega un desenfoque al fondo
-    display: ${({$isOpen}) => ($isOpen ? "flex" : "none")};
-    align-items: center;
-    justify-content: center;
-    z-index: 103;
+const DeployRestrictiveBackground = styled.div<{ $isOpen: boolean }>`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px); // Agrega un desenfoque al fondo
+  display: ${({ $isOpen }) => ($isOpen ? "flex" : "none")};
+  align-items: center;
+  justify-content: center;
+  z-index: 103;
 `;
 
 const DeployContent = styled.div`
-    background: ${colors.background};
-    color: white;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
-    animation: ${animacionEntrada} 0.3s ease-in-out;
-    position: relative;
-    max-width: 700px;
-    height: 70vh;
-    width: 90%;
-    text-align: center;
-    margin-bottom: 10px;
-    z-index: 104;
+  background: ${colors.background};
+  color: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+  animation: ${animacionEntrada} 0.3s ease-in-out;
+  position: relative;
+  max-width: 700px;
+  height: 70vh;
+  width: 90%;
+  text-align: center;
+  margin-bottom: 10px;
+  z-index: 104;
 `;
 
 const BotonCerrar = styled.button`
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    border: none;
-    background: ${colors.background};
-    color: ${colors.secondary};
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 5px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  background: ${colors.background};
+  color: ${colors.secondary};
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
 
-    &:hover {
-        background: ${colors.primary};
-    }
+  &:hover {
+    background: ${colors.primary};
+  }
 `;
 
 type GridComponentProps = {
-    data : any[]; //Datos recibidos
-    onMerchClick : (merchId : string) => void;
-}
-
-export type Merch = {
-    id : string,
-    titulo: string,
-    tipo: string,
-    precio: string,
-    imagen: string,
-    artista: string
+  data: any[]; //Datos recibidos
+  onMerchClick: (merchId: string) => void;
 };
 
-export default function GridContent( { data, onMerchClick } : GridComponentProps) {
+export type Merch = {
+  id: string;
+  titulo: string;
+  tipo: string;
+  precio: string;
+  imagen: string;
+  artista: string;
+};
 
-    const [expandir, setExpandir] = useState(false);
-    const [validacionTienda, setValidacionTienda] = useState(false);
-    const [imagenMerch, setImagenMerch] = useState("");
-    const { userRole } = useAuth();
-    const [isOpen, setIsOpen] = useState(false);
-    const enseñarMasContenido = expandir ? data : data.slice(0, 6); 
+export default function GridContent({
+  data,
+  onMerchClick,
+}: GridComponentProps) {
+  const [expandir, setExpandir] = useState(false);
+  const [validacionTienda, setValidacionTienda] = useState(false);
+  const [imagenMerch, setImagenMerch] = useState("");
+  const { userRole } = useAuth();
+  const [isOpen, setIsOpen] = useState(false);
+  const enseñarMasContenido = expandir ? data : data.slice(0, 6);
 
-    const manejadorElementoMerch = (merchId : string ) => {
-        onMerchClick(merchId);
-    };
+  const manejadorElementoMerch = (merchId: string) => {
+    onMerchClick(merchId);
+  };
 
-    const manejadorImagen = (imagen : any) => {
-        setImagenMerch(imagen);
+  const manejadorImagen = (imagen: any) => {
+    setImagenMerch(imagen);
+  };
+
+  const manejadorValidador = () => {
+    if (userRole !== "invitado") {
+      setValidacionTienda(!validacionTienda);
+    } else {
+      toast.warn("¡Ciudado!, debes de iniciar sesión", {
+        position: "bottom-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        theme: "light",
+      });
     }
+  };
 
-    const manejadorValidador = () => {
-        if ( userRole !== "invitado"){
-            setValidacionTienda(!validacionTienda);
-        } else {
-            toast.warn("¡Ciudado!, debes de iniciar sesión", {
-                position: "bottom-center",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: false,
-                theme: "light"
-            });
-        }
-    }
+  console.log(enseñarMasContenido)
 
-    return (
-        /* Cargamos el contenedor donde almacenaremos los productos */
-        <GridContainer $expandir={expandir}>
-            {/* Recorremos los datos del JSON para mostrar su contenido de una manera bonita visualmente*/}
-            {enseñarMasContenido.map(( elemento : any ) => (
-                <GridItem key = { elemento.id } onClick = {() => { manejadorElementoMerch(elemento.id); manejadorImagen(elemento); }}>
-                    <MerchImg src = { elemento.imagen } alt = { elemento.titulo }/>
-                    <Title>{ elemento.titulo }</Title>
-                    <Tipo>{ elemento.tipo }</Tipo>
-                    <ArtistName><Link href={`/artist/${elemento.id}`}>{ elemento.artista }</Link></ArtistName>
-                    <span style={{display:"flex", flexDirection:"row", alignItems:"center"}}>
-                        <Precio>{ elemento.precio}</Precio>
-                        <BuyButton onClick = {() => {manejadorValidador(); 
-                            if(userRole === "invitado"){
-                                setIsOpen(true);
-                                <ToastContainer />
-                                
-                            }}}>
-                            <ShoppingCartIcon />
-                            Comprar
-                        </BuyButton>
-                    </span>
-                </GridItem>
-            ))}
-            {!validacionTienda &&
-                <DeployRestrictiveBackground $isOpen={isOpen}>
-                    <DeployContent>
-                        <ToastContainer/>
-                        <h2 style={{ padding: "50px"}}>Debes iniciar sesión para acceder a este contenido</h2>
-                        <BotonCerrar onClick={() => setIsOpen(false)}>✖</BotonCerrar>
-                        <Link href="/login">
-                            <PrimaryButton text="Iniciar Sesión" onClick={() => {}} style={{textAlign: "center"}} type="button"/>
-                        </Link>
-                    </DeployContent>
-                </DeployRestrictiveBackground>
-            }
-            {validacionTienda && <ShopValidator isOpen={validacionTienda} onClose={manejadorValidador} imagen={imagenMerch} />}
-            <PrimaryButton onClick = {() => setExpandir(!expandir)}
-                text = { expandir ? "Ver menos resultados" : "Ver más resultados" } type="button">
-            </PrimaryButton>
-
-        </GridContainer>
-    );
+  return (
+    /* Cargamos el contenedor donde almacenaremos los productos */
+    <GridContainer $expandir={expandir}>
+      {/* Recorremos los datos del JSON para mostrar su contenido de una manera bonita visualmente*/}
+      {enseñarMasContenido.map((elemento: any) => (
+        <GridItem
+          key={elemento.id}
+          onClick={() => {
+            manejadorElementoMerch(elemento.id);
+            manejadorImagen(elemento);
+          }}
+        >
+          <MerchImg src={elemento.imagen} alt={elemento.titulo} />
+          <Title>{elemento.titulo}</Title>
+          <Tipo>{elemento.tipo}</Tipo>
+          <ArtistName>
+            <Link href={`/artist/${elemento.id}`}>{elemento.artista}</Link>
+          </ArtistName>
+          <span
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <Precio>${elemento.price}</Precio>
+            <BuyButton
+              onClick={() => {
+                manejadorValidador();
+                if (userRole === "invitado") {
+                  setIsOpen(true);
+                  <ToastContainer />;
+                }
+              }}
+            >
+              <ShoppingCartIcon />
+              Comprar
+            </BuyButton>
+          </span>
+        </GridItem>
+      ))}
+      {!validacionTienda && (
+        <DeployRestrictiveBackground $isOpen={isOpen}>
+          <DeployContent>
+            <ToastContainer />
+            <h2 style={{ padding: "50px" }}>
+              Debes iniciar sesión para acceder a este contenido
+            </h2>
+            <BotonCerrar onClick={() => setIsOpen(false)}>✖</BotonCerrar>
+            <Link href="/login">
+              <PrimaryButton
+                text="Iniciar Sesión"
+                onClick={() => {}}
+                style={{ textAlign: "center" }}
+                type="button"
+              />
+            </Link>
+          </DeployContent>
+        </DeployRestrictiveBackground>
+      )}
+      {validacionTienda && (
+        <ShopValidator
+          isOpen={validacionTienda}
+          onClose={manejadorValidador}
+          imagen={imagenMerch}
+        />
+      )}
+      <PrimaryButton
+        onClick={() => setExpandir(!expandir)}
+        text={expandir ? "Ver menos resultados" : "Ver más resultados"}
+        type="button"
+      ></PrimaryButton>
+    </GridContainer>
+  );
 }

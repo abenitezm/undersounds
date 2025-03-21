@@ -10,8 +10,13 @@ import defaultAvatar from "../../assets/img/defaultAvatar.jpg";
 import AlbumSongs from "./AlbumSongs";
 
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import PaidIcon from "@mui/icons-material/Paid";
 import Link from "next/link";
 import { useShoppingCart } from "./ShoppingCartContext";
+import ShopValidator, { animacionEntrada } from "./ShopValidator";
+import { useAuth } from "./AuthContext";
+import { toast, ToastContainer } from "react-toastify";
+import PrimaryButton from "./PrimaryButton";
 
 type Album = {
   id: number;
@@ -53,6 +58,10 @@ const getAlbumFullDuration = (
 
 const AlbumInfo = ({ id }: { id: string }) => {
   const [album, setAlbum] = useState<Album | null>(null);
+  const [validacionTienda, setValidacionTienda] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const { userRole } = useAuth();
 
   const { addToCart } = useShoppingCart();
 
@@ -68,6 +77,22 @@ const AlbumInfo = ({ id }: { id: string }) => {
 
   const songs = album?.canciones.length || 0;
   const duration = getAlbumFullDuration(album?.canciones || []);
+
+  const manejadorValidador = () => {
+    if (userRole !== "invitado") {
+      setValidacionTienda(!validacionTienda);
+    } else {
+      toast.warn("¡Ciudado!, debes de iniciar sesión", {
+        position: "bottom-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        theme: "light",
+      });
+    }
+  };
 
   return (
     <div style={{ width: "100%", display: "flex" }}>
@@ -94,18 +119,34 @@ const AlbumInfo = ({ id }: { id: string }) => {
             {album?.artista}
           </AlbumArtist>
         </Link>
-        <BuyButton onClick={()=>{
-          addToCart({
-            id: album?.id.toString() || "",
-            name: album?.titulo || "",
-            image: album?.imagen || defaultAlbum,
-            price: parseFloat(album?.price || "0.00"),
-            quantity: 1,
-          });
-        }}>
-          <ShoppingCartIcon />
-          Comprar
-        </BuyButton>
+        <Row>
+          <BuyButton
+            onClick={() => {
+              addToCart({
+                id: album?.id.toString() || "",
+                name: album?.titulo || "",
+                image: album?.imagen || defaultAlbum,
+                price: parseFloat(album?.price || "0.00"),
+                quantity: 1,
+              });
+            }}
+          >
+            <ShoppingCartIcon />
+            Añadir al carrito
+          </BuyButton>
+          <BuyButton
+            onClick={() => {
+              manejadorValidador();
+              if (userRole === "invitado") {
+                setIsOpen(true);
+                <ToastContainer />;
+              }
+            }}
+          >
+            <PaidIcon />
+            Comprar en 1 click
+          </BuyButton>
+        </Row>
       </AlbumContainer>
       <div style={{ width: "70%" }}>
         <AlbumOtherInfo>
@@ -122,6 +163,32 @@ const AlbumInfo = ({ id }: { id: string }) => {
           </SongsContainer>
         </AlbumOtherInfo>
       </div>
+      {validacionTienda && (
+        <ShopValidator
+          isOpen={validacionTienda}
+          onClose={manejadorValidador}
+          imagen={album}
+        />
+      )}
+      {!validacionTienda && (
+        <DeployRestrictiveBackground $isOpen={isOpen}>
+          <DeployContent>
+            <ToastContainer />
+            <h2 style={{ padding: "50px" }}>
+              Debes iniciar sesión para acceder a este contenido
+            </h2>
+            <BotonCerrar onClick={() => setIsOpen(false)}>✖</BotonCerrar>
+            <Link href="/login">
+              <PrimaryButton
+                text="Iniciar Sesión"
+                onClick={() => {}}
+                style={{ textAlign: "center" }}
+                type="button"
+              />
+            </Link>
+          </DeployContent>
+        </DeployRestrictiveBackground>
+      )}
     </div>
   );
 };
@@ -224,6 +291,60 @@ const BuyButton = styled.button`
   border-radius: 10px;
   cursor: pointer;
   font-size: 0.9rem;
+`;
+
+const Row = styled.div`
+  display: flex;
+  gap: 10px;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+`;
+
+const DeployRestrictiveBackground = styled.div<{ $isOpen: boolean }>`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px); // Agrega un desenfoque al fondo
+  display: ${({ $isOpen }) => ($isOpen ? "flex" : "none")};
+  align-items: center;
+  justify-content: center;
+  z-index: 103;
+`;
+
+const DeployContent = styled.div`
+  background: ${colors.background};
+  color: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+  animation: ${animacionEntrada} 0.3s ease-in-out;
+  position: relative;
+  max-width: 700px;
+  height: 70vh;
+  width: 90%;
+  text-align: center;
+  margin-bottom: 10px;
+  z-index: 104;
+`;
+
+const BotonCerrar = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  background: ${colors.background};
+  color: ${colors.secondary};
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+
+  &:hover {
+    background: ${colors.primary};
+  }
 `;
 
 export default AlbumInfo;
