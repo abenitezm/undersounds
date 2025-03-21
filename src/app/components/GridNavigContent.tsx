@@ -9,6 +9,7 @@ import PrimaryButton from "./PrimaryButton";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import { tr } from "framer-motion/client";
 
 
 const GridContainer = styled.div<{ $expandir : boolean}>`
@@ -113,6 +114,8 @@ export default function GridContent( { data, onAlbumClick } : GridComponentProps
     */
 
     const enseñarMasContenido = expandir ? data : data.slice(0, 8); 
+    const mostrarMasResultados = data.length > 8;
+    const permitirVolver = data.length % 4 === 0;
 
     return (
         /* Cargamos el contenedor donde almacenaremos los productos */
@@ -126,9 +129,9 @@ export default function GridContent( { data, onAlbumClick } : GridComponentProps
                     <ArtistName><Link href={`/artist/${elemento.artista}`}>{ elemento.artista }</Link></ArtistName> 
                 </GridItem>
             ))}
-            <PrimaryButton onClick = {() => setExpandir(!expandir)} type="button" 
+            {mostrarMasResultados && (!expandir || permitirVolver) && (<PrimaryButton onClick = {() => setExpandir(!expandir)} type="button" 
                 text={expandir ? "Volver a la vista previa" : "Ver más resultados"} style={{marginBottom: "60px", transform: "none"}}>
-            </PrimaryButton>
+            </PrimaryButton>)}
         </GridContainer>
     );
 }
