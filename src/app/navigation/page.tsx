@@ -51,26 +51,24 @@ export default function NavigationPage() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
+    let filteredData = data;
+
     const search = searchParams.get("search");
     const category = searchParams.get("category");
     if (search) {
-      setFilteredData(
-        data.filter((album) =>
-          album.titulo.toLowerCase().includes(search.toLowerCase())
-        )
+      filteredData = filteredData.filter(
+        (album) =>
+          album.titulo.toLowerCase().includes(search.toLowerCase()) ||
+          album.artista.toLowerCase() == search.toLowerCase()
       );
-    } else {
-      setFilteredData(data);
     }
 
     if (category) {
-      const filteredAlbums = data.filter((album) =>
+      filteredData = filteredData.filter((album) =>
         album.type.includes(category)
       );
-      setFilteredData(filteredAlbums);
-    } else {
-      setFilteredData(data);
     }
+    setFilteredData(filteredData);
   }, [searchParams]);
 
   /* Almacena el album seleccionado */
