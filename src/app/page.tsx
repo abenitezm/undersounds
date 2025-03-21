@@ -1,10 +1,9 @@
 "use client";
 
 import colors from "./colors";
-import { CSSProperties, useEffect, useState } from "react";
+import { CSSProperties } from "react";
 import FancyButton from "./components/FancyButton";
 import HomeGrid from "./components/HomeGrid";
-import Albums from "./bd.json";
 import Novedades from "./components/Novedades";
 
 export default function Home() {
