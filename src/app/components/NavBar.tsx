@@ -130,56 +130,61 @@ export default function NavBar() {
     );
   };
 
-  return (
-    <Header>
-      <LogoContainer>
-        <Link href="/">
-          <Logo src="/logo.svg" alt="Logo Undersounds" />
-        </Link>
-        <SearchContainer>
-          <IconButton>
-            <Search
-              fontSize="inherit"
-              onClick={() => setSearchVisible(!searchVisible)}
+    return (
+        <Header>
+            <LogoContainer>
+                <Link href="/">
+                    <Logo src="/logo.svg" alt="Logo Undersounds" />
+                </Link>
+                <SearchContainer>
+                    <IconButton>
+                        <Search 
+                            fontSize="inherit"  
+                            onClick={() => setSearchVisible(!searchVisible)} 
+                        />
+                    </IconButton>
+                    <SearchInput 
+                        type="text" 
+                        placeholder="Buscar..." 
+                        $isVisible={searchVisible} 
+                    />
+                </SearchContainer>
+            </LogoContainer>
+            <ButtonBox>
+                <NavButton>
+                    <Link href="/navigation">Explorar</Link>
+                </NavButton>
+                <NavButton>
+                    <Link href="/Vinilos">Vinilos</Link>
+                </NavButton>
+                <NavButton>
+                    <Link href="/CDs">CDs</Link>
+                </NavButton>
+                <NavButton>
+                    <Link href="/Casset">Cassettes</Link>
+                </NavButton>
+                <Link href="/Tienda">
+                    <NavButton>Merch</NavButton>
+                </Link>
+            </ButtonBox>
+            <div style={{ display: 'flex' }}>
+                <IconButton>
+                    <Notifications fontSize="inherit" onClick={handleToggleDropdown} />
+                </IconButton>
+                <IconButton>
+                    <LibraryMusic fontSize="inherit" />
+                </IconButton>
+                <IconButton>
+                    <Link href="/login">
+                        <AccountCircle fontSize="inherit" />
+                    </Link>
+                </IconButton>
+            </div>
+            <NotificacionesDropdown
+                visible={dropdownVisible}
+                notificaciones={notificaciones}
+                onClose={handleCloseNotificación}
             />
-          </IconButton>
-          <SearchInput
-            type="text"
-            placeholder="Buscar..."
-            $isVisible={searchVisible}
-          />
-        </SearchContainer>
-      </LogoContainer>
-      <ButtonBox>
-        <NavButton>
-          <Link href="/navigation">Explorar</Link>
-        </NavButton>
-        <NavButton>Vinilo</NavButton>
-        <NavButton>CDs</NavButton>
-        <NavButton>Cassettes</NavButton>
-        <Link href="/Tienda">
-          <NavButton>Merch</NavButton>
-        </Link>
-      </ButtonBox>
-      <div style={{ display: "flex" }}>
-        <IconButton>
-          <Notifications fontSize="inherit" onClick={handleToggleDropdown} />
-        </IconButton>
-        <IconButton>
-          <LibraryMusic fontSize="inherit" />
-        </IconButton>
-        <CartIcon />
-        <IconButton>
-          <Link href="/login">
-            <AccountCircle fontSize="inherit" />
-          </Link>
-        </IconButton>
-      </div>
-      <NotificacionesDropdown
-        visible={dropdownVisible}
-        notificaciones={notificaciones}
-        onClose={handleCloseNotificación}
-      />
-    </Header>
-  );
+        </Header>
+    );
 }

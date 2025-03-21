@@ -221,7 +221,7 @@ export default function ArtistCard( {album} : { album : Album } ){
                     <LineaEstetica />
                     <p className="Comentario" style={{paddingTop: "10px", fontSize: "13px"}}><i>{album.comentarios}</i></p>
                     <p className="Comentador" style={{color: "#76ABAE", marginBottom: "10px"}}><a href="#"><i>{album.comentador}</i></a></p>
-                    <PrimaryButton text="Añadir Comentario" onClick={() => setAddComment(!addComment)} style={{fontSize: "13px", borderRadius: "10px", width: "100%", marginBottom: "10px"}}/>
+                    <PrimaryButton text="Añadir Comentario" onClick={() => setAddComment(!addComment)} style={{fontSize: "13px", borderRadius: "10px", width: "100%", marginBottom: "10px"}} type = "button"/>
                     {addComment &&
                         <CommentContainer>
                             <Comment $addComment={addComment} />

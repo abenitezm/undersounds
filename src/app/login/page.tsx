@@ -6,6 +6,7 @@ import PrimaryButton from '../components/PrimaryButton';
 import {toast, ToastContainer } from "react-toastify";
 import Link from 'next/link';
 import { useAuth } from "../components/AuthContext";
+import { em } from 'framer-motion/client';
 
 const Container = styled.div`
     display: flex;
@@ -59,6 +60,10 @@ export default function Page() {
     const [errorInputs, setErrorInputs] = useState(false);
     const { setUserRole } = useAuth();
 
+    // Estados para errores específicos
+    const [emailError, setEmailError] = useState(false);
+    const [passwordError, setPasswordError] = useState(false);
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         // Aquí puedes manejar el inicio de sesión
@@ -67,12 +72,30 @@ export default function Page() {
     };
 
     const manejadorInputs = async() => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        // Reinicia los errores
+        setEmailError(false);
+        setPasswordError(false);
+
         if (!email && !password){
             toast.error("Tienes que introducir valores en los dos campos");
-            setErrorInputs(!errorInputs);
-        } else {
+            setEmailError(!errorInputs);
+            setPasswordError(!errorInputs);
+        } else if(!email || !password){
+            toast.error("Tienes que introducir un valor en el campo que falta");
+            setEmailError(!errorInputs);
+            setPasswordError(!errorInputs);
+
+        }
+        else if(!emailRegex.test(email)){
+            toast.error("El correo electrónico no es válido");
+            setEmailError(!errorInputs);
+
+        }
+        else {
             toast.success("Has iniciado sesión correctamente");
             setUserRole("registrado");
+            //window.location.href = "/Perfil"; // Redirigimos a la página principal
         }
     }
 
@@ -85,24 +108,17 @@ export default function Page() {
                     placeholder="Correo Electrónico"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    $errorInputs  = {errorInputs}
+                    $errorInputs  = {emailError}
                 />
                 <Input
                     type="password"
                     placeholder="Contraseña"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    $errorInputs  = {errorInputs}
+                    $errorInputs  = {passwordError}
                 />
                 <ButtonContainer>
-                    {/* Si hay error, no se puede hacer el enlace */}
-                    {errorInputs ? (
-                        <PrimaryButton text={"Inicio sesión"} onClick={manejadorInputs} />
-                    ) : (
-                        <Link href="/Perfil" passHref>
-                            <PrimaryButton text={"Inicio sesión"} onClick={manejadorInputs}/>
-                        </Link>
-                    )}
+                    <PrimaryButton type="submit" text={"Iniciar sesión"} onClick={manejadorInputs}/>
                 </ButtonContainer>
                 <TextContainer>
                     <p>Si no tienes cuenta, <Link href="/signup">regístrate</Link></p>

@@ -36,7 +36,7 @@ const ContenedorElementos = styled.div`
     align-items: center;
     width: 1260px;
     height: 640px;
-    background: ${colors.background};
+    background: ${colors.tertiary};
     //background: linear-gradient(135deg, rgba(204, 163, 65, 0.9), rgba(218, 94, 85, 0.9));
     box-shadow: initial;
     color: black;
@@ -93,7 +93,7 @@ export default function Tienda(){
     return(
         <Fondo>
             <TituloView>
-                Tienda de <Logo src = "./logo.svg" alt = "Logo Undersounds" />
+                Tienda de <Logo src = "./longLogo.svg" alt = "Logo Undersounds" />
             </TituloView>
             <ContenedorElementos> 
                 <GridTiendContent data = {merchData} onMerchClick={manejadorMerch} />

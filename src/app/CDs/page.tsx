@@ -40,10 +40,13 @@ const albumData : Album[] = data.map((cancion) => {
         imagenGrupo: cancion.imagenGrupo,
         descripcion: cancion.descripcion,
         comentarios: cancion.comentarios,
-        comentador: cancion.comentador
+        comentador: cancion.comentador,
+        type : cancion.type
     } as Album;
 });
 
+const viniloData = data
+    .filter((item) => item.type.includes("CD"));
 
 export default function NavigationPage() {
     /* Almacena el album seleccionado */
@@ -53,10 +56,22 @@ export default function NavigationPage() {
 
     /* Manejador que me permite mostrar las canciones del album MOLTING AND DANCING TODO: hacerlo para cualquier album */
     const manejadorAlbum = ( albumId : number ) => {
-        if ( albumId >= 0 && albumId < albumData.length ){
-            setSelectedAlbum(albumData[albumId]);
-            console.log(albumData[albumId].comentarios);
+        if ( albumId >= 0 && albumId < viniloData.length ){
+            setSelectedAlbum({
+                idAlbum: Number(viniloData[albumId].id) ?? 0,
+                title: viniloData[albumId].titulo,
+                canciones: Array.isArray(viniloData[albumId].canciones) ? viniloData[albumId].canciones : [],
+                artista: viniloData[albumId].artista ?? "",
+                oyentes: viniloData[albumId].oyentes ?? "",
+                imagenGrupo: viniloData[albumId].imagenGrupo ?? "",
+                descripcion: viniloData[albumId].descripcion ?? "",
+                comentarios: viniloData[albumId].comentarios ?? "",
+                comentador: viniloData[albumId].comentador ?? "",
+                type: viniloData[albumId].type,
+            });
         } else {
+            console.log(viniloData);
+            console.log(albumId);
             console.error("Indice del album fuera de rango");
         }
        
@@ -72,11 +87,10 @@ export default function NavigationPage() {
     return (
 
         <GlobalContainer>
-            <Multiselect tipo = "" />
-            <GridComponent data = {data} onAlbumClick = {manejadorAlbum}/>
+            <Multiselect tipo = "CDs"/>
+            <GridComponent data = {viniloData} onAlbumClick = {manejadorAlbum}/>
             {selectedAlbum && <AlbumReproducer album={selectedAlbum}/>}
         </GlobalContainer>
 
     );
 };
-
