@@ -93,7 +93,7 @@ export default function Tienda(){
     return(
         <Fondo>
             <TituloView>
-                Tienda de <Logo src = "./logo.svg" alt = "Logo Undersounds" />
+                Tienda de <Logo src = "./longLogo.svg" alt = "Logo Undersounds" />
             </TituloView>
             <ContenedorElementos> 
                 <GridTiendContent data = {merchData} onMerchClick={manejadorMerch} />
