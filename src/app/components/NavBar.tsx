@@ -114,7 +114,7 @@ const ButtonBox = styled.div`
 export default function NavBar() {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [searchVisible, setSearchVisible] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState<string>("");
   const [notificaciones, setNotificaciones] = useState([
     { id: 1, message: "Has comprado la canción:" },
     { id: 2, message: "Has comprado el álbum:" },
@@ -123,10 +123,10 @@ export default function NavBar() {
 
   const router = useRouter();
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && searchValue) {
-      router.push(`/navigation?search=${searchValue}`);
-    }
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchValue(value);
+    router.push(`/navigation?search=${value.trim()}`);
   };
 
   const handleToggleDropdown = () => {
@@ -155,8 +155,8 @@ export default function NavBar() {
           <SearchInput
             type="text"
             placeholder="Buscar..."
-            onChange={(e) => setSearchValue(e.target.value)}
-            onKeyDown={handleKeyDown}
+            value={searchValue}
+            onChange={handleChange}
             $isVisible={searchVisible}
           />
         </SearchContainer>
