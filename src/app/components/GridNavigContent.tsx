@@ -113,7 +113,6 @@ export default function GridContent( { data, onAlbumClick } : GridComponentProps
     */
 
     const enseñarMasContenido = expandir ? data : data.slice(0, 8); 
-    console.log(enseñarMasContenido);
 
     return (
         /* Cargamos el contenedor donde almacenaremos los productos */

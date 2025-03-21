@@ -1,17 +1,18 @@
-'use client'
+"use client";
 import React from "react";
 import styled from "styled-components";
 import colors from "../colors";
+import Link from "next/link";
 
 interface CategoryButtonProps {
   title: string;
   imageSrc: string;
   bgColor: string;
-  onClick?: () => void;
+  navigateTo: string;
 }
 
 const Button = styled.button`
-  background-color: ${props => props.color || colors.secondary};
+  background-color: ${(props) => props.color || colors.secondary};
   width: 215px;
   height: 240px;
   border-radius: 15px;
@@ -59,11 +60,18 @@ const Image = styled.img`
   transition: transform 0.3s ease-in-out;
 `;
 
-const CategoryButton: React.FC<CategoryButtonProps> = ({ title, imageSrc, bgColor, onClick }) => {
+const CategoryButton: React.FC<CategoryButtonProps> = ({
+  title,
+  imageSrc,
+  bgColor,
+  navigateTo = "/",
+}) => {
   return (
-    <Button onClick={onClick} color={bgColor}>
+    <Button color={bgColor}>
+      <Link href={navigateTo}>
         <Title>{title}</Title>
         <Image className="image" src={imageSrc} alt={title} />
+      </Link>
     </Button>
   );
 };

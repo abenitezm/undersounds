@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import colors from "../colors";
 import { styled } from "styled-components";
 import {
@@ -12,6 +12,7 @@ import {
 import Link from "next/link";
 import NotificacionesDropdown from "./DesplegableNoti";
 import CartIcon from "./CartIcon";
+import { useRouter } from "next/navigation";
 
 const Header = styled.header`
   display: flex;
@@ -114,11 +115,20 @@ const ButtonBox = styled.div`
 export default function NavBar() {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [searchVisible, setSearchVisible] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
   const [notificaciones, setNotificaciones] = useState([
     { id: 1, message: "Has comprado la canción:" },
     { id: 2, message: "Has comprado el álbum:" },
     { id: 3, message: "Has comprado una camiseta" },
   ]);
+
+  const router = useRouter();
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && searchValue) {
+      router.push(`/navigation?search=${searchValue}`);
+    }
+  };
 
   const handleToggleDropdown = () => {
     setDropdownVisible(!dropdownVisible);
@@ -130,61 +140,64 @@ export default function NavBar() {
     );
   };
 
-    return (
-        <Header>
-            <LogoContainer>
-                <Link href="/">
-                    <Logo src="/logo.svg" alt="Logo Undersounds" />
-                </Link>
-                <SearchContainer>
-                    <IconButton>
-                        <Search 
-                            fontSize="inherit"  
-                            onClick={() => setSearchVisible(!searchVisible)} 
-                        />
-                    </IconButton>
-                    <SearchInput 
-                        type="text" 
-                        placeholder="Buscar..." 
-                        $isVisible={searchVisible} 
-                    />
-                </SearchContainer>
-            </LogoContainer>
-            <ButtonBox>
-                <NavButton>
-                    <Link href="/navigation">Explorar</Link>
-                </NavButton>
-                <NavButton>
-                    <Link href="/Vinilos">Vinilos</Link>
-                </NavButton>
-                <NavButton>
-                    <Link href="/CDs">CDs</Link>
-                </NavButton>
-                <NavButton>
-                    <Link href="/Casset">Cassettes</Link>
-                </NavButton>
-                <Link href="/Tienda">
-                    <NavButton>Merch</NavButton>
-                </Link>
-            </ButtonBox>
-            <div style={{ display: 'flex' }}>
-                <IconButton>
-                    <Notifications fontSize="inherit" onClick={handleToggleDropdown} />
-                </IconButton>
-                <IconButton>
-                    <LibraryMusic fontSize="inherit" />
-                </IconButton>
-                <IconButton>
-                    <Link href="/login">
-                        <AccountCircle fontSize="inherit" />
-                    </Link>
-                </IconButton>
-            </div>
-            <NotificacionesDropdown
-                visible={dropdownVisible}
-                notificaciones={notificaciones}
-                onClose={handleCloseNotificación}
+  return (
+    <Header>
+      <LogoContainer>
+        <Link href="/">
+          <Logo src="/logo.svg" alt="Logo Undersounds" />
+        </Link>
+        <SearchContainer>
+          <IconButton>
+            <Search
+              fontSize="inherit"
+              onClick={() => setSearchVisible(!searchVisible)}
             />
-        </Header>
-    );
+          </IconButton>
+          <SearchInput
+            type="text"
+            placeholder="Buscar..."
+            onChange={(e) => setSearchValue(e.target.value)}
+            onKeyDown={handleKeyDown}
+            $isVisible={searchVisible}
+          />
+        </SearchContainer>
+      </LogoContainer>
+      <ButtonBox>
+        <NavButton>
+          <Link href="/navigation">Explorar</Link>
+        </NavButton>
+        <NavButton>
+          <Link href="/navigation?category=Vinilo">Vinilos</Link>
+        </NavButton>
+        <NavButton>
+          <Link href="/navigation?category=CD">CDs</Link>
+        </NavButton>
+        <NavButton>
+          <Link href="/navigation?category=Cassete">Cassettes</Link>
+        </NavButton>
+        <Link href="/Tienda">
+          <NavButton>Merch</NavButton>
+        </Link>
+      </ButtonBox>
+      <div style={{ display: "flex" }}>
+        <IconButton>
+          <Notifications fontSize="inherit" onClick={handleToggleDropdown} />
+        </IconButton>
+        <IconButton>
+          <LibraryMusic fontSize="inherit" />
+        </IconButton>
+        <CartIcon />
+        <IconButton>
+          <Link href="/login">
+            <AccountCircle fontSize="inherit" />
+          </Link>
+        </IconButton>
+      </div>
+      <NotificacionesDropdown
+        visible={dropdownVisible}
+        notificaciones={notificaciones}
+        onClose={handleCloseNotificación}
+      />
+    </Header>
+  );
 }

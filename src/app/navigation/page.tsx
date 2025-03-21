@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useEffect } from "react";
 import { useState } from "react";
@@ -7,61 +7,87 @@ import data from "../bd.json";
 import GridComponent from "../components/GridNavigContent";
 import AlbumReproducer, { Album } from "../components/AlbumReproducer";
 import { styled } from "styled-components";
+import { useSearchParams } from "next/navigation";
 
 const GlobalContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    gap: 20px;
-    margin: 10px 50px 20px 0;
-    width: clamp(300px, 90%, 1400px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 20px;
+  margin: 10px 50px 20px 0;
+  width: clamp(300px, 90%, 1400px);
 
-    &::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: url("/graffiti2.svg") no-repeat center center;
-        background-size: cover;
-        opacity: 1;
-        z-index: -1;
-     }
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("/graffiti2.svg") no-repeat center center;
+    background-size: cover;
+    opacity: 1;
+    z-index: -1;
+  }
 `;
 
-const albumData : Album[] = data.map((cancion) => {
-    return {
-        idAlbum: cancion.id,
-        title: cancion.titulo,
-        canciones: cancion.canciones,
-        artista: cancion.artista,
-        oyentes: cancion.oyentes,
-        imagenGrupo: cancion.imagenGrupo,
-        descripcion: cancion.descripcion,
-        comentarios: cancion.comentarios,
-        comentador: cancion.comentador
-    } as Album;
+const albumData: Album[] = data.map((cancion) => {
+  return {
+    idAlbum: cancion.id,
+    title: cancion.titulo,
+    canciones: cancion.canciones,
+    artista: cancion.artista,
+    oyentes: cancion.oyentes,
+    imagenGrupo: cancion.imagenGrupo,
+    descripcion: cancion.descripcion,
+    comentarios: cancion.comentarios,
+    comentador: cancion.comentador,
+  } as Album;
 });
 
-
 export default function NavigationPage() {
-    /* Almacena el album seleccionado */
-    const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
-    /* Almacena los filtros seleccionados */
-    const [filters, setFilters] = React.useState<string[]>([]);
+  const [filteredData, setFilteredData] = useState(data);
 
-    /* Manejador que me permite mostrar las canciones del album MOLTING AND DANCING TODO: hacerlo para cualquier album */
-    const manejadorAlbum = ( albumId : number ) => {
-        if ( albumId >= 0 && albumId < albumData.length ){
-            setSelectedAlbum(albumData[albumId]);
-            console.log(albumData[albumId].comentarios);
-        } else {
-            console.error("Indice del album fuera de rango");
-        }
-       
-    };
-    /* Posible método que se usará en el filtrado con la BD
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const search = searchParams.get("search");
+    const category = searchParams.get("category");
+    if (search) {
+      setFilteredData(
+        data.filter((album) =>
+          album.titulo.toLowerCase().includes(search.toLowerCase())
+        )
+      );
+    } else {
+      setFilteredData(data);
+    }
+
+    if (category) {
+      const filteredAlbums = data.filter((album) =>
+        album.type.includes(category)
+      );
+      setFilteredData(filteredAlbums);
+    } else {
+      setFilteredData(data);
+    }
+  }, [searchParams]);
+
+  /* Almacena el album seleccionado */
+  const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
+  /* Almacena los filtros seleccionados */
+  const [filters, setFilters] = React.useState<string[]>([]);
+
+  /* Manejador que me permite mostrar las canciones del album MOLTING AND DANCING TODO: hacerlo para cualquier album */
+  const manejadorAlbum = (albumId: number) => {
+    if (albumId >= 0 && albumId < albumData.length) {
+      setSelectedAlbum(albumData[albumId]);
+      console.log(albumData[albumId].comentarios);
+    } else {
+      console.error("Indice del album fuera de rango");
+    }
+  };
+  /* Posible método que se usará en el filtrado con la BD
     
     const actualizarFiltros = (filters : string[]) => {
         setFilters(filters);
@@ -69,14 +95,11 @@ export default function NavigationPage() {
 
     */
 
-    return (
-
-        <GlobalContainer>
-            <Multiselect tipo = "" />
-            <GridComponent data = {data} onAlbumClick = {manejadorAlbum}/>
-            {selectedAlbum && <AlbumReproducer album={selectedAlbum}/>}
-        </GlobalContainer>
-
-    );
-};
-
+  return (
+    <GlobalContainer>
+      <Multiselect tipo="" />
+      <GridComponent data={filteredData} onAlbumClick={manejadorAlbum} />
+      {selectedAlbum && <AlbumReproducer album={selectedAlbum} />}
+    </GlobalContainer>
+  );
+}
