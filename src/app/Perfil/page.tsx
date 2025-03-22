@@ -10,7 +10,6 @@ import GridFavoritas from "../components/GridCancionesFavoritas";
 import GridSiguiendo from "../components/GridArtistasSiguiendo";
 import GridComponent from "../components/GridNavigContent";
 import AlbumReproducer, { Album } from "../components/AlbumReproducer";
-import Link from "next/link";
 
 import SettingsIcon from "@mui/icons-material/Settings";
 import ShowChartIcon from "@mui/icons-material/ShowChart";
