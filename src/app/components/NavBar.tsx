@@ -1,14 +1,8 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
+'use client'
+import React, { useState, useEffect } from "react";
 import colors from "../colors";
 import { styled } from "styled-components";
-import {
-  Search,
-  Notifications,
-  LibraryMusic,
-  AccountCircle,
-} from "@mui/icons-material";
+import { Search, Notifications, LibraryMusic, AccountCircle } from "@mui/icons-material";
 import Link from "next/link";
 import NotificacionesDropdown from "./DesplegableNoti";
 import CartIcon from "./CartIcon";
@@ -122,11 +116,22 @@ export default function NavBar() {
   ]);
 
   const router = useRouter();
+  
+  const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchValue(value);
-    router.push(`/navigation?search=${value.trim()}`);
+    
+    if (debounceTimer) {
+      clearTimeout(debounceTimer);
+    }
+
+    const timer = setTimeout(() => {
+      router.push(`/navigation?search=${value.trim()}`);
+    }, 1000); // 1 segundo de espera
+
+    setDebounceTimer(timer);
   };
 
   const handleToggleDropdown = () => {
