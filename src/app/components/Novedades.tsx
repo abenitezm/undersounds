@@ -12,7 +12,7 @@ const Novedades = () => {
             <p>Descubre los álbumes más recientes de tus artistas favoritos. ¡No te pierdas lo último!</p>
         </TextContainer>
         <Grid>
-            {Albums && Albums.slice(0, 4).map(album => (
+            {Albums && Albums.slice(0, 6).map(album => (
             <AlbumCardWrapper key={album.id}>
                 <Album
                     key={album.id}
@@ -36,10 +36,11 @@ const Container = styled.div`
   justify-content: center;
   align-items: flex-stat;
   padding: 40px;
+  max-width: 1224px;
 `;
 
 const TextContainer = styled.div`
-  width: 20%;
+  width: 50%;
   text-align: left;
   padding-right: 60px;
   h2 {
@@ -55,10 +56,10 @@ const TextContainer = styled.div`
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   align-self: flex-end;
   gap: 15px;
-  width: 25%;
+  width: 50%;
 `;
 
 const AlbumCardWrapper = styled.div`

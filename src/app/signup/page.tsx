@@ -7,6 +7,7 @@ import FancyButton from '../components/FancyButton';
 import { toast, ToastContainer } from "react-toastify";
 import Link from 'next/link';
 import { useAuth } from "../components/AuthContext";
+import {useRouter} from 'next/navigation';
 
 const Container = styled.div`
     display: flex;
@@ -70,6 +71,7 @@ export default function SignupPage() {
     const [role, setRole] = useState('');
     const [acceptedTerms, setAcceptedTerms] = useState(false);
     const { setUserRole } = useAuth();
+    const router = useRouter();
 
     // Estados para errores específicos
     const [emailError, setEmailError] = useState(false);
@@ -112,8 +114,13 @@ export default function SignupPage() {
         }
         else {
             toast.success("Te has registrado correctamente");
-            setUserRole(role);
-            window.location.href = '/Perfil'; // Redirigimos a la página principal
+            setUserRole("registrado");
+            if(role === 'fan'){ 
+                router.push('/Perfil');
+            }    
+            else if(role === 'artista'){
+                router.push('/artist\ Drake'); 
+            }    
         }
     };
 
@@ -126,7 +133,10 @@ export default function SignupPage() {
                         title="Fan"
                         imageSrc="prettyButtons/fan.png"
                         bgColor={role === 'fan' ? "#28a745" : "#A8DADC"}
-                        onClick={() => setRole('fan')}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            setRole('fan')}
+                    }
                         
                     />
                     <FancyButton

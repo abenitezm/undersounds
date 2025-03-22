@@ -1,14 +1,8 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
+'use client'
+import React, { useState, useEffect } from "react";
 import colors from "../colors";
 import { styled } from "styled-components";
-import {
-  Search,
-  Notifications,
-  LibraryMusic,
-  AccountCircle,
-} from "@mui/icons-material";
+import { Search, Notifications, LibraryMusic, AccountCircle } from "@mui/icons-material";
 import Link from "next/link";
 import NotificacionesDropdown from "./DesplegableNoti";
 import CartIcon from "./CartIcon";
@@ -58,7 +52,7 @@ const SearchInput = styled.input<{ $isVisible: boolean }>`
 
 const NavButton = styled.button`
   color: ${colors.secondary};
-  font-size: 28px;
+  font-size: 22px;
   background: none;
   border: none;
   padding: 8px;
@@ -86,23 +80,22 @@ const NavButton = styled.button`
 `;
 
 const IconButton = styled.div`
-  font-size: 46px; /* Tamaño del icono */
+  font-size: 46px;
   cursor: pointer;
-  width: 50px; /* Establecer un tamaño fijo para el contenedor */
-  height: 50px; /* Establecer un tamaño fijo para el contenedor */
-  border-radius: 50%; /* Hace el fondo completamente circular */
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
   transition: background-color 0.3s ease;
-  display: flex; /* Usar flexbox para alinear el icono */
-  align-items: center; /* Centra el icono verticalmente */
-  justify-content: center; /* Centra el icono horizontalmente */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     background-color: ${colors.primary};
   }
 
-  /* Asegura que el icono tenga un tamaño consistente */
   & svg {
-    font-size: 36px !important; /* Asegura que todos los iconos tengan el mismo tamaño */
+    font-size: 36px !important;
   }
 `;
 
@@ -115,7 +108,7 @@ const ButtonBox = styled.div`
 export default function NavBar() {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [searchVisible, setSearchVisible] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState<string>("");
   const [notificaciones, setNotificaciones] = useState([
     { id: 1, message: "Has comprado la canción:" },
     { id: 2, message: "Has comprado el álbum:" },
@@ -123,11 +116,22 @@ export default function NavBar() {
   ]);
 
   const router = useRouter();
+  
+  const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(null);
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && searchValue) {
-      router.push(`/navigation?search=${searchValue}`);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchValue(value);
+    
+    if (debounceTimer) {
+      clearTimeout(debounceTimer);
     }
+
+    const timer = setTimeout(() => {
+      router.push(`/navigation?search=${value.trim()}`);
+    }, 1000); // 1 segundo de espera
+
+    setDebounceTimer(timer);
   };
 
   const handleToggleDropdown = () => {
@@ -156,8 +160,8 @@ export default function NavBar() {
           <SearchInput
             type="text"
             placeholder="Buscar..."
-            onChange={(e) => setSearchValue(e.target.value)}
-            onKeyDown={handleKeyDown}
+            value={searchValue}
+            onChange={handleChange}
             $isVisible={searchVisible}
           />
         </SearchContainer>

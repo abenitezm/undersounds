@@ -1,10 +1,9 @@
 "use client";
 
 import colors from "./colors";
-import { CSSProperties, useEffect, useState } from "react";
+import { CSSProperties } from "react";
 import FancyButton from "./components/FancyButton";
 import HomeGrid from "./components/HomeGrid";
-import Albums from "./bd.json";
 import Novedades from "./components/Novedades";
 
 export default function Home() {
@@ -36,38 +35,36 @@ export default function Home() {
         <FancyButton
           title="Explorar todo"
           imageSrc="prettyButtons/all.png"
-          bgColor="#A8DADC"
+          bgColor={colors.rainbow1}
           navigateTo="/navigation"
         />
         <FancyButton
           title="Vinilo"
           imageSrc="prettyButtons/vinyl.png"
-          bgColor="#F4A261"
+          bgColor={colors.rainbow2}
           navigateTo="/navigation?category=Vinilo"
         />
         <FancyButton
           title="CDs"
           imageSrc="prettyButtons/cd.png"
-          bgColor="#E76F51"
+          bgColor={colors.rainbow3}
           navigateTo="/navigation?category=CD"
         />
         <FancyButton
           title="Cassettes"
           imageSrc="prettyButtons/cassette.png"
-          bgColor="#457B9D"
+          bgColor={colors.rainbow4}
           navigateTo="/navigation?category=Cassete"
         />
         <FancyButton
           title="Merch"
           imageSrc="prettyButtons/tshirt.png"
-          bgColor="#2A9D8F"
+          bgColor={colors.rainbow5}
           navigateTo="/Tienda"
         />
       </div>
 
-      <div style={styles.container}>
-        <Novedades />
-      </div>
+      <Novedades />
     </>
   );
 }

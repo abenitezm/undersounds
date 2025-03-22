@@ -14,6 +14,9 @@ import Link from "next/link";
 
 import SettingsIcon from "@mui/icons-material/Settings";
 import ShowChartIcon from "@mui/icons-material/ShowChart";
+import PrimaryButton from "../components/PrimaryButton";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 // Generar albumData a partir de los datos JSON
 const albumData: Album[] = data.slice(0, 2).map((cancion) => {
@@ -253,27 +256,19 @@ export default function Perfil() {
         >
           Siguiendo
         </ProfileButton>
-        <ProfileButton
-          onClick={() => toggleSeleccion(2)}
-          $isSelected={selectedButton === 2}
-        >
-          Compras
-        </ProfileButton>
+        <Link href="uploadAlbum">
+          <PrimaryButton text="Subir Álbum" onClick={() => 0} type="button" />
+        </Link>
       </ButtonContainer>
 
       <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
-        {/* Mostrar el Grid correspondiente al botón seleccionado */}
-        {selectedButton === 0 && (
-          <GridFavoritas
-            data={data2 as Cancion[]} /*onAlbumClick={manejadorAlbum}*/
-          />
-        )}
-        {selectedButton === 1 && (
-          <GridSiguiendo data={data3} /*onAlbumClick={manejadorAlbum}*/ />
-        )}
-        {selectedButton === 2 && (
-          <GridComponent data={data} onAlbumClick={manejadorAlbum} />
-        )}
+      {/* Mostrar el Grid correspondiente al botón seleccionado */}
+      {selectedButton === 0 && (
+        <GridFavoritas data={data2 as Cancion[]} /*onAlbumClick={manejadorAlbum}*/ />
+      )}
+      {selectedButton === 1 && (
+        <GridSiguiendo data={data3} /*onAlbumClick={manejadorAlbum}*/ />
+      )}
       </div>
 
       {/* Mostrar detalles del álbum seleccionado */}

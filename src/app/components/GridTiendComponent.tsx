@@ -10,7 +10,9 @@ import PrimaryButton from "./PrimaryButton";
 import ShopValidator from "../components/ShopValidator";
 import { useAuth } from "../components/AuthContext";
 import { toast, ToastContainer } from "react-toastify";
+import { useShoppingCart } from "./ShoppingCartContext";
 import { animacionEntrada } from "../components/ShopValidator";
+import PaidIcon from "@mui/icons-material/Paid";
 
 const GridContainer = styled.div<{ $expandir : boolean}>`
     display: grid;
@@ -44,6 +46,7 @@ const GridItem = styled.div`
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 8px;
     transition: all 0.3s ease;
     animation: ${fadeIn} 0.5s ease; /* Animación de entrada */
@@ -81,6 +84,17 @@ const Precio = styled.h3`
     margin: 10px 0;
     color: ${colors.tertiary};
 
+`;
+
+const Row = styled.div`
+  display: flex;
+  gap: 10px;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin-left: 0px;
+  width: 100%;
+  margin-top: 10px;
+  align-items: center;
 `;
 
 const MerchImg = styled.img`
@@ -160,7 +174,7 @@ export type Merch = {
   id: string;
   titulo: string;
   tipo: string;
-  precio: string;
+  precio: number;
   imagen: string;
   artista: string;
 };
@@ -175,6 +189,8 @@ export default function GridContent({
   const { userRole } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const enseñarMasContenido = expandir ? data : data.slice(0, 6);
+
+   const { addToCart } = useShoppingCart();
 
   const manejadorElementoMerch = (merchId: string) => {
     onMerchClick(merchId);
@@ -221,23 +237,40 @@ export default function GridContent({
           <span
             style={{
               display: "flex",
-              flexDirection: "row",
+              flexDirection: "column",
               alignItems: "center",
+              width: "100%",
             }}
           >
-            <Precio>${elemento.price}</Precio>
-            <BuyButton
-              onClick={() => {
-                manejadorValidador();
-                if (userRole === "invitado") {
-                  setIsOpen(true);
-                  <ToastContainer />;
-                }
-              }}
-            >
-              <ShoppingCartIcon />
-              Comprar
-            </BuyButton>
+            <Precio>${elemento.precio}</Precio>
+            <Row>
+                <BuyButton
+                  onClick={() => {
+                    addToCart({
+                      id: elemento.id || "",
+                      name: elemento.titulo || "",
+                      image: elemento.imagen || "",
+                      price: parseFloat(elemento.precio || "0.00"),
+                      quantity: 1,
+                    });
+                  }}
+                >
+                <ShoppingCartIcon />
+                Añadir al carrito
+              </BuyButton>
+              <BuyButton
+                onClick={() => {
+                  manejadorValidador();
+                  if (userRole === "invitado") {
+                    setIsOpen(true);
+                    <ToastContainer />;
+                  }
+                }}
+              >
+                <PaidIcon />
+                Comprar en 1 click
+              </BuyButton>
+            </Row>
           </span>
         </GridItem>
       ))}

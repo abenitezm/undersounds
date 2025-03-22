@@ -7,6 +7,7 @@ import {toast, ToastContainer } from "react-toastify";
 import Link from 'next/link';
 import { useAuth } from "../components/AuthContext";
 import { em } from 'framer-motion/client';
+import {useRouter} from 'next/navigation';
 
 const Container = styled.div`
     display: flex;
@@ -23,7 +24,7 @@ const Form = styled.form`
     display: flex;
     flex-direction: column;
     gap: 40px;
-    background-color: ${colors.background};
+    background-color: ${colors.tertiary};
     padding: 70px;
     border-radius: 30px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -37,7 +38,7 @@ const Input = styled.input<{$errorInputs : boolean}>`
 `;
 
 const Logo = styled.img`
-    height: 80px;
+    height: 50px;
     width: auto;
     margin-bottom: 40px;
 `;
@@ -59,6 +60,7 @@ export default function Page() {
     const [password, setPassword] = useState('');
     const [errorInputs, setErrorInputs] = useState(false);
     const { setUserRole } = useAuth();
+    const router = useRouter();
 
     // Estados para errores específicos
     const [emailError, setEmailError] = useState(false);
@@ -95,13 +97,13 @@ export default function Page() {
         else {
             toast.success("Has iniciado sesión correctamente");
             setUserRole("registrado");
-            //window.location.href = "/Perfil"; // Redirigimos a la página principal
+            router.push('/Perfil');
         }
     }
 
     return (
         <Container>
-            <Logo src="logo.svg" alt="Logo" />
+            <Logo src="longLogo.svg" alt="Logo" />
             <Form onSubmit={handleSubmit}>
                 <Input
                     type="email"
@@ -121,7 +123,8 @@ export default function Page() {
                     <PrimaryButton type="submit" text={"Iniciar sesión"} onClick={manejadorInputs}/>
                 </ButtonContainer>
                 <TextContainer>
-                    <p>Si no tienes cuenta, <Link href="/signup">regístrate</Link></p>
+                    <br />
+                    <p>Si no tienes cuenta, <Link href="/signup"><u>regístrate</u></Link></p>
                 </TextContainer>
             </Form>
             <ToastContainer position="bottom-center" autoClose={3000}/>

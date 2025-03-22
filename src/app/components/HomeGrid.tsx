@@ -2,6 +2,7 @@
 import React from "react";
 import styled from "styled-components";
 import colors from "../colors";
+import Link from "next/link";
 
 const Grid = styled.div`
   display: grid;
@@ -93,38 +94,46 @@ export default function CategoryButton() {
   return (
     <Grid>
       <Main>
-        <ItemContainer>
-          <Item className="image" src="https://f4.bcbits.com/img/0038984935_171.jpg" />
-          <Caption className="caption">
-            <Title>Riffs Brutalistas: Una guía sobre math rock</Title>
-            <Description>Esto es lo que ocurrió cuando la energía del hardcore punk se encontró con la habilidad técnica del heavy metal</Description>
-          </Caption>
-        </ItemContainer>
+        <Link href="/article">
+          <ItemContainer>
+            <Item className="image" src="articles/article1.jpg" />
+            <Caption className="caption">
+              <Title>Riffs Brutalistas: Una guía sobre math rock</Title>
+              <Description>Esto es lo que ocurrió cuando la energía del hardcore punk se encontró con la habilidad técnica del heavy metal</Description>
+            </Caption>
+          </ItemContainer>
+        </Link>
       </Main>
 
-      <ItemContainer>
-        <Item className="image" src="https://f4.bcbits.com/img/0038974398_170.jpg" />
-        <Caption className="caption">
-          <Title>Explorando el genio de Ronald Shannon Jackson</Title>
-          <Description>LISTA</Description>
-        </Caption>
-      </ItemContainer>
+      <Link href="/article">
+        <ItemContainer>
+          <Item className="image" src="articles/article2.jpg" />
+          <Caption className="caption">
+            <Title>Explorando el genio de Ronald Shannon Jackson</Title>
+            <Description>LISTA</Description>
+          </Caption>
+        </ItemContainer>
+      </Link>
 
-      <ItemContainer>
-        <Item className="image" src="https://f4.bcbits.com/img/0038961073_170.jpg" />
-        <Caption className="caption">
-          <Title>Will Guthrie, en muchos disfraces</Title>
-          <Description>LISTA</Description>
-        </Caption>
-      </ItemContainer>
+      <Link href="/article">
+        <ItemContainer>
+          <Item className="image" src="articles/article3.jpg" />
+          <Caption className="caption">
+            <Title>Will Guthrie, en muchos disfraces</Title>
+            <Description>LISTA</Description>
+          </Caption>
+        </ItemContainer>
+      </Link>
 
-      <ItemContainer>
-        <Item className="image" src="https://f4.bcbits.com/img/0038924611_170.jpg" />
-        <Caption className="caption">
-          <Title>El show de hip hop</Title>
-          <Description>Mereba se une al programa para hablar sobre su nuevo álbum, "The Breeze Grew A Fire"</Description>
-        </Caption>
-      </ItemContainer>
+      <Link href="/article">
+        <ItemContainer>
+          <Item className="image" src="articles/article4.jpg" />
+          <Caption className="caption">
+            <Title>El show de hip hop</Title>
+            <Description>Mereba se une al programa para hablar sobre su nuevo álbum, "The Breeze Grew A Fire"</Description>
+          </Caption>
+        </ItemContainer>
+      </Link>
     </Grid>
   );
 }
