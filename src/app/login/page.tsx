@@ -7,6 +7,7 @@ import {toast, ToastContainer } from "react-toastify";
 import Link from 'next/link';
 import { useAuth } from "../components/AuthContext";
 import { em } from 'framer-motion/client';
+import {useRouter} from 'next/navigation';
 
 const Container = styled.div`
     display: flex;
@@ -59,6 +60,7 @@ export default function Page() {
     const [password, setPassword] = useState('');
     const [errorInputs, setErrorInputs] = useState(false);
     const { setUserRole } = useAuth();
+    const router = useRouter();
 
     // Estados para errores específicos
     const [emailError, setEmailError] = useState(false);
@@ -95,7 +97,7 @@ export default function Page() {
         else {
             toast.success("Has iniciado sesión correctamente");
             setUserRole("registrado");
-            //window.location.href = "/Perfil"; // Redirigimos a la página principal
+            router.push('/Perfil');
         }
     }
 
