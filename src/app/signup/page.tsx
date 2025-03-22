@@ -7,6 +7,7 @@ import ElegirUsu from '../components/ElegirUsu';
 import { toast, ToastContainer } from "react-toastify";
 import Link from 'next/link';
 import { useAuth } from "../components/AuthContext";
+import { useRegister } from '../components/RegisterContext';
 import {useRouter} from 'next/navigation';
 
 const Container = styled.div`
@@ -70,7 +71,8 @@ export default function SignupPage() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [role, setRole] = useState('');
     const [acceptedTerms, setAcceptedTerms] = useState(false);
-    const { setUserRole } = useAuth();
+    const { setUserRole} = useAuth();
+    const { setRegisterRole } = useRegister(); 
     const router = useRouter();
 
     // Estados para errores específicos
@@ -116,10 +118,10 @@ export default function SignupPage() {
             toast.success("Te has registrado correctamente");
             setUserRole("registrado");
             if(role === 'fan'){ 
-                router.push('/Perfil');
+                router.push('/Perfil'); 
             }    
             else if(role === 'artista'){
-                router.push('/artist/Drake'); 
+                router.push('/Perfil'); 
             }    
         }
     };
@@ -133,13 +135,13 @@ export default function SignupPage() {
                         title="Fan"
                         imageSrc="prettyButtons/fan.png"
                         bgColor={role === 'fan' ? "#28a745" : "#A8DADC"}
-                        onClick={() => setRole('fan')}
+                        onClick={() => {setRole('fan'); setRegisterRole("fan")}}
                     />
                     <ElegirUsu
                         title="Artista"
                         imageSrc="prettyButtons/artista.png"
                         bgColor={role === 'artista' ? "#28a745" : "#F4A261"}
-                        onClick={() => setRole('artista')}
+                        onClick={() => {setRole('artista'); setRegisterRole("artista")}}
                     />
                 </Botoneselección>
                 <Input
@@ -163,7 +165,7 @@ export default function SignupPage() {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     $errorInputs = {confirmPasswordError}
                 />
-               {/* Añadimos un checkbox para aceptar los términos y condiciones */}
+                {/* Añadimos un checkbox para aceptar los términos y condiciones */}
                 <CheckboxContainer>
                     <Checkbox
                         type="checkbox"

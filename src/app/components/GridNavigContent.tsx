@@ -46,6 +46,7 @@ const GridItem = styled.div<{ $expandir : boolean}>`
     gap: 8px;
     transition: all 0.3s ease;
     animation: ${fadeIn} 0.5s ease;
+    cursor: pointer;
 
 
     &:hover {

@@ -47,19 +47,18 @@ const ContenedorElementos = styled.div`
 `;
 
 const TituloView = styled.h1`
-    font-size: 24px;
-    font-wight: bold;
-    display: inline-flex;
+    font-size: 46px;
+    font-weight: bold;
+    display: flex;
     align-items: center;
     margin-bottom: 10px;
-    gap: 8px;
+    gap: 15px;
     white-space: nowrap;
 `;
 
 const Logo = styled.img`
     height: 34px;
     width: auto;
-    margin-bottom: 10px;
     vertical-align: middle;
 `;
 
@@ -93,7 +92,7 @@ export default function Tienda(){
     return(
         <Fondo>
             <TituloView>
-                Tienda de <Logo src = "./longLogo.svg" alt = "Logo Undersounds" />
+                TIENDA DE <Logo src = "./longLogo.svg" alt = "Logo Undersounds" />
             </TituloView>
             <ContenedorElementos> 
                 <GridTiendContent data = {merchData} onMerchClick={manejadorMerch} />

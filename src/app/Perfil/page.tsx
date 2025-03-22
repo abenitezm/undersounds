@@ -14,6 +14,7 @@ import AlbumReproducer, { Album } from "../components/AlbumReproducer";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ShowChartIcon from "@mui/icons-material/ShowChart";
 import PrimaryButton from "../components/PrimaryButton";
+import { useRegister } from '../components/RegisterContext';
 import { useRouter } from "next/router";
 import Link from "next/link";
 
@@ -192,6 +193,7 @@ export default function Perfil() {
   const [selectedButton, setSelectedButton] = useState(0); // Mantener el botón seleccionado
   const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
   const [artistas, setArtistas] = useState<Artista[]>([]);
+  const { registerRole } = useRegister();
 
   console.log("Datos recibidos:", data);
   const toggleSeleccion = (index: number) => {
@@ -255,9 +257,9 @@ export default function Perfil() {
         >
           Siguiendo
         </ProfileButton>
-        <Link href="uploadAlbum">
+        {registerRole === "artista" && (<Link href="uploadAlbum">
           <PrimaryButton text="Subir Álbum" onClick={() => 0} type="button" />
-        </Link>
+        </Link>)}
       </ButtonContainer>
 
       <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>

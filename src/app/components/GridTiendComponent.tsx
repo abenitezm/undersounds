@@ -22,7 +22,7 @@ const GridContainer = styled.div<{ $expandir : boolean}>`
     justify-items: start;
     margin-left: 0;
     width: 90%;
-    height: ${({ $expandir }) => ($expandir ? "100%" : "570px")};
+    height: ${({ $expandir }) => ($expandir ? "90%" : "90%")};
     overflow-y: ${({ $expandir }) => ($expandir ? "auto" : "visible")};
     padding-right: 10px;
     overflow-x: visible;
@@ -46,10 +46,10 @@ const GridItem = styled.div`
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 8px;
     transition: all 0.3s ease;
     animation: ${fadeIn} 0.5s ease; /* Animación de entrada */
+    cursor: pointer;
 
     &:hover {
         transform: scale(1.01);
@@ -86,11 +86,11 @@ const Precio = styled.h3`
 
 `;
 
-const Row = styled.div`
+const Column = styled.div`
   display: flex;
   gap: 10px;
-  flex-direction: row;
-  justify-content: flex-start;
+  flex-direction: column;
+  align-items: flex-start;
   margin-left: 0px;
   width: 100%;
   margin-top: 10px;
@@ -238,12 +238,12 @@ export default function GridContent({
             style={{
               display: "flex",
               flexDirection: "column",
-              alignItems: "center",
+              marginLeft: "0px",
               width: "100%",
             }}
           >
             <Precio>${elemento.precio}</Precio>
-            <Row>
+            <Column>
                 <BuyButton
                   onClick={() => {
                     addToCart({
@@ -270,7 +270,7 @@ export default function GridContent({
                 <PaidIcon />
                 Comprar en 1 click
               </BuyButton>
-            </Row>
+            </Column>
           </span>
         </GridItem>
       ))}

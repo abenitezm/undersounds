@@ -8,6 +8,7 @@ import TopMargin from "./components/TopMargin";
 import { AuthProvider } from "./components/AuthContext";
 import Footer from "./components/Footer";
 import { ShoppingCartProvider } from "@/app/components/ShoppingCartContext";
+import { RegisterProvider } from "./components/RegisterContext";
 
 const montserrat = Montserrat({ subsets: ["latin"], weight: "400" });
 
@@ -24,15 +25,17 @@ export default function RootLayout({
   return (
     <AuthProvider>
       <ShoppingCartProvider>
-        <html lang="en">
-          <body className={`${montserrat.className} antialiased`}>
-            <NavBar />
-            <TopMargin />
-            <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
-            {/* Separación del audio para reproducirlo en todas las páginas */}
-            <Footer />
-          </body>
-        </html>
+        <RegisterProvider>
+          <html lang="en">
+            <body className={`${montserrat.className} antialiased`}>
+              <NavBar />
+              <TopMargin />
+              <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+              {/* Separación del audio para reproducirlo en todas las páginas */}
+              <Footer />
+            </body>
+          </html>
+        </RegisterProvider>
       </ShoppingCartProvider>
     </AuthProvider>
   );

@@ -1,13 +1,15 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import colors from '../colors';
 import PrimaryButton from '../components/PrimaryButton';
 import {toast, ToastContainer } from "react-toastify";
 import Link from 'next/link';
 import { useAuth } from "../components/AuthContext";
+import { useRegister } from '../components/RegisterContext';
 import { em } from 'framer-motion/client';
 import {useRouter} from 'next/navigation';
+import { register } from 'module';
 
 const Container = styled.div`
     display: flex;
@@ -60,6 +62,8 @@ export default function Page() {
     const [password, setPassword] = useState('');
     const [errorInputs, setErrorInputs] = useState(false);
     const { setUserRole } = useAuth();
+    const { userRole } = useAuth();
+    const { registerRole } = useRegister();
     const router = useRouter();
 
     // Estados para errores específicos
@@ -102,6 +106,15 @@ export default function Page() {
             router.push('/Perfil');
         }
     }
+
+    useEffect(() => {
+        if(registerRole === "artista"){
+            router.push('/Perfil');
+        }
+        if( registerRole === "fan"){
+            router.push('/Perfil');
+        }
+    }, [registerRole])
 
     return (
         <Container>

@@ -7,6 +7,7 @@ import { Search, ArrowUpDown, Clock, Delete} from "lucide-react";
 import Chips from "./chips";
 import { Chip } from "@mui/material";
 import PrimaryButton from "./PrimaryButton";
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { filter } from "framer-motion/client";
 import { FilterAltOffSharp } from "@mui/icons-material";
 
@@ -189,9 +190,9 @@ export default function Multiselect( {tipo} : {tipo : string} ){
         <Container>
             {/* Contenedor donde almaceno todos los componentes necesarios de búsqueda por defecto */}
             <SearchContainer>
-                <Search size="24" color={colors.primary} />
+                <FilterAltIcon style={{ fontSize: 24, color: colors.primary }} />
                 <Input id="input"
-                    type = "text"
+                    type = "text"   
                     placeholder = "Filtra contenido por género"
                     value = {search}
                     onChange = { ( e : any )  => setSearch(e.target.value)} // Cuando cambie el valor del input, se actualiza la varible que guarda las busquedas por teclado
