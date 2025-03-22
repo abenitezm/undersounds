@@ -1,15 +1,19 @@
-'use client';
+"use client";
 
 import React, { useState } from "react";
 import { styled } from "styled-components";
 import colors from "../colors";
 import data from "../bd.json";
-import data2 from "../favoritos.json"
-import data3 from "../siguiendo.json"
+import data2 from "../favoritos.json";
+import data3 from "../siguiendo.json";
 import GridFavoritas from "../components/GridCancionesFavoritas";
 import GridSiguiendo from "../components/GridArtistasSiguiendo";
 import GridComponent from "../components/GridNavigContent";
 import AlbumReproducer, { Album } from "../components/AlbumReproducer";
+import Link from "next/link";
+
+import SettingsIcon from "@mui/icons-material/Settings";
+import ShowChartIcon from "@mui/icons-material/ShowChart";
 
 // Generar albumData a partir de los datos JSON
 const albumData: Album[] = data.slice(0, 2).map((cancion) => {
@@ -43,15 +47,15 @@ type Artista = {
 };
 
 const Fondo = styled.div`
-    position: absolute;
+  position: absolute;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 200vh;
   width: 100%;
-  overflow: hidden;  /* Para evitar que el fondo se desborde */
-      z-index: -1;  /* Asegura que el fondo esté detrás de los botones */
+  overflow: hidden; /* Para evitar que el fondo se desborde */
+  z-index: -1; /* Asegura que el fondo esté detrás de los botones */
   /* Fondo estático */
   &::before {
     content: "";
@@ -61,25 +65,24 @@ const Fondo = styled.div`
     height: 100%;
     background: url("/graffiti.svg") no-repeat center center;
     background-size: cover;
-    z-index: -2;  /* Asegura que el fondo esté detrás de los botones */
+    z-index: -2; /* Asegura que el fondo esté detrás de los botones */
   }
 `;
 
 const ContenedorElementos = styled.div`
   display: flex;
-  justify-content: flex-start;  /* Alinea los elementos al principio */
+  justify-content: flex-start; /* Alinea los elementos al principio */
   align-items: center;
-  width: 80%;  /* Asegura que el contenedor ocupe todo el ancho */
-  min-height: 100vh;  /* Asegura que ocupe toda la altura de la pantalla */
-  background:${colors.tertiary};
+  width: 80%; /* Asegura que el contenedor ocupe todo el ancho */
+  min-height: 100vh; /* Asegura que ocupe toda la altura de la pantalla */
+  background: ${colors.tertiary};
   box-shadow: initial;
   border-radius: 30px;
   overflow-x: hidden; /* Evita que los elementos sobresalgan horizontalmente */
   padding: 20px; /* Ajusta los márgenes internos del contenedor */
   position: relative; /* Asegura que todo se alinee dentro del contenedor */
-  z-index: -1; 
-    pointer-events: none;  /* Evita que el contenedor reciba eventos de puntero */
-
+  z-index: -1;
+  pointer-events: none; /* Evita que el contenedor reciba eventos de puntero */
 `;
 
 const NombreUsuario = styled.h1`
@@ -88,8 +91,8 @@ const NombreUsuario = styled.h1`
   display: inline-flex;
   align-items: flex-start;
   white-space: nowrap;
-  position: absolute ;
-  font-family: 'Montserrat', sans-serif;
+  position: absolute;
+  font-family: "Montserrat", sans-serif;
   z-index: 1; /* Asegura que el nombre esté encima de otros elementos */
   left: 500px;
   top: 150px;
@@ -98,11 +101,11 @@ const NombreUsuario = styled.h1`
 const Descripcion = styled.p`
   font-size: 18px;
   color: ${colors.secondary};
-  position: absolute; 
+  position: absolute;
   left: 500px;
   top: 225px;
   max-width: 75ch;
-  line-height: 1.8; 
+  line-height: 1.8;
 `;
 
 const ButtonContainer = styled.div`
@@ -112,7 +115,7 @@ const ButtonContainer = styled.div`
   gap: 30px;
   margin-top: 400px;
   margin-right: 500px;
-  z-index: 1;  /* Asegura que los botones estén sobre el fondo */
+  z-index: 1; /* Asegura que los botones estén sobre el fondo */
 `;
 const ProfileButton = styled.button<{ $isSelected: boolean }>`
   position: relative;
@@ -151,7 +154,36 @@ const ProfileImage = styled.img`
   top: 150px;
   left: 100px;
   border: 5px solid ${colors.primary}; /* Borde de 5px de color primario */
+`;
 
+const NavigationButtonsDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  position: absolute;
+  top: 100px;
+  right: 30px;
+`;
+
+const NavigationButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background-color: ${colors.primary};
+  color: ${colors.background};
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: 10px;
+
+  &:hover {
+    background-color: ${colors.secondary};
+  }
+
+  transition: background-color 0.2s;
 `;
 
 export default function Perfil() {
@@ -159,7 +191,7 @@ export default function Perfil() {
   const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
   const [artistas, setArtistas] = useState<Artista[]>([]);
 
-  console.log("Datos recibidos:", data)
+  console.log("Datos recibidos:", data);
   const toggleSeleccion = (index: number) => {
     setSelectedButton(index); // Cambia el botón seleccionado
   };
@@ -174,18 +206,35 @@ export default function Perfil() {
 
   return (
     <>
-    <Fondo/>
+      <NavigationButtonsDiv>
+        <Link href="/account">
+          <NavigationButton>
+            {" "}
+            <SettingsIcon /> Ajustes
+          </NavigationButton>
+        </Link>
+        <Link href="/dashboard">
+          <NavigationButton>
+            {" "}
+            <ShowChartIcon /> Dashboard{" "}
+          </NavigationButton>
+        </Link>
+      </NavigationButtonsDiv>
+      <Fondo />
       <div className="max-w-2xl mx-auto bg-white p-6 rounded-2xl shadow-lg flex items-center space-x-6">
         <div className="flex items-center">
-          <ProfileImage
-            src="https://i.pinimg.com/originals/7a/e7/c2/7ae7c223b094d4e57b4ea0d3ee519813.jpg"/>
+          <ProfileImage src="https://i.pinimg.com/originals/7a/e7/c2/7ae7c223b094d4e57b4ea0d3ee519813.jpg" />
           <NombreUsuario>Mercox06</NombreUsuario>
           <Descripcion>
-          ¡Hola! Soy Mercox, un amante de la música con un gusto tan ecléctico como mi colección de discos. 
-          Desde los clásicos hasta lo más experimental, siempre estoy buscando nuevos sonidos y artistas para explorar. 
-          Mi perfil es un reflejo de mi pasión por descubrir música que quizás aún no conoces, pero que seguro te va a encantar. 
-          Me encanta seguir de cerca a nuevos talentos y, por supuesto, nunca dejo de escuchar a mis favoritos de siempre. 
-          Si te gusta encontrar nuevos géneros y artistas frescos, ¡sígueme y comparte tus recomendaciones también! 
+            ¡Hola! Soy Mercox, un amante de la música con un gusto tan ecléctico
+            como mi colección de discos. Desde los clásicos hasta lo más
+            experimental, siempre estoy buscando nuevos sonidos y artistas para
+            explorar. Mi perfil es un reflejo de mi pasión por descubrir música
+            que quizás aún no conoces, pero que seguro te va a encantar. Me
+            encanta seguir de cerca a nuevos talentos y, por supuesto, nunca
+            dejo de escuchar a mis favoritos de siempre. Si te gusta encontrar
+            nuevos géneros y artistas frescos, ¡sígueme y comparte tus
+            recomendaciones también!
           </Descripcion>
         </div>
       </div>
@@ -213,16 +262,18 @@ export default function Perfil() {
       </ButtonContainer>
 
       <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
-      {/* Mostrar el Grid correspondiente al botón seleccionado */}
-      {selectedButton === 0 && (
-        <GridFavoritas data={data2 as Cancion[]} /*onAlbumClick={manejadorAlbum}*/ />
-      )}
-      {selectedButton === 1 && (
-        <GridSiguiendo data={data3} /*onAlbumClick={manejadorAlbum}*/ />
-      )}
-      {selectedButton === 2 && (
-        <GridComponent data={data} onAlbumClick={manejadorAlbum} />
-      )}
+        {/* Mostrar el Grid correspondiente al botón seleccionado */}
+        {selectedButton === 0 && (
+          <GridFavoritas
+            data={data2 as Cancion[]} /*onAlbumClick={manejadorAlbum}*/
+          />
+        )}
+        {selectedButton === 1 && (
+          <GridSiguiendo data={data3} /*onAlbumClick={manejadorAlbum}*/ />
+        )}
+        {selectedButton === 2 && (
+          <GridComponent data={data} onAlbumClick={manejadorAlbum} />
+        )}
       </div>
 
       {/* Mostrar detalles del álbum seleccionado */}
@@ -233,5 +284,5 @@ export default function Perfil() {
         </div>
       )}
     </>
-  )
+  );
 }

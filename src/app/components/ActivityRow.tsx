@@ -1,26 +1,36 @@
-'use client'
+"use client";
 
 import styled from "styled-components";
 import colors from "../colors";
-import { CSSProperties } from 'react';
+import { CSSProperties } from "react";
+
+import AlbumIcon from "@mui/icons-material/Album";
+import Link from "next/link";
 
 const ActivityDate = styled.span`
-    font-size: 15px;
-    border-radius: 5px;
-    background-color: #f0f0f0;
-    padding: 5px;
-`
+  font-size: 1rem;
+  border-radius: 5px;
+  background-color: ${colors.primary};
+
+  padding: 5px 8px;
+`;
 
 const ActivityUser = styled.span`
-    font-weight: bold;
-    color: ${colors.background};
-`
+  font-weight: bold;
+  font-size: 1rem;
+  margin-right: 5px;
+  color: ${colors.primary};
+`;
 
 const ActivityAlbum = styled.span`
-    font-style: italic;
-    color: ${colors.tertiary};
-
-`
+  font-style: italic;
+  font-size: 1rem;
+  margin-left: 10px;
+  gap: 5px;
+  display: flex;
+  align-items: center;
+  color: ${colors.primary};
+`;
 
 // Contiene los 3 tipos de actividad que se pueden mostrar: FOLLOWER, SALE y REVIEW
 const types = {
@@ -46,8 +56,9 @@ const ActivityRow = ({
   type,
   name,
   album,
-}: { // Tipos de las propiedades que recibe el componente
-  time: Date; 
+}: {
+  // Tipos de las propiedades que recibe el componente
+  time: Date;
   type: "FOLLOWER" | "SALE" | "REVIEW";
   name: string;
   album: string;
@@ -55,15 +66,23 @@ const ActivityRow = ({
   return (
     <div style={styles.row}>
       <ActivityDate>{time.toLocaleDateString()}</ActivityDate>
-      <span style={{fontSize: 20}}>{types[type].icon}</span>
-      <ActivityUser>{name}</ActivityUser>
+      <span style={{ fontSize: 20 }}></span>
+      <ActivityUser>
+        {types[type].icon} {name}
+      </ActivityUser>
       <span>{types[type].text}</span>
       {/* Renderiza el album al que se refiere la actividad cuando esta NO es de tipo Follower */}
-      {type != "FOLLOWER" && <ActivityAlbum> {album}</ActivityAlbum>}
+      {type != "FOLLOWER" && (
+        <Link href={`/album/${album}`}>
+          <ActivityAlbum>
+            {" "}
+            <AlbumIcon /> {album}
+          </ActivityAlbum>
+        </Link>
+      )}
     </div>
   );
 };
-
 
 const styles: { row: CSSProperties } = {
   row: {
@@ -71,10 +90,10 @@ const styles: { row: CSSProperties } = {
     flexDirection: "row",
     gap: 5,
     alignItems: "center",
-    padding: 10,
+    padding: 12,
     borderRadius: 10,
-    fontSize: 15,
-    border: '1px solid #f0f0f0',
+    backgroundColor: colors.tertiary,
+    fontSize: "1rem",
   },
 };
 
