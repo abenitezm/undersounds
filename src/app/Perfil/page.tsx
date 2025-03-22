@@ -204,12 +204,6 @@ export default function Perfil() {
         >
           Siguiendo
         </ProfileButton>
-        <ProfileButton
-          onClick={() => toggleSeleccion(2)}
-          $isSelected={selectedButton === 2}
-        >
-          Compras
-        </ProfileButton>
       </ButtonContainer>
 
       <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
@@ -219,9 +213,6 @@ export default function Perfil() {
       )}
       {selectedButton === 1 && (
         <GridSiguiendo data={data3} /*onAlbumClick={manejadorAlbum}*/ />
-      )}
-      {selectedButton === 2 && (
-        <GridComponent data={data} onAlbumClick={manejadorAlbum} />
       )}
       </div>
 
