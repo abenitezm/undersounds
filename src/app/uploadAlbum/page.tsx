@@ -57,6 +57,14 @@ const TextArea = styled.textarea`
     resize: vertical;
 `;
 
+const Select = styled.select`
+    width: 100%;
+    padding: 12px;
+    border: 2px solid ${colors.primary};
+    border-radius: 8px;
+    font-size: 16px;
+`;
+
 export default function Page() {
     return (
         <Container>
@@ -91,6 +99,20 @@ export default function Page() {
                 <FormField>
                     <Label htmlFor="artista">Artista</Label>
                     <Input id="artista" type="text" placeholder="Introduce el nombre del artista" />
+                </FormField>
+
+                {/* Género */}
+                <FormField>
+                    <Label htmlFor="genero">Género</Label>
+                    <Select id="genero">
+                        <option value="">Selecciona un género</option>
+                        <option value="pop">Pop</option>
+                        <option value="rock">Rock</option>
+                        <option value="jazz">Jazz</option>
+                        <option value="hiphop">Hip Hop</option>
+                        <option value="electronic">Electrónica</option>
+                        <option value="classical">Clásica</option>
+                    </Select>
                 </FormField>
 
                 {/* Acerca del álbum */}
