@@ -75,6 +75,8 @@ export default function Page() {
 
     const manejadorInputs = async() => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
         // Reinicia los errores
         setEmailError(false);
         setPasswordError(false);

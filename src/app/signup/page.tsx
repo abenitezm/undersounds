@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import colors from '../colors';
 import PrimaryButton from '../components/PrimaryButton';
-import FancyButton from '../components/FancyButton';
+import ElegirUsu from '../components/ElegirUsu';
 import { toast, ToastContainer } from "react-toastify";
 import Link from 'next/link';
 import { useAuth } from "../components/AuthContext";
@@ -119,7 +119,7 @@ export default function SignupPage() {
                 router.push('/Perfil');
             }    
             else if(role === 'artista'){
-                router.push('/artist\ Drake'); 
+                router.push('/artist/Drake'); 
             }    
         }
     };
@@ -129,17 +129,13 @@ export default function SignupPage() {
             <Logo src="/logo.svg" alt="Logo" />
             <Form onSubmit={handleSubmit}>
                 <Botoneselección>
-                    <FancyButton
+                    <ElegirUsu
                         title="Fan"
                         imageSrc="prettyButtons/fan.png"
                         bgColor={role === 'fan' ? "#28a745" : "#A8DADC"}
-                        onClick={(e) => {
-                            e.preventDefault();
-                            setRole('fan')}
-                    }
-                        
+                        onClick={() => setRole('fan')}
                     />
-                    <FancyButton
+                    <ElegirUsu
                         title="Artista"
                         imageSrc="prettyButtons/artista.png"
                         bgColor={role === 'artista' ? "#28a745" : "#F4A261"}

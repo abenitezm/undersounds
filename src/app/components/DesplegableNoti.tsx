@@ -1,12 +1,11 @@
 'use client';
 import styled from "styled-components";
 import colors from "../colors";
-import Notificación from "./Notificación";
 
 const DropdownContainer = styled.div<{ $isVisible: boolean }>`
     position: absolute;
     top: 65px;
-    right: 100px;
+    right: 180px;
     background-color: ${colors.background};
     border: 1px solid ${colors.primary};
     border-radius: 10px;
@@ -18,6 +17,30 @@ const DropdownContainer = styled.div<{ $isVisible: boolean }>`
     display: ${props => (props.$isVisible ? 'block' : 'none')};
 `;
 
+const NotificaciónContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid ${colors.primary};
+`;
+
+const Message = styled.span`
+    color: ${colors.secondary};
+    font-size: 14px;
+`;
+
+const CloseButton = styled.button`
+    background: none;
+    border: none;
+    color: ${colors.primary};
+    font-size: 16px;
+    cursor: pointer;
+
+    &:hover {
+        color: ${colors.secondary};
+    }
+`;
 type NotificacionesDropdownProps = {
     visible: boolean;
     notificaciones: { id: number; message: string }[];
@@ -27,13 +50,18 @@ type NotificacionesDropdownProps = {
 export default function NotificacionesDropdown({ visible, notificaciones, onClose }: NotificacionesDropdownProps) {
     return (
         <DropdownContainer $isVisible={visible}>
-            {notificaciones.map(notificación => (
-                <Notificación
-                    key={notificación.id}
-                    message={notificación.message}
-                    onClose={() => onClose(notificación.id)}
-                />
-            ))}
+            {notificaciones.length > 0 ? (
+                notificaciones.map((notificación) => (
+                    <NotificaciónContainer key={notificación.id}>
+                        <Message>{notificación.message}</Message>
+                        <CloseButton onClick={() => onClose(notificación.id)}>X</CloseButton>
+                    </NotificaciónContainer>
+                ))
+            ) : (
+                <NotificaciónContainer>
+                    <Message>No hay notificaciones</Message>
+                </NotificaciónContainer>
+            )}
         </DropdownContainer>
     );
 }
