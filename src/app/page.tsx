@@ -64,9 +64,7 @@ export default function Home() {
         />
       </div>
 
-      <div style={styles.container}>
-        <Novedades />
-      </div>
+      <Novedades />
     </>
   );
 }
