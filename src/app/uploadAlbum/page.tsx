@@ -63,8 +63,8 @@ export default function Page() {
             <ColumnaIzquierda style={{position: "relative"}}>
                 <UploadAlbumImage />
                 <AddSong />
-                <PrimaryButton text="Publicar" onClick={() => alert("Álbum publicado")} 
-                            style={{position: "absolute", bottom: "0", marginBottom: "20px"}}/>
+                <PrimaryButton text="Publicar" onClick={() => alert("Álbum publicado")}
+                style={{ position: "absolute", bottom: "0", marginBottom: "20px" }} type={'button'}/>
             </ColumnaIzquierda>
             <ColumnaDerecha>
                 <h2 style={{ gridColumn: 'span 2', marginBottom: '20px' }}>Subir Álbum</h2>

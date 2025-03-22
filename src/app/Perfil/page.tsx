@@ -10,6 +10,9 @@ import GridFavoritas from "../components/GridCancionesFavoritas";
 import GridSiguiendo from "../components/GridArtistasSiguiendo";
 import GridComponent from "../components/GridNavigContent";
 import AlbumReproducer, { Album } from "../components/AlbumReproducer";
+import PrimaryButton from "../components/PrimaryButton";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 // Generar albumData a partir de los datos JSON
 const albumData: Album[] = data.slice(0, 2).map((cancion) => {
@@ -204,6 +207,9 @@ export default function Perfil() {
         >
           Siguiendo
         </ProfileButton>
+        <Link href="uploadAlbum">
+          <PrimaryButton text="Subir Álbum" onClick={() => 0} type="button" />
+        </Link>
       </ButtonContainer>
 
       <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
