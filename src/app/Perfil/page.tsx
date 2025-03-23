@@ -10,6 +10,8 @@ import GridFavoritas from "../components/GridCancionesFavoritas";
 import GridSiguiendo from "../components/GridArtistasSiguiendo";
 import GridComponent from "../components/GridNavigContent";
 import AlbumReproducer, { Album } from "../components/AlbumReproducer";
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+
 
 // Generar albumData a partir de los datos JSON
 const albumData: Album[] = data.slice(0, 2).map((cancion) => {
@@ -151,15 +153,33 @@ const ProfileImage = styled.img`
   top: 150px;
   left: 100px;
   border: 5px solid ${colors.primary}; /* Borde de 5px de color primario */
+  cursor : pointer;
+`;
 
+const UploadIcon = styled(AddPhotoAlternateIcon)`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(235, 16, 16, 0.6);
+  color: white;
+  border-radius: 50%;
+  padding: 5px;
+  font-size: 35px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
 `;
 
 export default function Perfil() {
   const [selectedButton, setSelectedButton] = useState(0); // Mantener el botón seleccionado
   const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
   const [artistas, setArtistas] = useState<Artista[]>([]);
+  const [profileImage, setProfileImage] = useState("https://i.pinimg.com/originals/7a/e7/c2/7ae7c223b094d4e57b4ea0d3ee519813.jpg");
+  const [hovered, setHovered] = useState(false);
 
-  console.log("Datos recibidos:", data)
   const toggleSeleccion = (index: number) => {
     setSelectedButton(index); // Cambia el botón seleccionado
   };
@@ -172,13 +192,27 @@ export default function Perfil() {
     }
   };
 
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      setProfileImage(URL.createObjectURL(event.target.files[0]));
+    }
+  };
+
   return (
     <>
     <Fondo/>
       <div className="max-w-2xl mx-auto bg-white p-6 rounded-2xl shadow-lg flex items-center space-x-6">
         <div className="flex items-center">
-          <ProfileImage
-            src="https://i.pinimg.com/originals/7a/e7/c2/7ae7c223b094d4e57b4ea0d3ee519813.jpg"/>
+        <label>
+        <ProfileImage
+          src={hovered ? "https://i.pinimg.com/originals/7a/e7/c2/7ae7c223b094d4e57b4ea0d3ee519813.jpg" : profileImage}
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
+          onClick={() => document.getElementById("fileInput")?.click()}
+        />
+        <input id="fileInput" type="file" accept="image/*" style={{ display: "none" }} onChange={handleImageChange} />
+
+       </label>
           <NombreUsuario>Mercox06</NombreUsuario>
           <Descripcion>
           ¡Hola! Soy Mercox, un amante de la música con un gusto tan ecléctico como mi colección de discos. 
