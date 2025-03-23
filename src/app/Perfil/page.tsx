@@ -208,6 +208,12 @@ export default function Perfil() {
     }
   };
 
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      setProfileImage(URL.createObjectURL(event.target.files[0]));
+    }
+  };
+
   return (
     <>
       <NavigationButtonsDiv>
