@@ -10,6 +10,8 @@ import { useRegister } from '../components/RegisterContext';
 import { em } from 'framer-motion/client';
 import {useRouter} from 'next/navigation';
 import { register } from 'module';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebaseConfig";
 
 const Container = styled.div`
     display: flex;
@@ -80,7 +82,6 @@ export default function Page() {
     const manejadorInputs = async() => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-
         // Reinicia los errores
         setEmailError(false);
         setPasswordError(false);
@@ -103,8 +104,66 @@ export default function Page() {
         else {
             toast.success("Has iniciado sesión correctamente");
             setUserRole("registrado");
-            router.push('/Perfil');
+            //router.push('/Perfil'); 
         }
+
+        
+        //OAuth
+        try {
+            // Comprobación de si firebase está inicializado correctamente
+            console.log("Firebase Auth instance:", auth);
+            let token_aux = null;
+
+            try {
+                // Intentar iniciar sesión
+                const userCredentials = await signInWithEmailAndPassword(auth, email, password);
+                console.log("Inicio de sesión exitoso:", userCredentials.user);
+
+            } catch (error) {
+                if ((error as any).code === "auth/invalid-credential") {
+
+                    // Si el usuario no existe, lo creamos
+                    console.log("Usuario no encontrado, registrando...");
+                    
+                    try {
+                        // Creamos el nuevo usuario
+                        const nuevoUsuario = await createUserWithEmailAndPassword(auth, email, password);
+                        // Le asignamos el token al usuario nuevo
+                        const token = await nuevoUsuario.user.getIdToken();
+                        // Sirve para el código del data que está más abajo
+                        token_aux = token;
+                        console.log("Usuario registrado:", nuevoUsuario.user);
+                        console.log("Token:", token);
+                    } catch (errorRegistro) {
+                        console.error("Error al registrar usuario:", (errorRegistro as any).message);
+                    }
+                } else {
+                    console.error("Error en login:", (error as any).message);
+                }
+            }
+            
+            // Enviamos una petición al server del backend
+            const response = await fetch("http://127.0.0.1:8000/user", {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token_aux}`,
+                },
+            });
+            
+            const data = await response.json();
+            // Si me funciona el fetch, conseguiré la respuesta y se podrá entrar en el perfil
+            if (!response.ok) {
+                toast.error(`Error ${response.status}: ${data.detail || "Algo salió mal"}`);
+            } else {
+                toast.success("Has iniciado sesión correctamente");
+                setUserRole("registrado");
+                router.push('/Perfil');
+            }
+        } catch (error) {
+            toast.error("Error al iniciar sesión. Revisa tu correo y contraseña.");
+            console.error("Error en login:", error);
+        }
+        
     }
 
     useEffect(() => {
