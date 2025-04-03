@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "uploadData": "node --experimental-json-modules src/app/uploadDataBD.js"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -18,6 +19,7 @@
     "@react-three/fiber": "^9.1.0",
     "babel-plugin-styled-components": "^2.1.4",
     "firebase": "^11.6.0",
+    "firebase-admin": "^13.2.0",
     "framer-motion": "^12.4.10",
     "lucide-react": "^0.476.0",
     "next": "^15.1.7",

@@ -119,6 +119,11 @@ export default function Page() {
                 const userCredentials = await signInWithEmailAndPassword(auth, email, password);
                 console.log("Inicio de sesión exitoso:", userCredentials.user);
 
+                // Tenemos que coger el token del usuario que ya está registrado también
+                const token = await userCredentials.user.getIdToken();
+                token_aux = token;
+                console.log("Token:", token);
+
             } catch (error) {
                 if ((error as any).code === "auth/invalid-credential") {
 
@@ -146,15 +151,17 @@ export default function Page() {
             const response = await fetch("http://127.0.0.1:8000/user", {
                 method: "POST",
                 headers: {
-                    Authorization: `Bearer ${token_aux}`,
+                    "Authorization": `Bearer ${token_aux}`,
+                    "Context-Type": "application/json", // No es obligatorio, pero es recomendable
                 },
             });
             
-            const data = await response.json();
             // Si me funciona el fetch, conseguiré la respuesta y se podrá entrar en el perfil
             if (!response.ok) {
-                toast.error(`Error ${response.status}: ${data.detail || "Algo salió mal"}`);
+                toast.error(`Error ${response.status}: "Algo salió mal"`);
             } else {
+                const data = await response.json();
+                console.log("Respuesta del servidor:", data);
                 toast.success("Has iniciado sesión correctamente");
                 setUserRole("registrado");
                 router.push('/Perfil');
