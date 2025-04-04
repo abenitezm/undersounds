@@ -1,8 +1,8 @@
 "use client";
 import styled from "styled-components";
-import { useShoppingCart } from "@/app/components/ShoppingCartContext";
+import { useShoppingCart } from "@/views/components/ShoppingCartContext";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import CartItem from "../components/CartItem";
+import CartItem from "../../views/components/CartItem";
 import { useEffect, useState } from "react";
 import colors from "../colors";
 import Link from "next/link";

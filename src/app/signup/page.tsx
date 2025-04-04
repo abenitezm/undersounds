@@ -2,12 +2,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import colors from '../colors';
-import PrimaryButton from '../components/PrimaryButton';
-import ElegirUsu from '../components/ElegirUsu';
+import PrimaryButton from '../../views/components/PrimaryButton';
+import ElegirUsu from '../../views/components/ElegirUsu';
 import { toast, ToastContainer } from "react-toastify";
 import Link from 'next/link';
-import { useAuth } from "../components/AuthContext";
-import { useRegister } from '../components/RegisterContext';
+import { useAuth } from "../../views/components/AuthContext";
+import { useRegister } from '../../views/components/RegisterContext';
 import {useRouter} from 'next/navigation';
 
 const Container = styled.div`

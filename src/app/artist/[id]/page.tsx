@@ -1,7 +1,7 @@
-import ProfileInfo from "@/app/components/ProfileInfo";
-import AlbumDashboard from "@/app/components/AlbumsDashboard";
+import ProfileInfo from "@/views/components/ProfileInfo";
+import AlbumDashboard from "@/views/components/AlbumsDashboard";
 
-import formatID from "@/app/utils/formatID.js";
+import formatID from "@/utils/formatID.js";
 
 const ArtistPage = async ({ params }: { params: { id: string } }) => {
   const param = await params;
@@ -29,7 +29,7 @@ const ArtistPage = async ({ params }: { params: { id: string } }) => {
 };
 
 import { CSSProperties } from "react";
-import MerchDashboard from "@/app/components/MerchDashboard";
+import MerchDashboard from "@/views/components/MerchDashboard";
 
 const styles: { [key: string]: CSSProperties } = {
   main: {

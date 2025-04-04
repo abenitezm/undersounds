@@ -2,10 +2,10 @@
 
 import React, { useEffect } from "react";
 import { useState } from "react";
-import Multiselect from "../components/Multiselect";
-import data from "../bd.json";
-import GridComponent from "../components/GridNavigContent";
-import AlbumReproducer, { Album } from "../components/AlbumReproducer";
+import Multiselect from "../../views/components/Multiselect";
+import data from "../../assets/bd.json";
+import GridComponent from "../../views/components/GridNavigContent";
+import AlbumReproducer, { Album } from "../../views/components/AlbumReproducer";
 import { styled } from "styled-components";
 
 const GlobalContainer = styled.div`

@@ -2,11 +2,11 @@
 
 import colors from "../colors";
 import { useState } from "react";
-import AccountForm from "../components/AccountForm";
+import AccountForm from "../../views/components/AccountForm";
 import styled from "styled-components";
-import NotificationsForm from "../components/NotificationsForm";
-import PaymentForm from "../components/PaymentForm";
-import MerchForm from "../components/MerchForm";
+import NotificationsForm from "../../views/components/NotificationsForm";
+import PaymentForm from "../../views/components/PaymentForm";
+import MerchForm from "../../views/components/MerchForm";
 
 const menuItems = ["Cuenta", "Notificaciones", "Método de pago", "Merch"];
 

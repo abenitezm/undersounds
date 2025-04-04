@@ -1,5 +1,5 @@
-import formatID from "@/app/utils/formatID.js";
-import AlbumInfo from "@/app/components/AlbumInfo";
+import formatID from "@/utils/formatID";
+import AlbumInfo from "@/views/components/AlbumInfo";
 import { CSSProperties } from "react";
 
 const AlbumPage = async ({ params }: { params: { id: string } }) => {

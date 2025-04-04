@@ -1,8 +1,8 @@
 "use client";
 
-import { Album } from "@/app/components/Album";
+import { Album } from "@/views/components/Album";
 import colors from "../colors";
-import ActivityRow from "../components/ActivityRow";
+import ActivityRow from "../../views/components/ActivityRow";
 
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
 import PersonIcon from "@mui/icons-material/Person";

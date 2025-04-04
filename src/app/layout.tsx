@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import WebAudio from "./components/WebAudio";
+import WebAudio from "../views/components/WebAudio";
 import "./globals.css";
 import StyledComponentsRegistry from "@/lib/registry";
-import NavBar from "./components/NavBar";
+import NavBar from "../views/components/NavBar";
 import { Montserrat } from "next/font/google";
-import TopMargin from "./components/TopMargin";
-import { AuthProvider } from "./components/AuthContext";
-import Footer from "./components/Footer";
-import { ShoppingCartProvider } from "@/app/components/ShoppingCartContext";
-import { RegisterProvider } from "./components/RegisterContext";
+import TopMargin from "../views/components/TopMargin";
+import { AuthProvider } from "../views/components/AuthContext";
+import Footer from "../views/components/Footer";
+import { ShoppingCartProvider } from "@/views/components/ShoppingCartContext";
+import { RegisterProvider } from "../views/components/RegisterContext";
 
 const montserrat = Montserrat({ subsets: ["latin"], weight: "400" });
 

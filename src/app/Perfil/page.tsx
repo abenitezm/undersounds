@@ -3,18 +3,18 @@
 import React, { useState } from "react";
 import { styled } from "styled-components";
 import colors from "../colors";
-import data from "../bd.json";
-import data2 from "../favoritos.json";
-import data3 from "../siguiendo.json";
-import GridFavoritas from "../components/GridCancionesFavoritas";
-import GridSiguiendo from "../components/GridArtistasSiguiendo";
-import GridComponent from "../components/GridNavigContent";
-import AlbumReproducer, { Album } from "../components/AlbumReproducer";
+import data from "../../assets/bd.json";
+import data2 from "../../assets/favoritos.json";
+import data3 from "../../assets/siguiendo.json";
+import GridFavoritas from "../../views/components/GridCancionesFavoritas";
+import GridSiguiendo from "../../views/components/GridArtistasSiguiendo";
+import GridComponent from "../../views/components/GridNavigContent";
+import AlbumReproducer, { Album } from "../../views/components/AlbumReproducer";
 
 import SettingsIcon from "@mui/icons-material/Settings";
 import ShowChartIcon from "@mui/icons-material/ShowChart";
-import PrimaryButton from "../components/PrimaryButton";
-import { useRegister } from '../components/RegisterContext';
+import PrimaryButton from "../../views/components/PrimaryButton";
+import { useRegister } from '../../views/components/RegisterContext';
 import { useRouter } from "next/router";
 import Link from "next/link";
 

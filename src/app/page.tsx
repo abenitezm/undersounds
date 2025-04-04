@@ -2,9 +2,9 @@
 
 import colors from "./colors";
 import { CSSProperties } from "react";
-import FancyButton from "./components/FancyButton";
-import HomeGrid from "./components/HomeGrid";
-import Novedades from "./components/Novedades";
+import FancyButton from "../views/components/FancyButton";
+import HomeGrid from "../views/components/HomeGrid";
+import Novedades from "../views/components/Novedades";
 
 export default function Home() {
   return (

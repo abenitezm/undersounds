@@ -2,9 +2,9 @@
 import React from 'react';
 import colors from "../colors";
 import { styled } from 'styled-components';
-import UploadAlbumImage from '../components/UploadAlbumImage';
-import AddSong from '../components/AddSong';
-import PrimaryButton from '../components/PrimaryButton';
+import UploadAlbumImage from '../../views/components/UploadAlbumImage';
+import AddSong from '../../views/components/AddSong';
+import PrimaryButton from '../../views/components/PrimaryButton';
 
 const Container = styled.div`
     display: flex;

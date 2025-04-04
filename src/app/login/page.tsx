@@ -2,11 +2,11 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import colors from '../colors';
-import PrimaryButton from '../components/PrimaryButton';
+import PrimaryButton from '../../views/components/PrimaryButton';
 import {toast, ToastContainer } from "react-toastify";
 import Link from 'next/link';
-import { useAuth } from "../components/AuthContext";
-import { useRegister } from '../components/RegisterContext';
+import { useAuth } from "../../views/components/AuthContext";
+import { useRegister } from '../../views/components/RegisterContext';
 import { em } from 'framer-motion/client';
 import {useRouter} from 'next/navigation';
 import { register } from 'module';

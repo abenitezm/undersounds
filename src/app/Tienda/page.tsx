@@ -1,11 +1,11 @@
 'use client';
 import React, {useState} from "react";
 import { styled } from "styled-components";
-import GridTiendContent from "../components/GridTiendComponent";
+import GridTiendContent from "../../views/components/GridTiendComponent";
 import colors from "../colors";
-import data from "../bd.json";
-import MerchImg3D from "../components/3D";
-import { Merch } from "../components/GridTiendComponent";
+import data from "../../assets/bd.json";
+import MerchImg3D from "../../views/components/3D";
+import { Merch } from "../../views/components/GridTiendComponent";
 
 const Fondo = styled.div`
   position: relative;
