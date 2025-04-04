@@ -1,103 +1,10 @@
-"use client";
+'use client'
 
-import React, { useEffect } from "react";
-import { useState } from "react";
-import Multiselect from "../../views/components/Multiselect";
-import data from "../../assets/bd.json";
-import GridComponent from "../../views/components/GridNavigContent";
-import AlbumReproducer, { Album } from "../../views/components/AlbumReproducer";
-import { styled } from "styled-components";
+import NavigationView from "@/views/NavigationView";
 import { useSearchParams } from "next/navigation";
 
-const GlobalContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  gap: 20px;
-  margin: 10px 50px 20px 0;
-  width: clamp(300px, 90%, 1400px);
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url("/graffiti2.svg") no-repeat center center;
-    background-size: cover;
-    opacity: 1;
-    z-index: -1;
-  }
-`;
-
-const albumData: Album[] = data.map((cancion) => {
-  return {
-    idAlbum: cancion.id,
-    title: cancion.titulo,
-    canciones: cancion.canciones,
-    artista: cancion.artista,
-    oyentes: cancion.oyentes,
-    imagenGrupo: cancion.imagenGrupo,
-    descripcion: cancion.descripcion,
-    comentarios: cancion.comentarios,
-    comentador: cancion.comentador,
-  } as Album;
-});
-
 export default function NavigationPage() {
-  const [filteredData, setFilteredData] = useState(data);
-
   const searchParams = useSearchParams();
 
-  useEffect(() => {
-    let filteredData = data;
-
-    const search = searchParams.get("search");
-    const category = searchParams.get("category");
-    if (search) {
-      filteredData = filteredData.filter(
-        (album) =>
-          album.titulo.toLowerCase().includes(search.toLowerCase()) ||
-          album.artista.toLowerCase() == search.toLowerCase()
-      );
-    }
-
-    if (category) {
-      filteredData = filteredData.filter((album) =>
-        album.type.includes(category)
-      );
-    }
-    setFilteredData(filteredData);
-  }, [searchParams]);
-
-  /* Almacena el album seleccionado */
-  const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
-  /* Almacena los filtros seleccionados */
-  const [filters, setFilters] = React.useState<string[]>([]);
-
-  /* Manejador que me permite mostrar las canciones del album MOLTING AND DANCING TODO: hacerlo para cualquier album */
-  const manejadorAlbum = (albumId: number) => {
-    if (albumId >= 0 && albumId < albumData.length) {
-      setSelectedAlbum(albumData[albumId]);
-      console.log(albumData[albumId].comentarios);
-    } else {
-      console.error("Indice del album fuera de rango");
-    }
-  };
-  /* Posible método que se usará en el filtrado con la BD
-    
-    const actualizarFiltros = (filters : string[]) => {
-        setFilters(filters);
-    }
-
-    */
-
-  return (
-    <GlobalContainer>
-      <Multiselect tipo="" />
-      <GridComponent data={filteredData} onAlbumClick={manejadorAlbum} />
-      {selectedAlbum && <AlbumReproducer album={selectedAlbum} />}
-    </GlobalContainer>
-  );
+  return <NavigationView searchParams={searchParams} />;
 }
