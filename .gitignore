@@ -48,3 +48,5 @@ key_service_account.json
 /.vscode
 # backend
 .venv
+
+__pycache__/
