@@ -1,1 +1,0 @@
-Para que la carpeta se suba a github, borrar el readme cuando se meta contenido.
