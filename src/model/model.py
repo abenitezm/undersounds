@@ -16,9 +16,15 @@ class Model ():
 
     def get_albums(self):
         return self.daoAlbum.get_albums()
+    
+    def get_album_by_name(self, album_name):
+        return self.daoAlbum.get_album_by_name(album_name)
 
     def get_artists(self):
         return self.daoArtist.get_artists()
+
+    def get_artist_by_name(self, artist_name):
+        return self.daoArtist.get_artist_by_name(artist_name)
 
     def get_songs(self):
         return self.daoSong.get_songs()
@@ -28,6 +34,9 @@ class Model ():
 
     def get_mediaType(self):
         return self.daoMediaType.get_mediaType()
+    
+    def get_mediaType_by_id(self, media_id):
+        return self.daoMediaType.get_mediaType_by_id(media_id)
 
     def get_merch(self):
         return self.daoMerch.get_merchs()

@@ -30,31 +30,36 @@ def index(request: Request):
 def getalbums(request: Request):
       albums = model.get_albums()
       return albums
-      return view.get_albums_view(request,albums)
+
+@app.get("/album/{album_name}")
+def get_album_by_name(request: Request, album_name: str):
+      album = model.get_album_by_name(album_name)
+      return album
 
 @app.get("/getartists")
 def getartists(request: Request):
       artists = model.get_artists()
       return artists
-      return view.get_artists_view(request,artists)
+
+@app.get('/artist/{artist_name}')
+def get_artist_by_name(request: Request, artist_name: str):
+      artist = model.get_artist_by_name(artist_name)
+      return artist
 
 @app.get("/getsongs")
 def getsongs(request: Request):
       songs = model.get_songs()
       return songs
-      return view.get_songs_view(request,songs)
 
 @app.get("/getmerch")
 def getmerch(request: Request):
       merchs = model.get_merch()
       return merchs
-      return view.get_merchs_view(request,merchs)
 
 @app.get("/getusers")
 def getusers(request: Request):
       users = model.get_users()
       return users
-      return view.get_users_view(request,users)
 
 @app.get("/gettypes")
 def gettypes(request: Request):
@@ -62,7 +67,22 @@ def gettypes(request: Request):
       media = model.get_mediaType()
       merch = model.get_merchType()
       return genres, media, merch
-      return view.get_types_view(request,genres,media,merch)
+
+@app.get("/media/{media_id}")
+def get_media_by_id(request: Request, media_id: str):
+      media = model.get_mediaType_by_id()
+      return media
+
+
+
+def get_media_by_id(request: Request, media_id: str):
+      media = model.get_mediaType()
+      for m in media:
+            if m["id"] == media_id:
+                  return m
+      return None
+
+
 
 @app.route("/user", methods=["GET", "POST"])
 async def get_user(request: Request):

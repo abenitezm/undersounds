@@ -24,3 +24,18 @@ class FirebaseArtistDAO(InterfaceArtistDAO):
             print(e)
 
         return artists.artistlist_to_json()
+    
+    def get_artist_by_name(self, artist_name):
+        artist = ArtistDTO()
+        try:
+            query = self.collection.where("name", "==", artist_name).get()
+            if(query):
+                for doc in query:
+                    artist_data = doc.to_dict()
+                    artist.id = doc.id
+                    artist.image = artist_data.get("image", "")
+                    artist.name = artist_data.get("name", "")
+        except Exception as e:
+            print(e)
+        return artist.artistdto_to_dict()
+

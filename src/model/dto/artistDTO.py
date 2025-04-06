@@ -11,6 +11,7 @@ class ArtistsDTO():
         return json.dumps(self.artistlist)
 
 
+
 class ArtistDTO():
     def __init__(self):
         self.id = None

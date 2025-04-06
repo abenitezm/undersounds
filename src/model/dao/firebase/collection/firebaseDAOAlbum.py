@@ -32,3 +32,29 @@ class FirebaseAlbumDAO(InterfaceAlbumDAO):
             print(e)
 
         return albums.albumlist_to_json()
+    
+    def get_album_by_name(self, album_name):
+        album = AlbumDTO()
+        try:
+            query = self.collection.where("name", "==", album_name).get()
+            if(query):
+                for doc in query:
+                    album_data = doc.to_dict()
+                    artist_ref = album_data.get("artist")
+                    media_refs = album_data.get("media", [])
+                    album.id = doc.id
+                    album.artist = artist_ref.get().to_dict().get("name", "") if artist_ref else ""
+                    album.description = album_data.get("description", "")
+                    album.image = album_data.get("image", "")
+                    album.media = []
+                    for ref in media_refs:
+                        media_ref = ref.get()
+                        media_data = media_ref.to_dict()
+                        album.media.append(media_data.get("type", ""))
+                    album.name = album_data.get("name", "")
+                    album.price = album_data.get("price", 0.0)
+                    album.uploadDate = album_data.get("uploadDate", "")
+        except Exception as e:
+            print(e)
+        return album.albumdto_to_dict()
+
