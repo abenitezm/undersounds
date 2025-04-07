@@ -6,9 +6,7 @@ import Image from "next/image";
 import colors from "../../app/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
-import getArtistInfo from "../../utils/getArtistInfo";
 import { useEffect, useState } from "react";
-import getArtistAlbums from "../../utils/getArtistAlbums";
 import MonthlyListeners from "./MonthlyListeners";
 
 type ProfileInfoProps = {
@@ -16,10 +14,9 @@ type ProfileInfoProps = {
 };
 
 type Artista = {
-  artista: string;
-  imagenGrupo?: string;
+  name: string;
+  image: string;
   descripcion?: string;
-  oyentes?: number;
 };
 
 const ProfileInfo = ({ id }: ProfileInfoProps) => {
@@ -28,12 +25,23 @@ const ProfileInfo = ({ id }: ProfileInfoProps) => {
 
   useEffect(() => {
     async function fetchData() {
-      const data = await getArtistInfo(id);
+      console.log(id)
+      const response = await fetch(`http://127.0.0.1:8000/artist/${id}`);
+      const data = await response.json();
       if (data) {
         setArtist(data);
       }
 
-      const albums = await getArtistAlbums(id);
+      // TODO: cambiar cómo se obtienen los generos del artista
+
+      const artist = await fetch(`http://127.0.0.1:8000/artist/${id}`);
+      const artistData = await artist.json();
+      const artistId = artistData.id;
+      const res = await fetch(
+        `http://127.0.0.1:8000/getartistalbums/${artistId}`
+      );
+      const albums = await res.json();
+      
       const generos = [...new Set(albums.map((album) => album.genre))];
       setGenres(generos);
     }
@@ -45,7 +53,7 @@ const ProfileInfo = ({ id }: ProfileInfoProps) => {
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         <ArtistImage>
           <Image
-            src={artist?.imagenGrupo || defaultAvatar}
+            src={`/localDB${artist?.image}` || defaultAvatar}
             alt="artist"
             width={230}
             height={230}
@@ -56,7 +64,7 @@ const ProfileInfo = ({ id }: ProfileInfoProps) => {
           />
         </ArtistImage>
 
-        <ArtistName>{artist?.artista || "undefined"}</ArtistName>
+        <ArtistName>{artist?.name}</ArtistName>
         <ArtistCity>Madrid, Spain</ArtistCity>
 
         <ArtistGenres>

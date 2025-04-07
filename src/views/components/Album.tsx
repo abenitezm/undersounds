@@ -104,7 +104,7 @@ export const Album = ({
           <AlbumPrice>{price}€</AlbumPrice>
         </AlbumInfo>
         <Image
-          src={image || defaultAlbum}
+          src={`/localDB${image}` || defaultAlbum}
           style={{
             objectFit: "contain",
             borderRadius: 10,

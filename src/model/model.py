@@ -44,5 +44,8 @@ class Model ():
     def get_merchType(self):
         return self.daoMerchType.get_merchType()
 
+    def get_merchType_by_id(self, merch_id):
+        return self.daoMerchType.get_merchType_by_id(merch_id)
+
     def get_users(self):
         return self.daoUser.get_users()

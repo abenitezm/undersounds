@@ -4,8 +4,6 @@ import styled from "styled-components";
 import { Album } from "./Album";
 import { useEffect, useState } from "react";
 
-import getArtistAlbums from "../../utils/getArtistAlbums";
-
 const ArtistAlbums = styled.div`
   margin-top: 10px;
   margin-left: 20px;
@@ -25,9 +23,9 @@ const AlbumsSection = styled.div`
 const AlbumDashboard = ({ id }: { id: string }) => {
   const [albums, setAlbums] = useState<
     Array<{
-      id: number;
-      titulo: string;
-      artista: string;
+      id: string;
+      name: string;
+      artist: string;
       canciones: {
         id: number;
         titulo: string;
@@ -35,13 +33,12 @@ const AlbumDashboard = ({ id }: { id: string }) => {
         image: string;
         time: string;
       }[];
-      imagen: string;
+      image: string;
       genre: string;
       oyentes: string;
-      imagenGrupo: string;
-      descripcion: string;
-      price?: string;
-      year?: string;
+      description: string;
+      price: string;
+      year: string;
       merch?:
         | string
         | {
@@ -56,8 +53,19 @@ const AlbumDashboard = ({ id }: { id: string }) => {
   >([]);
 
   useEffect(() => {
-    const data = getArtistAlbums(id);
-    setAlbums(data);
+    async function fetchData() {
+      const artist = await fetch(`http://127.0.0.1:8000/artist/${id}`);
+      const artistData = await artist.json();
+      const artistId = artistData.id;
+      const response = await fetch(
+        `http://127.0.0.1:8000/getartistalbums/${artistId}`
+      );
+      const data = await response.json();
+      if (data) {
+        setAlbums(data);
+      }
+    }
+    fetchData();
   }, []);
 
   return (
@@ -67,11 +75,14 @@ const AlbumDashboard = ({ id }: { id: string }) => {
         {albums.map((album) => (
           <Album
             key={album.id}
-            name={album.titulo}
-            image={album.imagen}
-            genre={album.genre}
-            price={album?.price || "0.00"}
-            year={album?.year || "2021"}
+            id={album.id}
+            description={album.description}
+            name={album.name}
+            image={album.image}
+            artist={album.artist}
+            genre={album?.genre || "Pop"}
+            price={album.price}
+            year={album.year}
           />
         ))}
       </ArtistAlbums>

@@ -67,7 +67,11 @@ const AlbumInfo = ({ id }: { id: string }) => {
 
   useEffect(() => {
     async function fetchData() {
-      const data = await getAlbumInfo(id);
+      const response = await fetch('http://127.0.0.1:8000/album/' + id);
+      const data = await response.json();
+
+      // TODO: hay que tener un atributo con las canciones
+      console.log(data);
       if (data) {
         setAlbum(data);
       }

@@ -3,10 +3,7 @@ import styled from "styled-components";
 import colors from "../../app/colors";
 
 const Merch = ({
-  title,
-  tipo,
-  price,
-  image,
+  id, title, description, tipo, price, image, stock, artist
 }: {
   title: string;
   tipo: string;
@@ -21,13 +18,13 @@ const Merch = ({
         <MerchPrice>{price}</MerchPrice>
       </MerchInfo>
       <Image
-        src={image}
+        src={`/tienda${image}`}
         style={{
           objectFit: "contain",
           borderRadius: 10,
         }}
         layout="fill"
-        alt="album"
+        alt="merch"
       />
     </MerchContainer>
   );

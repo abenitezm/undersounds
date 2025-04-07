@@ -1,37 +1,50 @@
 "use client";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import getArtistMerch from "../../utils/getArtistMerch";
 import Merch from "./Merch";
 
 interface MerchItem {
   id: string;
-  titulo: string;
-  tipo: string;
-  precio: number;
-  imagen: string;
+  name: string;
+  type: string;
+  price: number;
+  image: string;
+  stock: number;
+  description: string;
+  artist: string;
 }
 const MerchDashboard = ({ id }: { id: string }) => {
   const [merch, setMerch] = useState<MerchItem[] | undefined>([]);
 
   useEffect(() => {
-    const data = getArtistMerch(id);
-    setMerch(data);
+    async function fetchData() {
+      const response = await fetch(`http://127.0.0.1:8000/getartistmerch/${id}`);
+      const data = await response.json();
+      console.log(data);
+      // if (data) {
+      //   setMerch(data);
+      // }
+    }
+    fetchData();
   }, []);
 
   return (
     <div>
-      {merch && (
+      {(merch.length !== 0 || merch !== undefined) && (
         <div>
           <h2 style={{ fontSize: 20 }}>Merch</h2>
           <ArtistMerch>
             {merch.map((item) => (
               <Merch
+                id={item.id}
                 key={item.id}
-                title={item.titulo}
-                tipo={item.tipo}
-                price={item.precio}
-                image={item.imagen}
+                title={item.name}
+                description={item.description}
+                tipo={item.type}
+                price={item.price}
+                image={item.image}
+                stock={item.stock}
+                artist={id}
               />
             ))}
           </ArtistMerch>
