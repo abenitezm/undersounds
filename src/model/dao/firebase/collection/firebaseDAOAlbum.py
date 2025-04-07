@@ -22,7 +22,13 @@ class FirebaseAlbumDAO(InterfaceAlbumDAO):
                 album_dto.artist = artist_ref.id if artist_ref else ""
                 album_dto.description = album_data.get("description", "")
                 album_dto.image = album_data.get("image", "")
-                album_dto.media = [ref.id for ref in media_refs]
+
+                album_dto.media = []
+                for ref in media_refs:
+                    media_ref = ref.get()
+                    media_data = media_ref.to_dict()
+                    album_dto.media.append(media_data.get("type", ""))
+
                 album_dto.name = album_data.get("name", "")
                 album_dto.price = album_data.get("price", 0.0)
                 album_dto.uploadDate = album_data.get("uploadDate", "")

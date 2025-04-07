@@ -23,3 +23,4 @@ class FirebaseGenreTypeDAO(InterfaceGenreTypeDAO):
             print(e)
 
         return genreType.insertGenreType_to_json()
+    
