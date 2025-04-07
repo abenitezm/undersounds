@@ -1,10 +1,11 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import colors from "../app/colors";
 import { styled } from "styled-components";
 import UploadAlbumImage from "../views/components/UploadAlbumImage";
 import AddSong from "../views/components/AddSong";
 import PrimaryButton from "../views/components/PrimaryButton";
+import axios from "axios";
 
 const Container = styled.div`
   display: flex;
@@ -66,6 +67,18 @@ const Select = styled.select`
 `;
 
 const UploadAlbumView = () => {
+  const [genres, setGenres] = useState<{ id: string; type: string}[]>([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:8000/getgenres")
+      .then((res) => {
+        setGenres(res.data);
+      })
+      .catch((err) => {
+        console.error("Error cargando géneros:", err);
+      })
+    }, []);
+
   return (
     <Container>
       <ColumnaIzquierda style={{ position: "relative" }}>
@@ -119,13 +132,11 @@ const UploadAlbumView = () => {
         <FormField>
           <Label htmlFor="genero">Género</Label>
           <Select id="genero">
-            <option value="">Selecciona un género</option>
-            <option value="pop">Pop</option>
-            <option value="rock">Rock</option>
-            <option value="jazz">Jazz</option>
-            <option value="hiphop">Hip Hop</option>
-            <option value="electronic">Electrónica</option>
-            <option value="classical">Clásica</option>
+            {genres.map((genre) => (
+              <option key={genre.id} value={genre.type}>
+                {genre.type}
+              </option>
+            ))}
           </Select>
         </FormField>
 

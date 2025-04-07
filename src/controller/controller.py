@@ -90,7 +90,7 @@ def gettypes(request: Request):
 @app.get("/getgenres")
 def getgenres(request: Request):
       genres = model.get_genreType()
-      return genres
+      return json.loads(genres)
 
 @app.get("/media/{media_id}")
 def get_media_by_id(request: Request, media_id: str):
