@@ -90,7 +90,8 @@ const AlbumImg = styled.img`
 type GridComponentProps = {
     data : any[]; //Datos recibidos
     /* Sirve para almacenar la función que se pasa en el componente padre */
-    onAlbumClick: (albumId : number) => void;
+    //onAlbumClick: (albumId : number) => void;
+    onAlbumClick: (albumId : string) => void;
     /*filters: string[];  posible prop que se utilizará en el filtrado con la BD*/ 
 }
 
@@ -102,7 +103,10 @@ export default function GridContent( { data, onAlbumClick } : GridComponentProps
         Pasa el título del album a la funcion onAlbumClick que es manejada
         en el componente padre.
     */}
-    const manejadorElementoMostrado = ( albumId : number ) => {
+    /*const manejadorElementoMostrado = ( albumId : number ) => {
+        onAlbumClick(albumId);
+    };*/
+    const manejadorElementoMostrado = ( albumId : string ) => {
         onAlbumClick(albumId);
     };
 
@@ -124,10 +128,10 @@ export default function GridContent( { data, onAlbumClick } : GridComponentProps
             {/* Recorremos los datos del JSON para mostrar su contenido de una manera bonita visualmente*/}
             {enseñarMasContenido.map(( elemento : any) => (
                 <GridItem key = { elemento.id } $expandir = {expandir} onClick = {() => manejadorElementoMostrado(elemento.id)}>
-                    <AlbumImg src = { elemento.imagen } alt = { elemento.titulo } />
-                    <Title>{ elemento.titulo }</Title>
-                    <Genre>{ elemento.genre }</Genre>
-                    <ArtistName><Link href={`/artist/${elemento.artista}`}>{ elemento.artista }</Link></ArtistName> 
+                    <AlbumImg src = { `localDB/${elemento.albumImage}` } alt = { elemento.name } />
+                    <Title>{ elemento.name }</Title>
+                    <Genre>{ elemento.tipo }</Genre>
+                    <ArtistName><Link href={`/artist/${elemento.artistName}`}>{ elemento.artistName }</Link></ArtistName> 
                 </GridItem>
             ))}
             {mostrarMasResultados && (!expandir || permitirVolver) && (<PrimaryButton onClick = {() => setExpandir(!expandir)} type="button" 

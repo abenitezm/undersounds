@@ -34,8 +34,50 @@ export type Album = {
     type : string[];
 }
 
+export type AlbumFirebase = {
+    id: string;
+    artist: string;
+    description: string;
+    image: string;
+    media: string[];
+    name: string;
+    price: number;
+    uploadDate: string;
+}
+
+export type CancionesConAlbumFirebase = CancionFirebase & {
+    albumArtist: string;
+    albumDescription: string;
+    albumImage: string;
+    albumMedia: string[];
+    albumName: string;
+}
+
+export type GenreFirebaseType = {
+    id: string;
+    type: string;
+}
+
+export type ArtistFirebase = {
+    id: string;
+    name: string;
+    image: string;
+}
+
+export type CancionFirebase = {
+    id: string;
+    name: string;
+    genre: string;
+    trackLength: string;
+    album: string;
+    comentarios : string[];
+    comentador : string;
+}
+
+{/* Propiedades del componente */}
+
 type AlbumReproducerProps = {
-    album : Album;
+    album : CancionesConAlbumFirebase;
 }
 
 const ReproducerContainer = styled.div`
@@ -257,9 +299,9 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
 
     return (
         <ReproducerContainer>
-            <h2 style={{ textAlign: "center", marginBottom: "10px" }}>{album.title}</h2>
+            <h2 style={{ textAlign: "center", marginBottom: "10px" }}>{album.albumName}</h2>
             <audio ref = {audioRef} ></audio>
-            <img src = {album.canciones[0].image} style = {{ 
+            <img src = {album.albumImage} style = {{ 
                 width:"45.5vh", 
                 height:"300px",
                 position:"relative", 

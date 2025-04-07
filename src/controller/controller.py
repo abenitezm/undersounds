@@ -4,6 +4,7 @@ from model.model import Model
 from firebase_admin import auth
 from model.dao.firebase.firebaseDAOFactory import FirebaseDAOFactory
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 # Inicializamos la app
 
 app = FastAPI()
@@ -84,6 +85,13 @@ def gettypes(request: Request):
       merch = model.get_merchType()
       return genres, media, merch
 
+
+
+@app.get("/getgenres")
+def getgenres(request: Request):
+      genres = model.get_genreType()
+      return genres
+
 @app.get("/media/{media_id}")
 def get_media_by_id(request: Request, media_id: str):
       media = model.get_mediaType_by_id()
@@ -95,7 +103,7 @@ def get_merch_type_by_id(request: Request, merch_id: str):
       return merchType
 
 
-
+@app.get("/media/{media_id}")
 def get_media_by_id(request: Request, media_id: str):
       media = model.get_mediaType()
       for m in media:

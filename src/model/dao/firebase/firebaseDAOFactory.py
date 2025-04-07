@@ -9,13 +9,16 @@ from .collection.firebaseDAOMerch import FirebaseMerchDAO
 from .collection.firebaseDAOUser import FirebaseUserDAO
 import firebase_admin
 from firebase_admin import credentials, firestore, auth
+import os
 
 class FirebaseDAOFactory(InterfaceDAOFactory):
 
     def __init__(self):
         try:
             if not firebase_admin._apps:
-                cred = credentials.Certificate("./src/model/dao/firebase/credentials.json")
+                dir_path = os.path.dirname(os.path.realpath(__file__))
+                cred_path = os.path.join(dir_path, 'credentials.json') # Busca la ruta donde tienes el credentials.json
+                cred = credentials.Certificate(cred_path)
                 firebase_admin.initialize_app(cred)
                 print("Firebase authentificator inicializado correctamente.")
             else:

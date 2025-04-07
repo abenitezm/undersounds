@@ -3,11 +3,12 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import Multiselect from "../views/components/Multiselect";
-import data from "../assets/bd.json";
+//import data from "../assets/bd.json";
 import GridComponent from "../views/components/GridNavigContent";
-import AlbumReproducer, { Album } from "../views/components/AlbumReproducer";
+import AlbumReproducer, { CancionesConAlbumFirebase } from "../views/components/AlbumReproducer";
 import { styled } from "styled-components";
 import { ReadonlyURLSearchParams } from "next/navigation";
+import { collection, doc, setDoc } from "firebase/firestore";
 
 const GlobalContainer = styled.div`
   display: flex;
@@ -31,7 +32,7 @@ const GlobalContainer = styled.div`
   }
 `;
 
-const albumData: Album[] = data.map((cancion) => {
+/*const albumData: Album[] = data.map((cancion) => {
   return {
     idAlbum: cancion.id,
     title: cancion.titulo,
@@ -43,48 +44,133 @@ const albumData: Album[] = data.map((cancion) => {
     comentarios: cancion.comentarios,
     comentador: cancion.comentador,
   } as Album;
-});
+});*/
+
+
 
 const NavigationView = ({
   searchParams,
 }: {
   searchParams: ReadonlyURLSearchParams;
 }) => {
-  const [filteredData, setFilteredData] = useState(data);
+  const [filteredData, setFilteredData] = useState<CancionesConAlbumFirebase[]>([]); // Frontend estaba usestate(data);
   /* Almacena el album seleccionado */
-  const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
+  const [selectedAlbum, setSelectedAlbum] = useState<CancionesConAlbumFirebase | null>(null);
   /* Almacena los filtros seleccionados */
   const [filters, setFilters] = React.useState<string[]>([]);
 
+  const [cancionFirebase, setCancionFirebase] = useState<CancionesConAlbumFirebase[]>([]); // Bakcend
+
+
+  // Backend
   useEffect(() => {
-    let filteredData = data;
+    const fetchData = async () => {
+      try {
+        // 1. Obtener todos los datos en paralelo
+        const [songsResponse, albumsResponse, genresResponse, artistsResponse] = await Promise.all([
+          fetch("http://localhost:8000/getsongs"),
+          fetch("http://localhost:8000/getalbums"),
+          fetch("http://localhost:8000/getgenres"),
+          fetch("http://localhost:8000/getartists"),
+        ]);
+
+        const [songs, albums, genres, artists] = await Promise.all([
+          JSON.parse(await songsResponse.json()),
+          JSON.parse(await albumsResponse.json()),
+          JSON.parse(await genresResponse.json()),
+          JSON.parse(await artistsResponse.json()),
+        ]);
+  
+        // 2. Verificar que son arrays
+        if (!Array.isArray(songs) || !Array.isArray(albums) || !Array.isArray(genres) || !Array.isArray(artists)) {
+          throw new Error("Los datos recibidos no son arrays válidos");
+        }
+  
+        // 3. Crear mapas para búsqueda rápida
+        const albumMap = new Map(albums.map(album => [album.id, album]));
+        const genreMap = new Map(genres.map(genre => [genre.id, genre]));
+        const artistMap = new Map(artists.map(artist => [artist.id, artist]));
+  
+        // 4. Combinar los datos
+        const cancionesCompletas = songs.map(cancion => {
+          const album = albumMap.get(cancion.album);
+          const genre = genreMap.get(cancion.genre.split('/').pop()); // Extrae el ID de la referencia
+          const artistId = album?.artist;
+          const artist = artistMap.get(artistId);
+  
+          return {
+            ...cancion,
+            tipo: genre?.type || "unknown",
+            artistName: artist?.name || "unknown",
+            artistImage: artist?.image || "unknown",
+            albumName: album?.name || "unknown",
+            albumArtist: album?.artist || "unknown",
+            albumDescription: album?.description || "unknown",
+            albumImage: album?.image || "unknown",
+            albumMedia: album?.media ? (Array.isArray(album.media) ? album.media : [album.media]) : []
+          };
+        });
+  
+        // 5. Actualizar estados
+        setCancionFirebase(cancionesCompletas);
+        setFilteredData(cancionesCompletas);
+        
+      } catch (error) {
+        console.error("Error al cargar datos:", error);
+      }
+    };
+  
+    fetchData();
+  }, []);
+  
+  
+  // Efecto de depuración
+  useEffect(() => {
+    console.log("Estado actual de canciones:", cancionFirebase);
+  }, [cancionFirebase]);
+
+
+  useEffect(() => {
+    if (!cancionFirebase || cancionFirebase.length === 0) return; // Backend
+    let filteredData = cancionFirebase;
 
     const search = searchParams.get("search");
     const category = searchParams.get("category");
+
     if (search) {
       filteredData = filteredData.filter(
         (album) =>
-          album.titulo.toLowerCase().includes(search.toLowerCase()) ||
-          album.artista.toLowerCase() == search.toLowerCase()
+          album.albumName.toLowerCase().includes(search.toLowerCase()) ||
+          album.albumArtist.toLowerCase() == search.toLowerCase()
       );
     }
 
     if (category) {
       filteredData = filteredData.filter((album) =>
-        album.type.includes(category)
+        album.albumMedia.includes(category)
       );
     }
     setFilteredData(filteredData);
-  }, [searchParams]);
+  }, [searchParams, cancionFirebase]);
 
   /* Manejador que me permite mostrar las canciones del album MOLTING AND DANCING TODO: hacerlo para cualquier album */
-
-  const manejadorAlbum = (albumId: number) => {
+  //Frontend
+  /*const manejadorAlbum = (albumId: number) => {
     if (albumId >= 0 && albumId < albumData.length) {
       setSelectedAlbum(albumData[albumId]);
       console.log(albumData[albumId].comentarios);
     } else {
       console.error("Indice del album fuera de rango");
+    }
+  };*/
+
+  const manejadorAlbum = (albumId: string) => {
+    const album = cancionFirebase.find(c => c.album === albumId)
+    if (album) {
+      setSelectedAlbum(album);
+      console.log("Comentarios del álbum:", album.comentarios);
+    } else {
+      console.error("Álbum no encontrado");
     }
   };
 
@@ -106,3 +192,4 @@ const NavigationView = ({
 };
 
 export default NavigationView;
+

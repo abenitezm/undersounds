@@ -18,6 +18,8 @@ class SongDTO():
         self.trackLength = None
         self.album = None
         self.genre = None
+        self.commentator = None
+        self.comments = None
 
     def is_Empty(self):
         return (self.id is None and self.name is None and self.trackLength 
@@ -38,6 +40,12 @@ class SongDTO():
     def get_genre(self):
         return self.genre
 
+    def get_commentator(self):
+        return self.commentator
+
+    def get_comments(self):
+        return self.comments
+
     def set_id(self, id):
         self.id = id
 
@@ -52,6 +60,12 @@ class SongDTO():
 
     def set_genre(self, genre):
         self.genre = genre
+
+    def set_commentator(self, commentator):
+        self.commentator = commentator
+    
+    def set_comments(self, comments):
+        self.comments = comments
     
     def songdto_to_dict(self):
         return {
@@ -60,4 +74,6 @@ class SongDTO():
             "trackLength": self.trackLength,
             "album": self.album,
             "genre": self.genre,
+            "comments": self.comments,
+            "commentator": self.commentator
         }
