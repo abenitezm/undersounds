@@ -114,7 +114,7 @@ type MultiselectProps = {
 
 */
 
-export default function Multiselect( {tipo} : {tipo : string} ){
+export default function Multiselect( {tipo, selectedGenre, onGenreChange} : {tipo : string, selectedGenre: string[], onGenreChange: (genres: string[]) => void} ){
     const [mostrarDropdown, setMostrarDropdown] = React.useState(false);
     const [search, setSearch] = React.useState("");
     const dropdownRef = React.useRef<HTMLUListElement>(null);
@@ -125,11 +125,13 @@ export default function Multiselect( {tipo} : {tipo : string} ){
 
     {/* Definición de variable que contendrá una función la cual manejará los inputs de texto que se hagan */}
     const manejadorBusqueda = (genre : string) => {
-        console.log(genre);
         {/* Si el genero seleccionado de la lista no está en el vector, se introduce */} 
-        if (!filters.includes(genre) && (generos.includes(search) || generos.includes(genre))) {
+        /*if (!filters.includes(genre) && (generos.includes(search) || generos.includes(genre))) {
             setFilters([...filters, genre]);
-        }    
+        } */
+       if ( !selectedGenre.includes(genre) && generos.includes(genre)) {
+            onGenreChange([...selectedGenre, genre]); // Actualizamos el estado del padre
+       }   
         /* 
             - Podemos hacer que aparezca en el input el genero seleccionado 
               setSearch(genre);
@@ -142,13 +144,16 @@ export default function Multiselect( {tipo} : {tipo : string} ){
 
      {/* Función que me elimina los filtros del array de filtros */}
      const eliminarFiltros  = (genre : string) => {
-        const nuevosFiltros = filters.filter((filter) => filter !== genre); //Actualización del array filters eliminando los filtros que se han seleccionado
-        setFilters(nuevosFiltros);
+        //const nuevosFiltros = filters.filter((filter) => filter !== genre); //Actualización del array filters eliminando los filtros que se han seleccionado
+        const nuevosFiltros = selectedGenre.filter((filter) => filter !== genre);
+        //setFilters(nuevosFiltros);
+        onGenreChange(nuevosFiltros);
     }
 
     const eliminarTodosLosFiltros = () => {
-        filters.splice(0, filters.length);
-        setFilters(filters);
+        //filters.splice(0, filters.length);
+        //setFilters(filters);
+        onGenreChange([]);
     }
 
     /* Posible método que se usará en el filtrado con la BD
@@ -257,7 +262,7 @@ export default function Multiselect( {tipo} : {tipo : string} ){
                     )
                 }
                 {
-                    filters.map((genre, index) => (
+                    selectedGenre.map((genre, index) => (
                         <PrimaryButton
                             key = {index}
                             text = {genre}

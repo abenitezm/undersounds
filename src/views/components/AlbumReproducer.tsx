@@ -93,6 +93,7 @@ export type CancionFirebase = {
     album: string;
     comments : string[];
     commentator : string;
+    tipo: string;
 }
 
 {/* Propiedades del componente */}

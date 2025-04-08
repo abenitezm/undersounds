@@ -60,6 +60,8 @@ const NavigationView = ({
   /* Almacena los filtros seleccionados */
   const [filters, setFilters] = React.useState<string[]>([]);
 
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+
   const [cancionFirebase, setCancionFirebase] = useState<CancionesConAlbumFirebase[]>([]); // Bakcend
 
 
@@ -155,8 +157,10 @@ const NavigationView = ({
 
   useEffect(() => {
     if (!cancionFirebase || cancionFirebase.length === 0) return; // Backend
+    
     let filteredData = cancionFirebase;
-
+    
+    // 1. Filtrado pro búsqueda
     const search = searchParams.get("search");
     const category = searchParams.get("category");
 
@@ -168,13 +172,20 @@ const NavigationView = ({
       );
     }
 
+    // 2. Filtrado por categoría
     if (category) {
       filteredData = filteredData.filter((album) =>
         album.albumMedia.includes(category)
       );
     }
+
+    // 3. Filtrado por genero seleccionado
+    if ( selectedGenres.length > 0 ) {
+      filteredData = filteredData.filter((album) => selectedGenres.includes(album.tipo) )
+    }
+
     setFilteredData(filteredData);
-  }, [searchParams, cancionFirebase]);
+  }, [searchParams, cancionFirebase, selectedGenres]);
 
   /* Manejador que me permite mostrar las canciones del album MOLTING AND DANCING TODO: hacerlo para cualquier album */
   //Frontend
@@ -207,7 +218,7 @@ const NavigationView = ({
 
   return (
     <GlobalContainer>
-      <Multiselect tipo="" />
+      <Multiselect tipo="" selectedGenre={selectedGenres} onGenreChange={setSelectedGenres} />
       <GridComponent data={filteredData} onAlbumClick={manejadorAlbum} />
       {selectedAlbum && <AlbumReproducer album={selectedAlbum} />}
     </GlobalContainer>
