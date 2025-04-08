@@ -45,7 +45,27 @@ export type AlbumFirebase = {
     uploadDate: string;
 }
 
-export type CancionesConAlbumFirebase = CancionFirebase & {
+export type CancionExtendida = {
+    cancion: CancionFirebase[];
+
+    // Álbum
+    albumId: string;
+    albumName: string;
+    albumDescription: string;
+    albumImage: string;
+    albumMedia: string[];
+  
+    // Artista
+    artistId: string;
+    artistName: string;
+    artistImage: string;
+  
+    // Género
+    genreId: string;
+    genreType: string;
+  }
+
+export type CancionesConAlbumFirebase = CancionFirebase & ArtistFirebase & {
     albumArtist: string;
     albumDescription: string;
     albumImage: string;
@@ -59,9 +79,10 @@ export type GenreFirebaseType = {
 }
 
 export type ArtistFirebase = {
-    id: string;
-    name: string;
-    image: string;
+    artistId: string;
+    artistName: string;
+    artistImage: string;
+    artistInfo: string;
 }
 
 export type CancionFirebase = {
@@ -70,8 +91,8 @@ export type CancionFirebase = {
     genre: string;
     trackLength: string;
     album: string;
-    comentarios : string[];
-    comentador : string;
+    comments : string[];
+    commentator : string;
 }
 
 {/* Propiedades del componente */}
@@ -102,14 +123,16 @@ const BotonesControl = styled.div`
 `;
 
 const ListaCanciones = styled.ul`
+    margin-top: 20px;
     list-style: none;
     cursor: pointer;
 `;
 
-const CancionLista = styled.li`
+const CancionLista = styled.li<{ $active?: boolean }>`
     list-style: none;
     padding: 5px;
     cursor: pointer;
+    color: ${({ $active }) => ($active ? colors.primary : "inherit")};
 
     &:hover {
         color: ${colors.primary};
@@ -182,16 +205,19 @@ const BotonCerrar = styled.button`
 
 
 export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
-    const [currentSong, setCurrentSong] = useState<Cancion | null>(null);
+    const [currentSong, setCurrentSong] = useState<CancionFirebase | null>(null);
     const [isOpen, setIsOpen] = useState(true);
     const [progreso, setProgreso] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
     const [pagar, setPagar] = useState(false);
     const audioRef = useRef<HTMLAudioElement | null>(null);
+    const [canciones, setCanciones] = useState<CancionFirebase[]>([]);
     const { userRole } = useAuth();
 
     {/* Si existe una canción a escuchar, se reproduce */}
     useEffect(() => {
+        console.log("Album", album);
+
         if ( audioRef.current && userRole === "registrado" ){
             audioRef.current.src = currentSong?.url || '';
             if ( isPlaying ){
@@ -211,8 +237,8 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
             });
             console.log(userRole);
         }
-    }, [currentSong, isPlaying, userRole]); //Depende useEffect de los valores de estas dos variables
-
+    }, [isPlaying, currentSong]);
+        
     /* Sirve para la actualización constante del tiempo de la canción que se está escuchando */
     useEffect(() => {
         const actualizarProgreso = () => {
@@ -220,7 +246,7 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
                 const porcentaje = audioRef.current ? (audioRef.current.currentTime / audioRef.current.duration) * 100 : 0;
                 setProgreso(porcentaje);
             }
-            /* Si estás mas de 90 segundos escuchándola, tienes que pagar */
+            // Si estás mas de 90 segundos escuchándola, tienes que pagar 
             if ( audioRef.current && audioRef.current.currentTime >= 90){
                 audioRef.current.pause();
                 setPagar(true);
@@ -240,7 +266,7 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
     }, [currentSong, isPlaying]);
 
     {/* Controlador para reproducir canciones */}
-    const reproducirSong = ( song : Cancion ) => {
+    const reproducirSong = ( song : CancionFirebase ) => {
         setCurrentSong(song);
         setIsPlaying(true);
         if (audioRef.current) {
@@ -253,7 +279,7 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
         setIsPlaying(false);
     }
 
-    const reproducirSiguienteCancion = ( songs : Cancion[] ): void => {
+    const reproducirSiguienteCancion = ( songs : CancionFirebase[] ): void => {
         /* Caso base, si las canciones se encuentran vacías termino */
         if ( songs.length === 0 ){
             return;
@@ -269,7 +295,7 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
         }
     };
 
-    const reproducirCancionAnterior = ( songs : Cancion[] ) => {
+    const reproducirCancionAnterior = ( songs : CancionFirebase[] ) => {
         /* Caso base, si las canciones se encuentran vacías termino */
         if ( songs.length === 0 ){
             return;
@@ -290,7 +316,11 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
         }
     };
 
-    const shuffleReproducer = ( songs: Cancion[] ) => {
+    useEffect(() => {
+        console.log("Artist info", album.artistInfo);
+    }, [album])
+
+    const shuffleReproducer = ( songs: CancionFirebase[] ) => {
 
         //Cojo una canción random del vector de canciones
         const randomSong = Math.floor(Math.random() * songs.length);
@@ -301,7 +331,7 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
         <ReproducerContainer>
             <h2 style={{ textAlign: "center", marginBottom: "10px" }}>{album.albumName}</h2>
             <audio ref = {audioRef} ></audio>
-            <img src = {album.albumImage} style = {{ 
+            <img src = {`localDB/${album.albumImage}`} style = {{ 
                 width:"45.5vh", 
                 height:"300px",
                 position:"relative", 
@@ -313,11 +343,11 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
             />
             {pagar && ( <PagarContainer>Demo Gratuita Finalizada</PagarContainer>)}
             <BotonesControl>
-                <ChevronsLeft onClick = {() => reproducirCancionAnterior(album.canciones)}/>  
+                <ChevronsLeft /*onClick = {() => reproducirCancionAnterior(album.canciones)}*//>  
                 { isPlaying && userRole === "registrado" ? (
                     <Pause onClick={pausarSong} />
                 ) : (
-                    <Play onClick={ () => reproducirSong(album.canciones[0])} />
+                    <Play /*onClick={ () => reproducirSong(album.canciones[0])}*/ />
                 )}
                 { userRole === "invitado" && 
                     <DeployRestrictiveBackground $isOpen={isOpen}>
@@ -339,16 +369,14 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
                         }
                         setProgreso(e.target.value);
                     }}/></label>
-                <ChevronsRight onClick = {() => reproducirSiguienteCancion(album.canciones)} />
-                <Shuffle onClick = {() => shuffleReproducer(album.canciones)} />
+                <ChevronsRight /*onClick = {() => reproducirSiguienteCancion(album.canciones)}*/ />
+                <Shuffle /*onClick = {() => shuffleReproducer(album.canciones)}*/ />
             </BotonesControl>
-            <ListaCanciones>
-                {album.canciones.map((cancion) => (
-                    <CancionLista key={cancion.id} onClick={() => reproducirSong(cancion)}>
-                        <span>{cancion.titulo} - {cancion.time}</span>
-                    </CancionLista>
-                ))}
-                { userRole === "registrado" && <CopiarEnlaceNavegacion url={currentSong?.url || ''}/>}
+            <ListaCanciones
+            key={album.id} 
+            onClick={() => {}/*reproducirSong(cancion)*/}>
+            <span>{album.name} - {album.trackLength}</span>
+            { userRole === "registrado" && <CopiarEnlaceNavegacion url={currentSong?.url || ''}/>}
             </ListaCanciones>
             <ArtistCard album={album}/>
         </ReproducerContainer>

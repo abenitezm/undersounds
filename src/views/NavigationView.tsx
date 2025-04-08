@@ -9,6 +9,7 @@ import AlbumReproducer, { CancionesConAlbumFirebase } from "../views/components/
 import { styled } from "styled-components";
 import { ReadonlyURLSearchParams } from "next/navigation";
 import { collection, doc, setDoc } from "firebase/firestore";
+import { parse } from "path";
 
 const GlobalContainer = styled.div`
   display: flex;
@@ -66,6 +67,20 @@ const NavigationView = ({
   useEffect(() => {
     const fetchData = async () => {
       try {
+
+        // Apartado de CACHE 
+        // 1. Verificamos que exiten datos en cache
+        const cacheData = localStorage.getItem('cancionesCompletas');
+        const cacheTimestamp = localStorage.getItem('cancionesTimestamp');
+
+        // 2. Si hay datos en cache y son recientes ( < 1 hora)
+        if ( cacheData && cacheTimestamp && Date.now() - Number(cacheTimestamp) < 36000000){
+          const parsedData = JSON.parse(cacheData);
+          setCancionFirebase(parsedData);
+          setFilteredData(parsedData);
+          return;
+        }
+
         // 1. Obtener todos los datos en paralelo
         const [songsResponse, albumsResponse, genresResponse, artistsResponse] = await Promise.all([
           fetch("http://localhost:8000/getsongs"),
@@ -73,46 +88,54 @@ const NavigationView = ({
           fetch("http://localhost:8000/getgenres"),
           fetch("http://localhost:8000/getartists"),
         ]);
-
+        
+        // 2. Las parseamos a un formato que se puedan leer los objetos de la respuesta
         const [songs, albums, genres, artists] = await Promise.all([
           JSON.parse(await songsResponse.json()),
           JSON.parse(await albumsResponse.json()),
-          JSON.parse(await genresResponse.json()),
+          await genresResponse.json(),
           JSON.parse(await artistsResponse.json()),
         ]);
   
-        // 2. Verificar que son arrays
+        // 3. Verificar que son arrays
         if (!Array.isArray(songs) || !Array.isArray(albums) || !Array.isArray(genres) || !Array.isArray(artists)) {
           throw new Error("Los datos recibidos no son arrays válidos");
         }
   
-        // 3. Crear mapas para búsqueda rápida
+        // 4. Crear mapas para búsqueda rápida
         const albumMap = new Map(albums.map(album => [album.id, album]));
         const genreMap = new Map(genres.map(genre => [genre.id, genre]));
         const artistMap = new Map(artists.map(artist => [artist.id, artist]));
   
-        // 4. Combinar los datos
+        // 5. Combinar los datos
         const cancionesCompletas = songs.map(cancion => {
           const album = albumMap.get(cancion.album);
           const genre = genreMap.get(cancion.genre.split('/').pop()); // Extrae el ID de la referencia
           const artistId = album?.artist;
           const artist = artistMap.get(artistId);
+          console.log(cancion);
   
           return {
-            ...cancion,
-            tipo: genre?.type || "unknown",
-            artistName: artist?.name || "unknown",
-            artistImage: artist?.image || "unknown",
-            albumName: album?.name || "unknown",
-            albumArtist: album?.artist || "unknown",
-            albumDescription: album?.description || "unknown",
-            albumImage: album?.image || "unknown",
-            albumMedia: album?.media ? (Array.isArray(album.media) ? album.media : [album.media]) : []
-          };
+           ...cancion,
+           tipo: genre?.type || "unknown",
+           albumName: album?.name || "unknown",
+           albumDescription: album.description || "",
+           albumImage: album.image || "/default-album.png",
+           albumMedia: album.media ? (Array.isArray(album.media) ? album.media : [album.media]) : [],
+           artistName: artist?.name || "unknown",
+           artistImage: artist?.image || "/default-artist.png",
+           artistInfo: artist?.info || "unknown"
+          };          
         });
-  
-        // 5. Actualizar estados
+        
+        // Apartado de caché
+        // 6. Guardar en caché los datos obtenido
+        localStorage.setItem('cancionesCompletas', JSON.stringify(cancionesCompletas));
+        localStorage.setItem('cancionesTimestamp', Date.now().toString());
+        
+        // 7. Actualizar estados
         setCancionFirebase(cancionesCompletas);
+        console.log("Canciones", cancionFirebase);
         setFilteredData(cancionesCompletas);
         
       } catch (error) {
@@ -141,7 +164,7 @@ const NavigationView = ({
       filteredData = filteredData.filter(
         (album) =>
           album.albumName.toLowerCase().includes(search.toLowerCase()) ||
-          album.albumArtist.toLowerCase() == search.toLowerCase()
+          album.artistId.toLowerCase() == search.toLowerCase()
       );
     }
 
@@ -165,10 +188,10 @@ const NavigationView = ({
   };*/
 
   const manejadorAlbum = (albumId: string) => {
-    const album = cancionFirebase.find(c => c.album === albumId)
+    const album = cancionFirebase.find(c => c.id=== albumId);
+    console.log(album);
     if (album) {
       setSelectedAlbum(album);
-      console.log("Comentarios del álbum:", album.comentarios);
     } else {
       console.error("Álbum no encontrado");
     }

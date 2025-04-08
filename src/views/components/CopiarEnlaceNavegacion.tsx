@@ -11,7 +11,7 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 const IconosCompartirLike = styled.div`
     margin-left: 81%;
-    margin-top: -33px;
+    margin-top: -8%;
     width: 50px;
 
 `;

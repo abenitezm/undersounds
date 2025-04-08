@@ -15,7 +15,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 //Proveedor del contexto
 export const AuthProvider = ({ children }: {children : ReactNode}) => {
-    const [userRole, setUserRole] = useState<UserRoles>("invitado");
+    const [userRole, setUserRole] = useState<UserRoles>("registrado");
 
     return (
         <AuthContext.Provider value={{ userRole, setUserRole}}>

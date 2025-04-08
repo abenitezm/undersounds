@@ -5,6 +5,8 @@ from firebase_admin import auth
 from model.dao.firebase.firebaseDAOFactory import FirebaseDAOFactory
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+import os
+
 # Inicializamos la app
 
 app = FastAPI()
@@ -21,6 +23,16 @@ app.add_middleware(
 firebase = FirebaseDAOFactory()
 
 model = Model()
+
+# @app.get("/get-image/{filename}")
+# async def get_image(filename: str):
+#       image_path = os.path.join("localDB","albums", filename)
+#       print(image_path)
+
+#       if not os.path.exists(image_path):
+#             return {"error": "Imagen no encontrada"}
+
+#       return FileResponse(image_path, media_type="image/jpg")
 
 @app.get("/")
 def index(request: Request): 

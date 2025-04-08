@@ -128,7 +128,7 @@ export default function GridContent( { data, onAlbumClick } : GridComponentProps
             {/* Recorremos los datos del JSON para mostrar su contenido de una manera bonita visualmente*/}
             {enseñarMasContenido.map(( elemento : any) => (
                 <GridItem key = { elemento.id } $expandir = {expandir} onClick = {() => manejadorElementoMostrado(elemento.id)}>
-                    <AlbumImg src = { `localDB/${elemento.albumImage}` } alt = { elemento.name } />
+                    <AlbumImg src = { `localDB/${elemento.albumImage}` } alt = { elemento.albumName } />
                     <Title>{ elemento.name }</Title>
                     <Genre>{ elemento.tipo }</Genre>
                     <ArtistName><Link href={`/artist/${elemento.artistName}`}>{ elemento.artistName }</Link></ArtistName> 

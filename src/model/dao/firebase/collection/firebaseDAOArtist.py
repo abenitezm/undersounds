@@ -18,6 +18,7 @@ class FirebaseArtistDAO(InterfaceArtistDAO):
                 artist_dto.id = doc.id
                 artist_dto.image = artist_data.get("image", "")
                 artist_dto.name = artist_data.get("name", "")
+                artist_dto.info = artist_data.get("info", "")
                 artists.insertArtist(artist_dto.artistdto_to_dict())
 
         except Exception as e:

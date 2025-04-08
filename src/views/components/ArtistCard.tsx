@@ -2,7 +2,7 @@
 import styled from "styled-components";
 import colors from "../../app/colors";
 import { useState } from "react";
-import { Album } from "./AlbumReproducer";
+import { CancionesConAlbumFirebase } from "./AlbumReproducer";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Link from "next/link";
 import PrimaryButton from "./PrimaryButton";
@@ -196,31 +196,31 @@ const CommentContainer = styled.div`
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
 `;
 
-export default function ArtistCard( {album} : { album : Album } ){
+export default function ArtistCard( {album} : { album : CancionesConAlbumFirebase } ){
 
     const [siguiendo, setSiguiendo] = useState(false);
     const [addComment, setAddComment] = useState(false);
 
     return (
         <ArtistCardContainer>
-            <Link href={`artist/${album.artista}`}><ArtistImageContainer $imageurl = {album.imagenGrupo}>
+            <Link href={`artist/${album.artistName}`}><ArtistImageContainer $imageurl = {`localDB/${album.artistImage}`}>
                 <div className="artist-text">Información sobre el artista</div>
             </ArtistImageContainer></Link>
             <ArtistInfoContainer>
-                <Link href={`artist/${album.artista}`}><ArtistName>{album.artista}</ArtistName></Link>
-                <p className="followers">{album.oyentes}</p>
+                <Link href={`artist/${album.artistName}`}><ArtistName>{album.artistName}</ArtistName></Link>
+                <p className="followers">Añadir oyentes mensuales con API Spotify{/*{album.oyentes}*/}</p>
                 <AnimatedSeguirButton>
                     <Button  onClick={ () => setSiguiendo(!siguiendo)}>
                         <FavoriteIcon />
                         {siguiendo ? "Siguiendo" : "Seguir"}
                     </Button>
                 </AnimatedSeguirButton>
-                <p className="description" style={{marginTop: "-5px"}}>{album.descripcion}</p>
+                <p className="description" style={{marginTop: "-5px"}}>{album.artistInfo}</p>
                 <CommentSectionContainer>
                     <SeccionValoraciones>Comentarios y valoraciones</SeccionValoraciones>
                     <LineaEstetica />
-                    <p className="Comentario" style={{paddingTop: "10px", fontSize: "13px"}}><i>{album.comentarios}</i></p>
-                    <p className="Comentador" style={{color: "#76ABAE", marginBottom: "10px"}}><a href="#"><i>{album.comentador}</i></a></p>
+                    <p className="Comentario" style={{paddingTop: "10px", fontSize: "13px"}}><i>{album.comments}</i></p>
+                    <p className="Comentador" style={{color: "#76ABAE", marginBottom: "10px"}}><a href="#"><i>{album.commentator}</i></a></p>
                     <PrimaryButton text="Añadir Comentario" onClick={() => setAddComment(!addComment)} style={{fontSize: "13px", borderRadius: "10px", width: "100%", marginBottom: "10px"}} type = "button"/>
                     {addComment &&
                         <CommentContainer>

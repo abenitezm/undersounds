@@ -17,9 +17,10 @@ class ArtistDTO():
         self.id = None
         self.image = None
         self.name = None
+        self.info = None
 
     def is_Empty(self):
-        return (self.id is None and self.image is None and self.name is None)
+        return (self.id is None and self.image is None and self.name is None and self.info is None)
 
     def get_id(self):
         return self.id
@@ -30,6 +31,9 @@ class ArtistDTO():
     def get_name(self):
         return self.name
 
+    def get_info(self):
+        return self.info
+
     def set_id(self, id):
         self.id = id
     
@@ -39,9 +43,13 @@ class ArtistDTO():
     def set_name(self, name):
         self.name = name
 
+    def set_info(self, info):
+        self.info = info
+
     def artistdto_to_dict(self):
         return {
             "id": self.id,
             "image": self.image,
-            "name": self.name
+            "name": self.name,
+            "info": self.info
         }
