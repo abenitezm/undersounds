@@ -120,6 +120,7 @@ const NavigationView = ({
           return {
            ...cancion,
            tipo: genre?.type || "unknown",
+           url: cancion.url || "unknown",
            albumName: album?.name || "unknown",
            albumDescription: album.description || "",
            albumImage: album.image || "/default-album.png",
@@ -201,6 +202,7 @@ const NavigationView = ({
   const manejadorAlbum = (albumId: string) => {
     const album = cancionFirebase.find(c => c.id=== albumId);
     console.log(album);
+    console.log(album?.url);
     if (album) {
       setSelectedAlbum(album);
     } else {

@@ -30,6 +30,7 @@ export default function CopiarEnlaceNavegacion({url} : { url : string}){
         if ( typeof window !== "undefined") {
             /* Ontiene la ruta de la página actual */
             setRuta(window.location.href);
+            console.log(ruta);
         }
         /* Cuando se renderiza este componente quiero que aparezcan de color blanco */
         setClicked(false);
@@ -56,6 +57,23 @@ export default function CopiarEnlaceNavegacion({url} : { url : string}){
     };
 
     const descarga = async () => {
+        if (!url) {
+            toast.error("No hay archivo disponible para descargar");
+            return;
+        }
+
+        // Construye la ruta completa del archivo MP3
+        const rutaCompleta = url.startsWith('http') ? url : `${window.location.origin}/localDB${url}`;
+        console.log(rutaCompleta);
+        
+        // Crea un enlace temporal para forzar la descarga
+        const link = document.createElement('a');
+        link.href = rutaCompleta;
+        link.download = url.split('/').pop() || 'audio.mp3'; // Nombre del archivo
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
         toast.success(" ¡Descarga de audio completada!", {
             position: "bottom-center",
             autoClose: 3000,

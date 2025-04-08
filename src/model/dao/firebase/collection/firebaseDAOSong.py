@@ -25,6 +25,7 @@ class FirebaseSongDAO(InterfaceSongDAO):
                 song_dto.trackLength = song_data.get("trackLength", "")
                 song_dto.commentator = song_data.get("commentator", "")
                 song_dto.comments = song_data.get("comments", [])
+                song_dto.url = song_data.get("url", "")
                 songs.insertSong(song_dto.songdto_to_dict())
 
         except Exception as e:

@@ -10,6 +10,7 @@ import { animacionEntrada }  from "./ShopValidator";
 import { toast, ToastContainer } from "react-toastify";
 import Link from 'next/link';
 import PrimaryButton from "./PrimaryButton";
+import { style } from "framer-motion/client";
 {/* Tipos de datos definidos */}
 
 type Cancion = {
@@ -94,6 +95,7 @@ export type CancionFirebase = {
     comments : string[];
     commentator : string;
     tipo: string;
+    url: string;
 }
 
 {/* Propiedades del componente */}
@@ -206,25 +208,28 @@ const BotonCerrar = styled.button`
 
 
 export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
-    const [currentSong, setCurrentSong] = useState<CancionFirebase | null>(null);
+    const [currentSong, setCurrentSong] = useState<CancionesConAlbumFirebase | null>(null);
     const [isOpen, setIsOpen] = useState(true);
     const [progreso, setProgreso] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
     const [pagar, setPagar] = useState(false);
     const audioRef = useRef<HTMLAudioElement | null>(null);
-    const [canciones, setCanciones] = useState<CancionFirebase[]>([]);
+    const [canciones, setCanciones] = useState<CancionesConAlbumFirebase[]>([]);
     const { userRole } = useAuth();
 
     {/* Si existe una canción a escuchar, se reproduce */}
     useEffect(() => {
-        console.log("Album", album);
-
         if ( audioRef.current && userRole === "registrado" ){
-            audioRef.current.src = currentSong?.url || '';
-            if ( isPlaying ){
-                audioRef.current.play();
+            if ( album?.url ){
+                audioRef.current.src =  `localDB${album?.url}` || '';
+                console.log(audioRef.current.src);
+                if ( isPlaying ){
+                    audioRef.current.play();
+                } else {
+                    audioRef.current.pause();
+                }
             } else {
-                audioRef.current.pause();
+                audioRef.current.src = '';
             }
         } else {
             toast.warn("¡Ciudado!, debes de iniciar sesión", {
@@ -238,7 +243,7 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
             });
             console.log(userRole);
         }
-    }, [isPlaying, currentSong]);
+    }, [isPlaying]);
         
     /* Sirve para la actualización constante del tiempo de la canción que se está escuchando */
     useEffect(() => {
@@ -264,12 +269,15 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
         return () => {
             audioRef.current?.removeEventListener("timeupdate", actualizarProgreso);
         };
-    }, [currentSong, isPlaying]);
+    }, [isPlaying, audioRef.current]);
 
     {/* Controlador para reproducir canciones */}
-    const reproducirSong = ( song : CancionFirebase ) => {
-        setCurrentSong(song);
-        setIsPlaying(true);
+    const reproducirSong = () => {
+        //setCurrentSong(song);
+        console.log("hola");
+        if( album?.url ){
+            setIsPlaying(true);
+        }
         if (audioRef.current) {
             audioRef.current.volume = 0.30;
         }
@@ -280,8 +288,8 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
         setIsPlaying(false);
     }
 
-    const reproducirSiguienteCancion = ( songs : CancionFirebase[] ): void => {
-        /* Caso base, si las canciones se encuentran vacías termino */
+    /*const reproducirSiguienteCancion = ( songs : CancionesConAlbumFirebase[] ): void => {
+        // Caso base, si las canciones se encuentran vacías termino 
         if ( songs.length === 0 ){
             return;
         } else { // Si no se encuentran vacías procedo a coger la siguiente a la actual
@@ -294,34 +302,34 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
                 setIsPlaying(true);
             }
         }
-    };
+    };*/
 
-    const reproducirCancionAnterior = ( songs : CancionFirebase[] ) => {
-        /* Caso base, si las canciones se encuentran vacías termino */
-        if ( songs.length === 0 ){
-            return;
-        } else { // Si no se encuentran vacías procedo a coger la anterior de la actual
+    // const reproducirCancionAnterior = ( songs : CancionesConAlbumFirebase[] ) => {
+    //     /* Caso base, si las canciones se encuentran vacías termino */
+    //     if ( songs.length === 0 ){
+    //         return;
+    //     } else { // Si no se encuentran vacías procedo a coger la anterior de la actual
             
-            const index = songs.findIndex((x) => x.id === currentSong?.id);
+    //         const index = songs.findIndex((x) => x.id === currentSong?.id);
             
-            /* Comprobación de si el índice es > 0: ¿Por qúe? 
+    //         /* Comprobación de si el índice es > 0: ¿Por qúe? 
 
-                - Si la lista tiene un solo valor canciones[0], no vas a poder coger la anterior
+    //             - Si la lista tiene un solo valor canciones[0], no vas a poder coger la anterior
 
-                - Si index es -1 significa que el findIndex ha dado error asi que tampoco se podrá coger la anterior
-            */
-           if ( index > 0 ){
-                setCurrentSong(songs[ index - 1 ]);
-                setIsPlaying(true);
-           }
-        }
-    };
+    //             - Si index es -1 significa que el findIndex ha dado error asi que tampoco se podrá coger la anterior
+    //         */
+    //        if ( index > 0 ){
+    //             setCurrentSong(songs[ index - 1 ]);
+    //             setIsPlaying(true);
+    //        }
+    //     }
+    // };
 
     useEffect(() => {
-        console.log("Artist info", album.artistInfo);
+        console.log("CurrentSong", currentSong);
     }, [album])
 
-    const shuffleReproducer = ( songs: CancionFirebase[] ) => {
+    const shuffleReproducer = ( songs: CancionesConAlbumFirebase[] ) => {
 
         //Cojo una canción random del vector de canciones
         const randomSong = Math.floor(Math.random() * songs.length);
@@ -344,11 +352,11 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
             />
             {pagar && ( <PagarContainer>Demo Gratuita Finalizada</PagarContainer>)}
             <BotonesControl>
-                <ChevronsLeft /*onClick = {() => reproducirCancionAnterior(album.canciones)}*//>  
+                <ChevronsLeft /*onClick = {() => reproducirCancionAnterior(currentSong)}*//>  
                 { isPlaying && userRole === "registrado" ? (
                     <Pause onClick={pausarSong} />
                 ) : (
-                    <Play /*onClick={ () => reproducirSong(album.canciones[0])}*/ />
+                    <Play onClick={ () => reproducirSong()} style={{ cursor: "pointer"}} />
                 )}
                 { userRole === "invitado" && 
                     <DeployRestrictiveBackground $isOpen={isOpen}>
@@ -369,7 +377,7 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
                             audioRef.current.currentTime = nuevoTiempo;
                         }
                         setProgreso(e.target.value);
-                    }}/></label>
+                    }}style={{marginTop: "4%"}}/></label>
                 <ChevronsRight /*onClick = {() => reproducirSiguienteCancion(album.canciones)}*/ />
                 <Shuffle /*onClick = {() => shuffleReproducer(album.canciones)}*/ />
             </BotonesControl>
@@ -377,7 +385,7 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
             key={album.id} 
             onClick={() => {}/*reproducirSong(cancion)*/}>
             <span>{album.name} - {album.trackLength}</span>
-            { userRole === "registrado" && <CopiarEnlaceNavegacion url={currentSong?.url || ''}/>}
+            { userRole === "registrado" && <CopiarEnlaceNavegacion url={album?.url || ''}/>}
             </ListaCanciones>
             <ArtistCard album={album}/>
         </ReproducerContainer>
