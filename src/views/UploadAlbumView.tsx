@@ -5,7 +5,6 @@ import { styled } from "styled-components";
 import UploadAlbumImage from "../views/components/UploadAlbumImage";
 import AddSong from "../views/components/AddSong";
 import PrimaryButton from "../views/components/PrimaryButton";
-import axios from "axios";
 
 const Container = styled.div`
   display: flex;
@@ -67,17 +66,23 @@ const Select = styled.select`
 `;
 
 const UploadAlbumView = () => {
-  const [genres, setGenres] = useState<{ id: string; type: string}[]>([]);
+  const [genres, setGenres] = useState<{ id: string; type: string }[]>([]);
 
   useEffect(() => {
-    axios.get("http://localhost:8000/getgenres")
+    fetch("http://localhost:8000/getgenres")
       .then((res) => {
-        setGenres(res.data);
+        if (!res.ok) {
+          throw new Error("Error en la respuesta del servidor");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setGenres(data);
       })
       .catch((err) => {
         console.error("Error cargando géneros:", err);
-      })
-    }, []);
+      });
+  }, []);
 
   return (
     <Container>
@@ -96,39 +101,26 @@ const UploadAlbumView = () => {
           Subir Álbum
         </h2>
 
-        {/* Título */}
         <FormField>
           <Label htmlFor="titulo">Título</Label>
-          <Input
-            id="titulo"
-            type="text"
-            placeholder="Introduce el título del álbum"
-          />
+          <Input id="titulo" type="text" placeholder="Introduce el título del álbum" />
         </FormField>
 
-        {/* Fecha de lanzamiento */}
         <FormField>
           <Label htmlFor="fechaLanzamiento">Fecha de lanzamiento</Label>
           <Input id="fechaLanzamiento" type="date" />
         </FormField>
 
-        {/* Precio */}
         <FormField>
           <Label htmlFor="precio">Precio (€)</Label>
           <Input id="precio" type="number" placeholder="Introduce el precio" />
         </FormField>
 
-        {/* Artista */}
         <FormField>
           <Label htmlFor="artista">Artista</Label>
-          <Input
-            id="artista"
-            type="text"
-            placeholder="Introduce el nombre del artista"
-          />
+          <Input id="artista" type="text" placeholder="Introduce el nombre del artista" />
         </FormField>
 
-        {/* Género */}
         <FormField>
           <Label htmlFor="genero">Género</Label>
           <Select id="genero">
@@ -140,13 +132,12 @@ const UploadAlbumView = () => {
           </Select>
         </FormField>
 
-        {/* Acerca del álbum */}
         <FormField>
           <Label htmlFor="acercaDelAlbum">Acerca del álbum</Label>
           <TextArea
             id="acercaDelAlbum"
             placeholder="Escribe una descripción del álbum"
-            rows="4"
+            rows={4}
           />
         </FormField>
 
@@ -156,18 +147,14 @@ const UploadAlbumView = () => {
           <TextArea
             id="creditos"
             placeholder="Escribe los créditos del álbum"
-            rows="3"
+            rows={3}
           />
         </FormField>
 
         {/* Etiquetas */}
         <FormField>
           <Label htmlFor="etiquetas">Etiquetas</Label>
-          <Input
-            id="etiquetas"
-            type="text"
-            placeholder="Introduce las etiquetas del álbum"
-          />
+          <Input id="etiquetas" type="text" placeholder="Introduce las etiquetas del álbum" />
         </FormField>
       </ColumnaDerecha>
     </Container>
