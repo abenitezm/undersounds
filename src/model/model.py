@@ -52,3 +52,6 @@ class Model ():
 
     def upload_album(self, album_data):
         return self.daoAlbum.add_album(album_data)
+
+    def upload_song(self, song_data):
+        return self.daoSong.add_song(song_data)

@@ -31,3 +31,17 @@ class FirebaseSongDAO(InterfaceSongDAO):
             print(e)
 
         return songs.songlist_to_json()
+
+    def add_song(self, song_data):
+        song_data["album"] = ""
+        song_data["commentator"] = ""
+        song_data["comments"] = []
+        song_data["genre"] = ""
+        song_data["name"] = ""
+        song_data["trackLength"] = ""
+        song_data["url"] = ""
+
+        doc_ref = self.collection.document()
+        doc_ref.set(song_data)
+
+        return doc_ref.id

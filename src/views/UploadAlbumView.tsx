@@ -70,39 +70,95 @@ const UploadAlbumView = () => {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [artist, setArtist] = useState("");
+  const [genre, setGenre] = useState("");
+  const [image, setImage] = useState<File | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState({ text: "", type: "" });
 
-  const [songs, setSongs] = useState<{ name: string; file?: File }[]>([]);
+  const [songs, setSongs] = useState<{ 
+    name: string; 
+    file: File;
+    album: string;
+    commentator?: string;
+    comments?: string;
+    genre: string;
+    trackLength: string;
+  }[]>([]);
 
   const [genres, setGenres] = useState<{ id: string; type: string }[]>([]);
 
+  const handleImageUpload = (file: File) => {
+    setImage(file);
+  };
+
   const handleSubmit = async () => {
-    const albumData = {
-      name: name,
-      description: description,
-      image: "",
-      price: parseFloat(price),
-      media: [],
-      artist: artist
-    };
+    if (!name || !artist || !genre ) {
+      setMessage({ text: "Por favor completa todos los campos requeridos", type: "error" });
+      return;
+    }
+
+    setIsLoading(true);
+    setMessage({ text: "", type: "" });
 
     try {
-      const response = await fetch("http://localhost:8000/uploadalbum", {
+      // 1. Subir el álbum primero
+      const albumFormData = new FormData();
+      albumFormData.append("name", name);
+      albumFormData.append("description", description);
+      albumFormData.append("price", price);
+      albumFormData.append("artist", artist);
+      albumFormData.append("genre", genre);
+      if (image) {
+        albumFormData.append("image", image);
+      }
+
+      const albumResponse = await fetch("http://localhost:8000/uploadalbum", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(albumData),
+        body: albumFormData,
       });
 
-      if (!response.ok) {
+      if (!albumResponse.ok) {
         throw new Error("Error al subir el álbum");
       }
 
-      const data = await response.json();
-      console.log("Álbum subido:", data);
+      const albumResult = await albumResponse.json();
+      const albumId = albumResult.id;
 
-    } catch (error) {
+      // 2. Subir las canciones asociadas al álbum
+      for (const song of songs) {
+        const songFormData = new FormData();
+        songFormData.append("name", song.name);
+        songFormData.append("album", albumId);
+        songFormData.append("genre", song.genre || genre);
+        songFormData.append("trackLength", song.trackLength || "0");
+        if (song.commentator) songFormData.append("commentator", song.commentator);
+        if (song.comments) songFormData.append("comments", song.comments);
+        songFormData.append("file", song.file);
+
+        const songResponse = await fetch("http://localhost:8000/uploadsong", {
+          method: "POST",
+          body: songFormData,
+        });
+
+        if (!songResponse.ok) {
+          throw new Error(`Error al subir la canción: ${song.name}`);
+        }
+      }
+
+      setMessage({ text: "Álbum y canciones subidos correctamente", type: "success" });
+      // Reset form after successful upload
+      setName("");
+      setDescription("");
+      setPrice("");
+      setArtist("");
+      setGenre("");
+      setImage(null);
+      setSongs([]);
+    } catch (error: any) {
       console.error("Error:", error);
+      setMessage({ text: error.message || "Ocurrió un error al subir el álbum", type: "error" });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -116,6 +172,7 @@ const UploadAlbumView = () => {
       })
       .then((data) => {
         setGenres(data);
+        if (data.length > 0) setGenre(data[0].type); // Set default genre
       })
       .catch((err) => {
         console.error("Error cargando géneros:", err);
@@ -125,13 +182,32 @@ const UploadAlbumView = () => {
   return (
     <Container>
       <ColumnaIzquierda style={{ position: "relative" }}>
-        <UploadAlbumImage />
-        <AddSong onSongsChange={setSongs} />
+        <UploadAlbumImage onImageUpload={handleImageUpload} />
+        <AddSong 
+          onSongsChange={setSongs} 
+          genres={genres.map(g => g.type)} 
+          defaultGenre={genre}
+        />
+        {message.text && (
+          <div style={{
+            color: message.type === "error" ? "red" : "green",
+            margin: "10px 0",
+            textAlign: "center"
+          }}>
+            {message.text}
+          </div>
+        )}
         <PrimaryButton
-          text="Publicar"
+          text={isLoading ? "Subiendo..." : "Publicar"}
           onClick={handleSubmit}
-          style={{ position: "absolute", bottom: "0", marginBottom: "20px" }}
-          type={"button"}
+          style={{ 
+            position: "absolute", 
+            bottom: "0", 
+            marginBottom: "20px",
+            width: "calc(100% - 40px)"
+          }}
+          type="button"
+          disabled={isLoading}
         />
       </ColumnaIzquierda>
       <ColumnaDerecha>
@@ -140,25 +216,50 @@ const UploadAlbumView = () => {
         </h2>
 
         <FormField>
-          <Label htmlFor="titulo">Título</Label>
-          <Input id="titulo" type="text" placeholder="Introduce el título del álbum"  
-            onChange={(e) => setName(e.target.value)}/>
+          <Label htmlFor="titulo">Título*</Label>
+          <Input 
+            id="titulo" 
+            type="text" 
+            placeholder="Introduce el título del álbum"  
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
         </FormField>
 
         <FormField>
           <Label htmlFor="precio">Precio (€)</Label>
-          <Input id="precio" type="number" placeholder="Introduce el precio"
-            onChange={(e) => setPrice(e.target.value)} />
+          <Input 
+            id="precio" 
+            type="number" 
+            placeholder="Introduce el precio"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            min="0"
+            step="0.01"
+          />
         </FormField>
 
         <FormField>
-          <Label htmlFor="artista">Artista</Label>
-          <Input id="artista" type="text" placeholder="Introduce el nombre del artista" />
+          <Label htmlFor="artista">Artista*</Label>
+          <Input 
+            id="artista" 
+            type="text" 
+            placeholder="Introduce el nombre del artista" 
+            value={artist}
+            onChange={(e) => setArtist(e.target.value)}
+            required
+          />
         </FormField>
 
         <FormField>
-          <Label htmlFor="genero">Género</Label>
-          <Select id="genero">
+          <Label htmlFor="genero">Género*</Label>
+          <Select 
+            id="genero" 
+            value={genre}
+            onChange={(e) => setGenre(e.target.value)}
+            required
+          >
             {genres.map((genre) => (
               <option key={genre.id} value={genre.type}>
                 {genre.type}
@@ -168,16 +269,16 @@ const UploadAlbumView = () => {
         </FormField>
 
         <FormField>
-          <Label htmlFor="acercaDelAlbum">Acerca del álbum</Label>
+          <Label htmlFor="acercaDelAlbum">Descripción</Label>
           <TextArea
             id="acercaDelAlbum"
             placeholder="Escribe una descripción del álbum"
             rows={4}
+            value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
         </FormField>
 
-        {/* Créditos */}
         <FormField>
           <Label htmlFor="creditos">Créditos</Label>
           <TextArea
@@ -187,10 +288,13 @@ const UploadAlbumView = () => {
           />
         </FormField>
 
-        {/* Etiquetas */}
         <FormField>
           <Label htmlFor="etiquetas">Etiquetas</Label>
-          <Input id="etiquetas" type="text" placeholder="Introduce las etiquetas del álbum" />
+          <Input 
+            id="etiquetas" 
+            type="text" 
+            placeholder="Introduce las etiquetas del álbum" 
+          />
         </FormField>
       </ColumnaDerecha>
     </Container>

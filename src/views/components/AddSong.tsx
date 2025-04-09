@@ -54,7 +54,7 @@ const AddSong: React.FC<AddSongProps> = ({ onSongsChange }) => {
               {index === currentIndex ? (
                 <FileInput
                   type="file"
-                  accept="audio/*"
+                  accept="audio/mpeg"
                   onChange={(e) => {
                     if (e.target.files && e.target.files[0]) {
                       handleFileChange(index, e.target.files[0]);
