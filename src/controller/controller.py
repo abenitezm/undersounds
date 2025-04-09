@@ -1,16 +1,21 @@
 import json
-from fastapi import FastAPI, Request, HTTPException, Depends, Body
+from fastapi import FastAPI, Request, HTTPException, Depends, Body, WebSocket, WebSocketDisconnect
 from model.model import Model
+from firebase_admin import firestore
 from firebase_admin import auth
 from model.dao.firebase.firebaseDAOFactory import FirebaseDAOFactory
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from datetime import datetime
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import os
 
 # Inicializamos la app
 
 app = FastAPI()
+
+#Almacena las conexiones WebSockets activadas
+activate_connection = []
 
 # Configurar CORS para poder enviar y recibir peticiones entre el frontend y el backend
 app.add_middleware(
@@ -22,6 +27,8 @@ app.add_middleware(
 )
 
 firebase = FirebaseDAOFactory()
+
+db = firebase.get_db()
 
 model = Model()
 
@@ -40,6 +47,22 @@ def index(request: Request):
       print("Index")
    # return request
    # return view.get_index_view(request)
+
+@app.get("/ultimaActu")
+def ultimaActu(request: Request):
+      try:
+            # Obtenemos el último álbum reciente
+            last_album = model.get_albums()\
+                  .order_by("uploadDate", direction=firestore.Query.DESCENDING)\
+                  .limit(1)\
+                  .get()
+            if not last_album:
+                  return {"uploadDate": 0}
+            
+            return {"uploadDate": last_album[0].to_dict().get("uploadDate")}
+      
+      except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/getalbums")
 def getalbums(request: Request):
@@ -131,34 +154,84 @@ async def upload_album(album_data: dict = Body(...)):
             raise HTTPException(status_code=500, detail="Error al subir el álbum")
 
 
-@app.route("/user", methods=["GET", "POST"])
-async def get_user(request: Request):
-    # Extraemos el token de la cabecera de la petición
-    authorization_header = request.headers.get("Authorization")
-    print("Header recibido: ", authorization_header)
+@app.post("/login")
+async def login_user(data : dict = Body(...)):
+      email = data.get("email")
+      password = data.get("password")
+      print("Email", email)
+      print("Password", password)
 
-    if not authorization_header:
-        raise HTTPException(status_code=400, 
-                            detail="Token no proporcionado",
-                            headers={"WWW-Authenticate": "Bearer"})
-    
-    #El token tiene el formato "Bearer <token>" asi que lo dividimos
-    token = authorization_header.split(" ")[1] # Extraemos el token
-    print("Token extraido: ", token)
-    try: 
-        # Verificamos el token con Firebase
-        user_data = firebase.verify_id_token(token)
-        uid = user_data['uid']
-        print(user_data)
-        # Si el token es válido, se lo pasamos al Frontend
-        return {
-            "message": "Token válido",
-            "user": {
-                "uid": user_data["uid"],
-                "email": user_data.get("email"),
+      try:
+            # Usamos la REST API de Firebase Auth para hacer login
+            import requests
+
+            firebase_api_key = "AIzaSyDzmNsBMGv0qi8UqUuev4FlnaycU5lj-nk"
+            firebase_url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={firebase_api_key}"
+            
+            response = requests.post(firebase_url, json={
+                  "email": email,
+                  "password": password,
+                  "returnSecureToken": True
+            })
+
+            if response.status_code != 200:
+                  # Si el usuario no existe, lo registramos
+                  print("Usuario no encontrado, registrando...")
+                  signup_url = f"https://identitytoolkit.googleapis.com/v1/accounts:signUp?key={firebase_api_key}"
+                  print(signup_url)
+                  signup_response = requests.post(signup_url, json={
+                        "email": email,
+                        "password": password,
+                        "returnSecureToken": True
+                  })
+
+                  if signup_response.status_code != 200:
+                        print("Error al registrar el usuario", signup_response.text)
+                        raise HTTPException(status_code=400, detail="Error al registrar usuario")
+                  
+                  user_data = signup_response.json()
+            else:
+                  user_data = response.json()
+            print("Hola")
+            uid = user_data["localId"]
+            print("uid: ", uid)
+            id_token = user_data["idToken"]
+
+            # Guardamos al usuario en Firestore si no lo está
+            user_ref = db.collection("users").document(uid)
+            if not user_ref.get().exists:
+                  user_ref.set({
+                        "email": email,
+                        "role":  "registrado",
+                        "created_at": firestore.SERVER_TIMESTAMP,
+                  })
+            
+            # Devolvemos token + rol
+            user_doc = user_ref.get().to_dict()
+            return {
+                  "token": id_token,
+                  "role": user_doc.get("role", "registrado")
             }
-        }
 
-    except Exception as e:
-        # Si el token es inválido o ha expirado, se lanzan un error
-        raise HTTPException(status_code=401, detail="Token inválido o expirado")
+      except Exception as e:
+        print("Error en login/registro:", e)
+        raise HTTPException(status_code=500, detail="Error interno en el login")
+
+@app.post("/logout")
+async def logout_user(data : dict = Body(...)):
+      uid = data.get("uid") # Asumo que el usuario me pasa su uid para eliminarlo
+
+      if not uid:
+            raise HTTPException(status_code=400, detail="UID requerido")
+      
+      try:
+            # Eliminar al usuario de Firestore
+            user_ref = db.collection("users").document(uid)
+            if user_ref.get().exists:
+                  user_ref.delete()
+            
+            return {"message": "Usuario eliminado correctamente"}
+
+      except Exception as e:
+            print("Error al intentar eliminar un usuario: ", e)
+            raise HTTPException(status_code=500, detail="Error al eliminar el usuario")

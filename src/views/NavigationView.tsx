@@ -168,8 +168,8 @@ const NavigationView = ({
     if (search) {
       filteredData = filteredData.filter(
         (album) =>
-          album.albumName.toLowerCase().includes(search.toLowerCase()) ||
-          album.artistId.toLowerCase() == search.toLowerCase()
+          album.name.toLowerCase().includes(search.toLowerCase()) ||
+          album.artistName.toLowerCase() == search.toLowerCase()
       );
     }
 

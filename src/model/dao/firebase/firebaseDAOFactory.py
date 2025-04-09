@@ -8,6 +8,7 @@ from .collection.firebaseDAOArtist import FirebaseArtistDAO
 from .collection.firebaseDAOMerch import FirebaseMerchDAO
 from .collection.firebaseDAOUser import FirebaseUserDAO
 import firebase_admin
+from firebase_admin import firestore
 from firebase_admin import credentials, firestore, auth
 import os
 
@@ -29,6 +30,12 @@ class FirebaseDAOFactory(InterfaceDAOFactory):
         except Exception as e:
             print("Error al conectarse con Firebase: ", e)
             self.db = None
+    
+    def get_db(self):
+        if self.db:
+            return self.db
+        else :
+            raise Exception("Firebase no está conectado correctamente")
 
     def verify_token(self, token):
         #Verificamos si un token de usuario es válido.

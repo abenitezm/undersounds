@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import colors from "../app/colors";
 import PrimaryButton from "../views/components/PrimaryButton";
@@ -8,6 +8,12 @@ import { toast, ToastContainer } from "react-toastify";
 import { useAuth } from "../views/components/AuthContext";
 import { useRegister } from "../views/components/RegisterContext";
 import { useRouter } from "next/navigation";
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../app/firebaseConfig";
+
 
 const Container = styled.div`
   display: flex;
@@ -123,7 +129,50 @@ const SignUpView = () => {
         router.push("/Perfil");
       }
     }
+
+    if( email && password ){
+      console.log("Entro en la autentificacion");
+      try {
+        const response = await fetch("http://127.0.0.1:8000/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          // Enviamos el email y la password para que el backend se encargue de la lógica del OAuth
+          body: JSON.stringify({
+            email,
+            password
+          })
+        });
+      
+        if (!response.ok) {
+          throw new Error(`Error ${response.status}: ${await response.text()}`);
+        }
+        // Obtenemos los datos enviados por el backend
+        const data = await response.json();
+        console.log("Datos recibidos", data);
+        const { token, role } = data;
+      
+        // Guardamos el token localmente si quieres usarlo en peticiones futuras
+        localStorage.setItem("authToken", token);
+        setUserRole(role);
+        localStorage.setItem("userRole", role);
+      
+        toast.success(`Bienvenido ${role}`);
+        router.push("/Perfil");
+      
+      } catch (error) {
+        console.error("Error en autenticación:", error);
+        toast.error("Error al iniciar sesión. Revisa tus credenciales.");
+      }
+    }
   };
+
+  useEffect(() => {
+    
+  }, [])
+  
+
   return (
     <Container>
       <Logo src="/logo.svg" alt="Logo" />

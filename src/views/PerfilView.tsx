@@ -192,6 +192,7 @@ const PerfilView = () => {
   const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
   const [artistas, setArtistas] = useState<Artista[]>([]);
   const { registerRole } = useRegister();
+  const [profileImage, setProfileImage] = useState<string>("https://i.pinimg.com/originals/7a/e7/c2/7ae7c223b094d4e57b4ea0d3ee519813.jpg");
 
   const toggleSeleccion = (index: number) => {
     setSelectedButton(index); // Cambia el botón seleccionado
@@ -229,7 +230,7 @@ const PerfilView = () => {
       </NavigationButtonsDiv>
       <Fondo />
       <div className="max-w-2xl mx-auto bg-white p-6 rounded-2xl shadow-lg flex items-center space-x-6">
-        <div className="flex items-center">
+          <ProfileImage src={profileImage} />
           <ProfileImage src="https://i.pinimg.com/originals/7a/e7/c2/7ae7c223b094d4e57b4ea0d3ee519813.jpg" />
           <NombreUsuario>Mercox06</NombreUsuario>
           <Descripcion>
@@ -243,7 +244,6 @@ const PerfilView = () => {
             nuevos géneros y artistas frescos, ¡sígueme y comparte tus
             recomendaciones también!
           </Descripcion>
-        </div>
       </div>
 
       {/* Contenedor de los botones */}

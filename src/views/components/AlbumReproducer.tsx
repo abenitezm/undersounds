@@ -129,6 +129,10 @@ const ListaCanciones = styled.ul`
     margin-top: 20px;
     list-style: none;
     cursor: pointer;
+
+    &:hover {
+        color: ${colors.primary};
+    }
 `;
 
 const CancionLista = styled.li<{ $active?: boolean }>`
@@ -269,7 +273,13 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
         return () => {
             audioRef.current?.removeEventListener("timeupdate", actualizarProgreso);
         };
-    }, [isPlaying, audioRef.current]);
+    }, [isPlaying, audioRef.current?.currentTime]);
+
+    // Cuando cambio de álbum, se debe de parar la canción y la barra de progreso debe de ser 0
+    useEffect(() => {
+        setIsPlaying(false);
+        setProgreso(0);
+    }, [album?.id])
 
     {/* Controlador para reproducir canciones */}
     const reproducirSong = () => {
@@ -383,10 +393,10 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
             </BotonesControl>
             <ListaCanciones
             key={album.id} 
-            onClick={() => {}/*reproducirSong(cancion)*/}>
-            <span>{album.name} - {album.trackLength}</span>
-            { userRole === "registrado" && <CopiarEnlaceNavegacion url={album?.url || ''}/>}
+            onClick={() => reproducirSong()}>
+                <span>{album.name} - {album.trackLength}</span>
             </ListaCanciones>
+            { userRole === "registrado" && <CopiarEnlaceNavegacion url={album?.url || ''}/>}
             <ArtistCard album={album}/>
         </ReproducerContainer>
     );
