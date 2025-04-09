@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import colors from "../app/colors";
 import data from "../assets/bd.json";
@@ -12,8 +12,10 @@ import { Album } from "../views/components/AlbumReproducer";
 
 import SettingsIcon from "@mui/icons-material/Settings";
 import ShowChartIcon from "@mui/icons-material/ShowChart";
+import LogoutIcon from '@mui/icons-material/Logout';
 import PrimaryButton from "../views/components/PrimaryButton";
 import { useRegister } from "../views/components/RegisterContext";
+import { toast, ToastContainer } from "react-toastify";
 import Link from "next/link";
 
 // Generar albumData a partir de los datos JSON
@@ -191,6 +193,8 @@ const PerfilView = () => {
   const [selectedButton, setSelectedButton] = useState(0); // Mantener el botón seleccionado
   const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
   const [artistas, setArtistas] = useState<Artista[]>([]);
+  const [username, setUsername] = useState("");
+  //const router = useRouter();
   const { registerRole } = useRegister();
   const [profileImage, setProfileImage] = useState<string>("https://i.pinimg.com/originals/7a/e7/c2/7ae7c223b094d4e57b4ea0d3ee519813.jpg");
 
@@ -212,6 +216,47 @@ const PerfilView = () => {
     }
   };
 
+  const manejadorCierreSesion = async () => {
+    // Llamamos al logout del backend para cerrar sesion
+    try{
+
+      const tokenActual = localStorage.getItem("authToken");
+      if ( !tokenActual ){
+        throw new Error("No se encuentra el token en el localStorage");
+      }
+
+      const response = await fetch("http://127.0.0.1:8000/logout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          token: tokenActual,
+          uid: localStorage.getItem("uid"),
+        })
+      });
+
+      if ( !response.ok ){
+        throw new Error(`Error ${response.status}: ${await response.text()}`);
+      }
+      // Obtenemos los datos enviados por el backend
+      const data = await response.json();
+      console.log("Datos recibidos", data);
+      localStorage.clear();
+      toast.success(`Has cerrado sesión correctamente`);
+      //router.push("/Login");
+
+    }catch (error) {
+      console.error("Error en autenticación:", error);
+      toast.error("Error al iniciar sesión. Revisa tus credenciales.");
+    }
+  }
+
+  useEffect(() => {
+    const name =  localStorage.getItem("username") || "null";
+    setUsername(name);
+  })
+
   return (
     <>
       <NavigationButtonsDiv>
@@ -227,14 +272,17 @@ const PerfilView = () => {
             <ShowChartIcon /> Dashboard{" "}
           </NavigationButton>
         </Link>
+        <NavigationButton onClick={(manejadorCierreSesion)}>
+          <LogoutIcon /> Cerrar Sesion
+        </NavigationButton>
       </NavigationButtonsDiv>
       <Fondo />
       <div className="max-w-2xl mx-auto bg-white p-6 rounded-2xl shadow-lg flex items-center space-x-6">
           <ProfileImage src={profileImage} />
           <ProfileImage src="https://i.pinimg.com/originals/7a/e7/c2/7ae7c223b094d4e57b4ea0d3ee519813.jpg" />
-          <NombreUsuario>Mercox06</NombreUsuario>
+          <NombreUsuario>{username}</NombreUsuario>
           <Descripcion>
-            ¡Hola! Soy Mercox, un amante de la música con un gusto tan ecléctico
+            ¡Hola! Soy {username}, un amante de la música con un gusto tan ecléctico
             como mi colección de discos. Desde los clásicos hasta lo más
             experimental, siempre estoy buscando nuevos sonidos y artistas para
             explorar. Mi perfil es un reflejo de mi pasión por descubrir música

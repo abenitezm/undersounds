@@ -9,6 +9,8 @@ from fastapi.responses import JSONResponse
 from datetime import datetime
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import os
+import requests
+
 
 # Inicializamos la app
 
@@ -163,7 +165,6 @@ async def login_user(data : dict = Body(...)):
 
       try:
             # Usamos la REST API de Firebase Auth para hacer login
-            import requests
 
             firebase_api_key = "AIzaSyDzmNsBMGv0qi8UqUuev4FlnaycU5lj-nk"
             firebase_url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={firebase_api_key}"
@@ -178,7 +179,6 @@ async def login_user(data : dict = Body(...)):
                   # Si el usuario no existe, lo registramos
                   print("Usuario no encontrado, registrando...")
                   signup_url = f"https://identitytoolkit.googleapis.com/v1/accounts:signUp?key={firebase_api_key}"
-                  print(signup_url)
                   signup_response = requests.post(signup_url, json={
                         "email": email,
                         "password": password,
@@ -199,10 +199,16 @@ async def login_user(data : dict = Body(...)):
 
             # Guardamos al usuario en Firestore si no lo está
             user_ref = db.collection("users").document(uid)
+            # Elaboramos el nombre del usuario para identificarlo mejor
+            email_name = email.split('@')[0]
+            if ( email_name.endswith('gmail.com') ):
+                  email_name = email_name[:10]
+
             if not user_ref.get().exists:
                   user_ref.set({
                         "email": email,
                         "role":  "registrado",
+                        "username": email_name,
                         "created_at": firestore.SERVER_TIMESTAMP,
                   })
             
@@ -210,7 +216,9 @@ async def login_user(data : dict = Body(...)):
             user_doc = user_ref.get().to_dict()
             return {
                   "token": id_token,
-                  "role": user_doc.get("role", "registrado")
+                  "role": user_doc.get("role", "registrado"),
+                  "username": email_name,
+                  "uid": uid
             }
 
       except Exception as e:
@@ -220,15 +228,27 @@ async def login_user(data : dict = Body(...)):
 @app.post("/logout")
 async def logout_user(data : dict = Body(...)):
       uid = data.get("uid") # Asumo que el usuario me pasa su uid para eliminarlo
-
+      idToken = data.get("token")
+      print(idToken)
       if not uid:
             raise HTTPException(status_code=400, detail="UID requerido")
       
       try:
-            # Eliminar al usuario de Firestore
+            # Eliminar al usuario de Firestore BD
             user_ref = db.collection("users").document(uid)
             if user_ref.get().exists:
                   user_ref.delete()
+
+            # Eliminar la cuenta de firebase asociada al usuario
+            firebase_api_key = "AIzaSyDzmNsBMGv0qi8UqUuev4FlnaycU5lj-nk"
+            firebase_url = f"https://identitytoolkit.googleapis.com/v1/accounts:delete?key={firebase_api_key}"
+
+            
+            response = requests.post(firebase_url, json={"idToken": idToken})
+            if response.status_code != 200:
+                  raise HTTPException(status_code=500, detail=f"Error al eliminar la cuenta de Firebase: {response.text}")
+
+            print(f"Cuenta de Firebase eliminada para el usuario {uid}")
             
             return {"message": "Usuario eliminado correctamente"}
 

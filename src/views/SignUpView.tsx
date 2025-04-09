@@ -8,11 +8,6 @@ import { toast, ToastContainer } from "react-toastify";
 import { useAuth } from "../views/components/AuthContext";
 import { useRegister } from "../views/components/RegisterContext";
 import { useRouter } from "next/navigation";
-import {
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-} from "firebase/auth";
-import { auth } from "../app/firebaseConfig";
 
 
 const Container = styled.div`
@@ -151,12 +146,13 @@ const SignUpView = () => {
         // Obtenemos los datos enviados por el backend
         const data = await response.json();
         console.log("Datos recibidos", data);
-        const { token, role } = data;
+        const { token, role, username, uid } = data;
       
         // Guardamos el token localmente si quieres usarlo en peticiones futuras
         localStorage.setItem("authToken", token);
-        setUserRole(role);
         localStorage.setItem("userRole", role);
+        localStorage.setItem("username", username);
+        localStorage.setItem("uid", uid);
       
         toast.success(`Bienvenido ${role}`);
         router.push("/Perfil");
