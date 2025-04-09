@@ -66,7 +66,45 @@ const Select = styled.select`
 `;
 
 const UploadAlbumView = () => {
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [artist, setArtist] = useState("");
+
+  const [songs, setSongs] = useState<{ name: string; file?: File }[]>([]);
+
   const [genres, setGenres] = useState<{ id: string; type: string }[]>([]);
+
+  const handleSubmit = async () => {
+    const albumData = {
+      name: name,
+      description: description,
+      image: "",
+      price: parseFloat(price),
+      media: [],
+      artist: artist
+    };
+
+    try {
+      const response = await fetch("http://localhost:8000/uploadalbum", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(albumData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Error al subir el álbum");
+      }
+
+      const data = await response.json();
+      console.log("Álbum subido:", data);
+
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   useEffect(() => {
     fetch("http://localhost:8000/getgenres")
@@ -88,10 +126,10 @@ const UploadAlbumView = () => {
     <Container>
       <ColumnaIzquierda style={{ position: "relative" }}>
         <UploadAlbumImage />
-        <AddSong />
+        <AddSong onSongsChange={setSongs} />
         <PrimaryButton
           text="Publicar"
-          onClick={() => alert("Álbum publicado")}
+          onClick={handleSubmit}
           style={{ position: "absolute", bottom: "0", marginBottom: "20px" }}
           type={"button"}
         />
@@ -103,17 +141,14 @@ const UploadAlbumView = () => {
 
         <FormField>
           <Label htmlFor="titulo">Título</Label>
-          <Input id="titulo" type="text" placeholder="Introduce el título del álbum" />
-        </FormField>
-
-        <FormField>
-          <Label htmlFor="fechaLanzamiento">Fecha de lanzamiento</Label>
-          <Input id="fechaLanzamiento" type="date" />
+          <Input id="titulo" type="text" placeholder="Introduce el título del álbum"  
+            onChange={(e) => setName(e.target.value)}/>
         </FormField>
 
         <FormField>
           <Label htmlFor="precio">Precio (€)</Label>
-          <Input id="precio" type="number" placeholder="Introduce el precio" />
+          <Input id="precio" type="number" placeholder="Introduce el precio"
+            onChange={(e) => setPrice(e.target.value)} />
         </FormField>
 
         <FormField>
@@ -138,6 +173,7 @@ const UploadAlbumView = () => {
             id="acercaDelAlbum"
             placeholder="Escribe una descripción del álbum"
             rows={4}
+            onChange={(e) => setDescription(e.target.value)}
           />
         </FormField>
 

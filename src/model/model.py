@@ -49,3 +49,6 @@ class Model ():
 
     def get_users(self):
         return self.daoUser.get_users()
+
+    def upload_album(self, album_data):
+        return self.daoAlbum.add_album(album_data)

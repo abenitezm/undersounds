@@ -1,10 +1,11 @@
 import json
-from fastapi import FastAPI, Request, HTTPException, Depends
+from fastapi import FastAPI, Request, HTTPException, Depends, Body
 from model.model import Model
 from firebase_admin import auth
 from model.dao.firebase.firebaseDAOFactory import FirebaseDAOFactory
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from datetime import datetime
 import os
 
 # Inicializamos la app
@@ -97,8 +98,6 @@ def gettypes(request: Request):
       merch = model.get_merchType()
       return genres, media, merch
 
-
-
 @app.get("/getgenres")
 def getgenres(request: Request):
       genres = model.get_genreType()
@@ -123,6 +122,13 @@ def get_media_by_id(request: Request, media_id: str):
                   return m
       return None
 
+@app.post("/uploadalbum")
+async def upload_album(album_data: dict = Body(...)):
+      try:
+            result = model.upload_album(album_data)
+            return {"message": "Álbum subido corrrectamente", "id": result}
+      except Exception as e:
+            raise HTTPException(status_code=500, detail="Error al subir el álbum")
 
 
 @app.route("/user", methods=["GET", "POST"])
