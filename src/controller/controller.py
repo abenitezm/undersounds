@@ -331,8 +331,10 @@ async def upload_song(
 async def login_user(data : dict = Body(...)):
       email = data.get("email")
       password = data.get("password")
+      registerRole = data.get("registerRole")
       print("Email", email)
       print("Password", password)
+      print("Register role", registerRole)
 
       try:
             # Usamos la REST API de Firebase Auth para hacer login
@@ -378,10 +380,23 @@ async def login_user(data : dict = Body(...)):
             if not user_ref.get().exists:
                   user_ref.set({
                         "email": email,
-                        "role":  "registrado",
                         "username": email_name,
                         "created_at": firestore.SERVER_TIMESTAMP,
+                        "register_role" : registerRole,
                   })
+
+            # Si el que se registra es Artista
+            if registerRole == "artista":
+                  # Guardamos el artista en la coleccion de artistas
+                  user_ref = db.collection("artists").document(uid)
+
+                  if not user_ref.get().exists:
+                        user_ref.set({
+                              "image": "",
+                              "info": "",
+                              "name": email_name,
+                        })
+
             
             # Devolvemos token + rol
             user_doc = user_ref.get().to_dict()

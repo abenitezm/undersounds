@@ -73,7 +73,7 @@ const SignUpView = () => {
   const [role, setRole] = useState("");
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const { setUserRole } = useAuth();
-  const { setRegisterRole } = useRegister();
+  const { setRegisterRole, registerRole } = useRegister();
   const router = useRouter();
 
   // Estados para errores específicos
@@ -136,7 +136,8 @@ const SignUpView = () => {
           // Enviamos el email y la password para que el backend se encargue de la lógica del OAuth
           body: JSON.stringify({
             email,
-            password
+            password,
+            registerRole,
           })
         });
       
