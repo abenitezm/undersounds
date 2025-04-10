@@ -25,17 +25,13 @@ const ProfileInfo = ({ id }: ProfileInfoProps) => {
 
   useEffect(() => {
     async function fetchData() {
-      console.log(id)
       const response = await fetch(`http://127.0.0.1:8000/artist/${id}`);
       const data = await response.json();
-      console.log(data)
       if (data) {
         setArtist(data);
       }
 
-      const artist = await fetch(`http://127.0.0.1:8000/artist/${id}`);
-      const artistData = await artist.json();
-      const artistId = artistData.id;
+      const artistId = data.id;
       const res = await fetch(
         `http://127.0.0.1:8000/getartistalbums/${artistId}`
       );
