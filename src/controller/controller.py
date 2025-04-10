@@ -1,6 +1,6 @@
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from fastapi import FastAPI, Request, HTTPException, Depends, Body, UploadFile, File, Form
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -126,124 +126,59 @@ def get_media_by_id(request: Request, media_id: str):
                   return m
       return None
 
-from fastapi import UploadFile, File, Form, HTTPException
-from pathlib import Path
-import os
-from datetime import datetime, timezone
-
-@app.post("/uploadalbum")
-async def upload_album(
-    name: str = Form(...),
-    description: str = Form(...),
-    price: float = Form(...),
-    artist: str = Form(...),
-    genre: str = Form(...),
-    image: UploadFile = File(...)
-):
-    # Validar que la imagen sea un formato aceptado (jpg, jpeg, png)
-    valid_image_extensions = ['.jpg', '.jpeg', '.png']
-    if not any(image.filename.lower().endswith(ext) for ext in valid_image_extensions):
-        raise HTTPException(
-            status_code=400, 
-            detail="Formato de imagen inválido. Use JPG, JPEG o PNG"
-        )
-    
-    # Crear directorio para álbumes si no existe
-    albums_dir = Path(__file__).parent.parent / 'public' / 'localDB' / 'albums'
-    os.makedirs(albums_dir, exist_ok=True)
-    
-    # Generar nombre seguro para el archivo
-    safe_name = name.strip().lower().replace(" ", "_")
-    image_extension = Path(image.filename).suffix.lower()
-    image_filename = f"{safe_name}_cover{image_extension}"
-    image_path = albums_dir / image_filename
-    
-    try:
-        # Guardar la imagen del álbum
-        with open(image_path, "wb") as f:
-            content = await image.read()
-            f.write(content)
-    except Exception as e:
-        raise HTTPException(
-            status_code=500, 
-            detail=f"No se pudo guardar la imagen: {str(e)}"
-        )
-    
-    try:
-        # Preparar datos del álbum según el formato requerido
-        album_data = {
-            "artist": artist,
-            "description": description,
-            "image": f"/albums/{image_filename}",
-            "media": [],
-            "name": name,
-            "price": price,
-            "uploadDate": datetime.now(timezone.utc).isoformat()
-        }
-        
-        # Llamar al modelo para registrar el álbum
-        result = model.upload_album(album_data)
-        return {
-            "message": "Álbum subido correctamente",
-            "id": result
-        }
-        
-    except Exception as e:
-        # Eliminar la imagen si hubo error al registrar
-        try:
-            if os.path.exists(image_path):
-                os.remove(image_path)
-        except:
-            pass
-        
-        raise HTTPException(
-            status_code=500, 
-            detail=f"Error al registrar el álbum: {str(e)}"
-        )
-
-@app.post("/uploadsong")
-async def upload_song(
-      album: str = Form(...),
-      commentator: str = Form(...),
-      comments: str = Form(...),
-      genre: str = Form(...),
-      name: str = Form(...),
-      trackLength = Form(...),
-      file: UploadFile = File(...)
-):
-      if not file.filename.endswith('.mp3'):
-            raise HTTPException(status_code=400, detail="Archivo de audio inválido")
-      
-      songs_dir = Path(__file__).parent.parent / 'public' / 'localDB' / 'songs'
-      safe_name = name.strip().lower().replace(" ", "_") + ".mp3"
-      save_path = songs_dir / safe_name
-      
-      os.makedirs(save_path.parent, exist_ok=True)
-
+@app.post("/upload/albumData")
+async def upload_album(album_data: dict = Body(...)):
       try:
-            with open(save_path, "wb") as f:
-                  content = await file.read()
-                  f.write(content)
+            result = model.upload_album(album_data)
+            return {"message": "Álbum subido correctamente", "id": result}
       except Exception as e:
-            raise HTTPException(status_code=500, detail=f"No se pudo guardar el archivo: {str(e)}")
+            raise HTTPException(500, "Error al subir el álbum")
 
+@app.post("/upload/songData")
+async def upload_song(song_data: dict = Body(...)):
       try:
-            song_data = {
-                  "album": album,
-                  "commentator": commentator,
-                  "comments": comments,
-                  "genre": genre,
-                  "name": name,
-                  "trackLength": trackLength,
-                  "url": str(save_path)
-            }
-
             result = model.upload_song(song_data)
             return {"message": "Canción subida correctamente", "id": result}
+      except Exception as e:
+            raise HTTPException(500, "Error al subir la canción")
+
+@app.post("/upload/songFile")
+async def upload_song_file(file: UploadFile = File(...)):
+      try:
+            if not file.filename.lower().endswith('.mp3'):
+                  raise HTTPException(400, "Sólo se aceptan archivos MP3")
+            
+            songs_dir = Path(__file__).parent.parent.parent / 'public' / 'localDB' / 'songs'
+            songs_dir.mkdir(exist_ok=True)
+
+            file_name = f"song_{datetime.now().timestamp()}.mp3"
+            file_path = songs_dir / file_name
+
+            with open(file_path, "wb") as f:
+                  f.write(await file.read())
+
+            return {"url": str(Path('songs') / file_name)}
 
       except Exception as e:
-            raise HTTPException(status_code=500, detail=f"Error al registrar la canción: {str(e)}")
+            raise HTTPException(500, f"Error al subir el archivo: {str(e)}")
 
+@app.post("/upload/albumImage")
+async def upload_album_image(file: UploadFile = File(...)):
+      try:
+            albums_dir = Path(__file__).parent.parent.parent / 'public' / 'localDB' / 'albums'
+
+            albums_dir.mkdir(exist_ok=True)
+
+            file_name = f"album_{datetime.now().timestamp()}{Path(file.filename).suffix}"
+            file_path = albums_dir / file_name
+
+            with open(file_path, "wb") as f:
+                  f.write(await file.read())
+
+            return {"url": str(Path('albums') / file_name)}
+            
+      except Exception as e:
+            raise HTTPException(500, f"Error al subir el archivo: {str(e)}")
 
 @app.route("/user", methods=["GET", "POST"])
 async def get_user(request: Request):

@@ -1,10 +1,12 @@
 from ...interfaceDAOAlbum import InterfaceAlbumDAO
 from ....dto.albumDTO import AlbumDTO, AlbumsDTO
+from firebase_admin import firestore
 from datetime import datetime
 
 class FirebaseAlbumDAO(InterfaceAlbumDAO):
 
     def __init__(self, collection):
+        self.db = firestore.client()
         self.collection = collection
     
     def get_albums(self):
@@ -66,10 +68,10 @@ class FirebaseAlbumDAO(InterfaceAlbumDAO):
         return album.albumdto_to_dict()
 
     def add_album(self, album_data):
-        album_data["uploadDate"] = datetime.utcnow().isoformat() + "Z"
+        album_data["uploadDate"] = datetime.utcnow().isoformat()
         album_data["media"] = []
-        album_data["artist"] = ""
-        album_data["image"] = ""
+        album_data['genre'] = self.db.document(f"genreType/{album_data['genre']}")
+        
 
         doc_ref = self.collection.document()
         doc_ref.set(album_data)
