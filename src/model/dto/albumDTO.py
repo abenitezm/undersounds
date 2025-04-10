@@ -20,12 +20,13 @@ class AlbumDTO():
         self.media = None
         self.name = None
         self.price = None
+        self.genre = None
         self.uploadDate = None
 
     def is_Empty(self):
         return (self.id is None and self.artist is None and self.description 
         is None and self.image is None and self.media is None and self.name 
-        is None and self.price is None and self.uploadDate is None)
+        is None and self.price is None and self.uploadDate is None and self.genre is None)
 
     def get_id(self):
         return self.id
@@ -41,6 +42,9 @@ class AlbumDTO():
 
     def get_media(self):
         return self.media
+    
+    def get_genre(self):
+        return self.genre
 
     def get_name(self):
         return self.name
@@ -82,6 +86,7 @@ class AlbumDTO():
             "description": self.description,
             "image": self.image,
             "media": self.media,
+            "genre": self.genre,
             "name": self.name,
             "price": self.price,
             "uploadDate": self.uploadDate

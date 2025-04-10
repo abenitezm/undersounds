@@ -63,14 +63,32 @@ def getsongs(request: Request):
       songs = model.get_songs()
       return songs
 
+@app.get("/get_album_songs/{album_id}")
+def get_album_songs(request: Request, album_id: str):
+      songs_str = model.get_songs()
+      try:
+            songs = json.loads(songs_str)
+      except json.JSONDecodeError as e:
+            print("Error decoding JSON", e)
+            return []
+      album_songs = [song for song in songs if song["album"] == album_id]
+      return album_songs
+
 @app.get("/getmerch")
 def getmerch(request: Request):
       merchs = model.get_merch()
       return merchs
 
-@app.get("/getartistmerch/{artist_name}")
-def get_artist_merch(request: Request, artist_name: str):
-      print("Artist name: ", artist_name)
+@app.get("/getartistmerch/{artist_id}")
+def get_artist_merch(request: Request, artist_id: str):
+      merch_str = model.get_merch()
+      try:
+            merchs = json.loads(merch_str)
+      except json.JSONDecodeError as e:
+            print("Error decoding JSON", e)
+            return []
+      artist_merch = [merch for merch in merchs if merch["artist"] == artist_id]
+      return artist_merch
 
 @app.get("/getusers")
 def getusers(request: Request):

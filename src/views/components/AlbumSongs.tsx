@@ -1,14 +1,12 @@
 import styled from "styled-components";
 import colors from "../../app/colors";
 
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-
 type Cancion = {
   id: number;
-  titulo: string;
-  url: string;
-  image: string;
-  time: string;
+  name: string;
+  trackLength: string;
+  album: string;
+  genre: string;
 };
 
 const AlbumSongs = ({ canciones }: { canciones: Cancion[] }) => {
@@ -20,12 +18,9 @@ const AlbumSongs = ({ canciones }: { canciones: Cancion[] }) => {
           <Song key={cancion.id}>
             <div style={{ display: "flex", gap: 20 }}>
               <SongIndex>{index + 1}</SongIndex>
-              <SongPlayButton>
-                <PlayArrowIcon />
-              </SongPlayButton>
-              <div>{cancion.titulo}</div>
+              <div>{cancion.name}</div>
             </div>
-            <div>{cancion.time}</div>
+            <div>{cancion.trackLength}</div>
           </Song>
         </>
       ))}

@@ -35,6 +35,7 @@ class FirebaseArtistDAO(InterfaceArtistDAO):
                     artist.id = doc.id
                     artist.image = artist_data.get("image", "")
                     artist.name = artist_data.get("name", "")
+                    artist.info = artist_data.get("info", "")
         except Exception as e:
             print(e)
         return artist.artistdto_to_dict()

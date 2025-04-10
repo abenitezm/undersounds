@@ -29,35 +29,38 @@ type Album = {
     image: string;
     time: string;
   }[];
-  imagen: string; //
+  image: string; //
   genre: string;
   imagenGrupo?: string;
-  year?: number;
+  uploadDate?: string;
   price?: string;
 };
 
 const getAlbumFullDuration = (
   canciones: {
-    id: number;
-    titulo: string;
-    url: string;
-    image: string;
-    time: string;
+    id: string;
+    name: string;
+    trackLength: string;
+    album: string;
+    genre: string;
   }[]
 ) => {
-  const totalSegundos = canciones.reduce((total, cancion) => {
-    const [min, seg] = cancion.time.split(":").map(Number);
-    return total + min * 60 + seg;
-  }, 0);
+  let totalSegundos = 0;
 
-  const minutos = Math.floor(totalSegundos / 60);
-  const segundos = totalSegundos % 60;
+  canciones.forEach(cancion => {
+    const [minutos, segundos] = cancion.trackLength.split(":").map(Number);
+    totalSegundos += minutos * 60 + segundos;
+  });
 
-  return `${minutos}:${segundos.toString().padStart(2, "0")}`;
+  const totalMinutos = Math.floor(totalSegundos / 60);
+  const segundosRestantes = totalSegundos % 60;
+
+  return `${totalMinutos}:${segundosRestantes.toString().padStart(2, '0')}`;
 };
 
 const AlbumInfo = ({ id }: { id: string }) => {
-  const [album, setAlbum] = useState<Album | null>(null);
+  const [album, setAlbum] = useState<Album>(null);
+  const [canciones, setCanciones] = useState([]);
   const [validacionTienda, setValidacionTienda] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -69,18 +72,24 @@ const AlbumInfo = ({ id }: { id: string }) => {
     async function fetchData() {
       const response = await fetch('http://127.0.0.1:8000/album/' + id);
       const data = await response.json();
-
-      // TODO: hay que tener un atributo con las canciones
-      console.log(data);
+      const albumId = data.id;
       if (data) {
         setAlbum(data);
+      }
+      const cancionesResponse = await fetch('http://127.0.0.1:8000/get_album_songs/' + albumId)
+      const cancionesData = await cancionesResponse.json();
+      console.log(cancionesData);
+      if (cancionesData) {
+        setCanciones(cancionesData);
       }
     }
     fetchData();
   }, []);
 
-  const songs = album?.canciones.length || 0;
-  const duration = getAlbumFullDuration(album?.canciones || []);
+  const songs = canciones.length || 0;
+  const duration = getAlbumFullDuration(canciones || []);
+  const date = new Date(album?.uploadDate || 2020);
+  const year = date.getFullYear();
 
   const manejadorValidador = () => {
     if (userRole !== "invitado") {
@@ -103,14 +112,14 @@ const AlbumInfo = ({ id }: { id: string }) => {
       <AlbumContainer>
         <AlbumImage>
           <Image
-            src={album?.imagen || defaultAlbum}
+            src={album ? `/localDB${album?.image}` : defaultAlbum}
             alt={album?.titulo || "album cover"}
             width={230}
             height={230}
           />
         </AlbumImage>
-        <AlbumTitle>{album?.titulo}</AlbumTitle>
-        <Link href={`/artist/${album?.artista}`}>
+        <AlbumTitle>{album?.name}</AlbumTitle>
+        <Link href={`/artist/${album?.artist}`}>
           <AlbumArtist>
             <AlbumArtistImg>
               <Image
@@ -120,7 +129,7 @@ const AlbumInfo = ({ id }: { id: string }) => {
                 height={30}
               />
             </AlbumArtistImg>
-            {album?.artista}
+            {album?.artist}
           </AlbumArtist>
         </Link>
         <Row>
@@ -155,7 +164,7 @@ const AlbumInfo = ({ id }: { id: string }) => {
       <div style={{ width: "70%" }}>
         <AlbumOtherInfo>
           <AlbumInfoRow>
-            {album?.year || "2020"} · {album?.genre} · {album?.price || "0.00"}{" "}
+            {year || "2020"} · {album?.genre} · {album?.price || "0.00"}{" "}
             €
           </AlbumInfoRow>
           <AlbumInfoSeparator />
@@ -163,7 +172,7 @@ const AlbumInfo = ({ id }: { id: string }) => {
             {songs + " canciones"} · {duration + " minutos"}
           </AlbumInfoRow>
           <SongsContainer>
-            <AlbumSongs canciones={album?.canciones || []} />
+            <AlbumSongs canciones={canciones || []} />
           </SongsContainer>
         </AlbumOtherInfo>
       </div>

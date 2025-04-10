@@ -16,7 +16,7 @@ type ProfileInfoProps = {
 type Artista = {
   name: string;
   image: string;
-  descripcion?: string;
+  info: string;
 };
 
 const ProfileInfo = ({ id }: ProfileInfoProps) => {
@@ -28,11 +28,10 @@ const ProfileInfo = ({ id }: ProfileInfoProps) => {
       console.log(id)
       const response = await fetch(`http://127.0.0.1:8000/artist/${id}`);
       const data = await response.json();
+      console.log(data)
       if (data) {
         setArtist(data);
       }
-
-      // TODO: cambiar cómo se obtienen los generos del artista
 
       const artist = await fetch(`http://127.0.0.1:8000/artist/${id}`);
       const artistData = await artist.json();
@@ -74,7 +73,7 @@ const ProfileInfo = ({ id }: ProfileInfoProps) => {
         </ArtistGenres>
 
         <ArtistDescription>
-          {artist?.descripcion || "No description available"}
+          {artist?.info || "No description available"}
         </ArtistDescription>
       </div>
       <ArtistListeners>
@@ -194,9 +193,9 @@ const ArtistCity = styled.span`
 
 const ArtistDescription = styled.p`
   text-align: left;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: gray;
-  margin: 5px 0;
+  margin: 10px 0;
 `;
 
 export default ProfileInfo;
