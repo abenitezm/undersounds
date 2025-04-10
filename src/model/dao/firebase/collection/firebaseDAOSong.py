@@ -32,13 +32,6 @@ class FirebaseSongDAO(InterfaceSongDAO):
 
                 tasks.append((doc, song_data, album_task, genre_task))
 
-                # song_dto.id = doc.id
-                # song_dto.album = album_ref.id if album_ref else ""
-                # song_dto.genre = genre_ref.id if genre_ref else ""
-                # song_dto.name = song_data.get("name", "")
-                # song_dto.trackLength = song_data.get("trackLength", "")
-                # songs.insertSong(song_dto.songdto_to_dict())
-
             results = await asyncio.gather(*[self.process_song(doc, song_data, album_task, genre_task) for doc, song_data, album_task, genre_task in tasks])
 
             for song in results:

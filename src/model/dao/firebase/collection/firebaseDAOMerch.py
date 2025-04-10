@@ -20,22 +20,6 @@ class FirebaseMerchDAO(InterfaceMerchDAO):
             query = list(self.collection.stream())
             tasks = []
             for doc in query:
-                # merch_data = doc.to_dict()
-                # merch_dto = MerchDTO()
-
-                # artist_ref = merch_data.get("artist")
-                # type_ref = merch_data.get("type")
-
-                # merch_dto.id = doc.id
-                # merch_dto.artist = artist_ref.get().to_dict().get("name", "") if artist_ref else ""
-                # merch_dto.artist = artist_ref.id if artist_ref else ""
-                # merch_dto.description = merch_data.get("description", "")
-                # merch_dto.image = merch_data.get("image", "")
-                # merch_dto.name = merch_data.get("name", "")
-                # merch_dto.price = merch_data.get("price", 0.0)
-                # merch_dto.stock = merch_data.get("stock", 0)
-                # merch_dto.type = type_ref.get().to_dict().get("type", "") if type_ref else ""
-                # merchs.insertMerch(merch_dto.merchdto_to_dict())
                 tasks.append(self.process_merch(doc))
             
             results = await(asyncio.gather(*tasks))
