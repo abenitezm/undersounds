@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import getAlbumInfo from "../../utils/getAlbumInfo";
 import styled from "styled-components";
 import colors from "../../app/colors";
 import Image from "next/image";
@@ -20,8 +19,8 @@ import PrimaryButton from "./PrimaryButton";
 
 type Album = {
   id: number;
-  titulo: string; //
-  artista: string; //
+  name: string; //
+  artist: string; //
   canciones: {
     id: number;
     titulo: string;
@@ -36,18 +35,26 @@ type Album = {
   price?: string;
 };
 
+type Cancion ={
+  id: string;
+  name: string;
+  trackLength: string;
+  album: string;
+  genre: string;
+}
+
+type Artista = {
+  id: string;
+  name: string;
+  image:string;
+}
+
 const getAlbumFullDuration = (
-  canciones: {
-    id: string;
-    name: string;
-    trackLength: string;
-    album: string;
-    genre: string;
-  }[]
+  canciones: Cancion[]
 ) => {
   let totalSegundos = 0;
 
-  canciones.forEach(cancion => {
+  canciones.forEach((cancion) => {
     const [minutos, segundos] = cancion.trackLength.split(":").map(Number);
     totalSegundos += minutos * 60 + segundos;
   });
@@ -55,12 +62,13 @@ const getAlbumFullDuration = (
   const totalMinutos = Math.floor(totalSegundos / 60);
   const segundosRestantes = totalSegundos % 60;
 
-  return `${totalMinutos}:${segundosRestantes.toString().padStart(2, '0')}`;
+  return `${totalMinutos}:${segundosRestantes.toString().padStart(2, "0")}`;
 };
 
 const AlbumInfo = ({ id }: { id: string }) => {
-  const [album, setAlbum] = useState<Album>(null);
-  const [canciones, setCanciones] = useState([]);
+  const [album, setAlbum] = useState<Album | null>(null);
+  const [canciones, setCanciones] = useState<Cancion[]>([]);
+  const [artist, setArtist] = useState<Artista>("");
   const [validacionTienda, setValidacionTienda] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -70,18 +78,26 @@ const AlbumInfo = ({ id }: { id: string }) => {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch('http://127.0.0.1:8000/album/' + id);
+      const response = await fetch("http://127.0.0.1:8000/album/" + id);
       const data = await response.json();
       const albumId = data.id;
       if (data) {
         setAlbum(data);
       }
-      const cancionesResponse = await fetch('http://127.0.0.1:8000/get_album_songs/' + albumId)
+      const cancionesResponse = await fetch(
+        "http://127.0.0.1:8000/get_album_songs/" + albumId
+      );
       const cancionesData = await cancionesResponse.json();
       console.log(cancionesData);
       if (cancionesData) {
         setCanciones(cancionesData);
       }
+
+      const artistResponse = await fetch(
+        "http://127.0.0.1:8000/artist/" + data.artist
+      );
+      const artistData = await artistResponse.json();
+      setArtist(artistData);
     }
     fetchData();
   }, []);
@@ -113,7 +129,7 @@ const AlbumInfo = ({ id }: { id: string }) => {
         <AlbumImage>
           <Image
             src={album ? `/localDB${album?.image}` : defaultAlbum}
-            alt={album?.titulo || "album cover"}
+            alt={album?.name || "album cover"}
             width={230}
             height={230}
           />
@@ -123,8 +139,8 @@ const AlbumInfo = ({ id }: { id: string }) => {
           <AlbumArtist>
             <AlbumArtistImg>
               <Image
-                src={album?.imagenGrupo || defaultAvatar}
-                alt={album?.titulo || "artist img"}
+                src={artist ? `/localDB${artist.image}` : defaultAvatar}
+                alt={album?.artist || "artist img"}
                 width={30}
                 height={30}
               />
@@ -137,8 +153,8 @@ const AlbumInfo = ({ id }: { id: string }) => {
             onClick={() => {
               addToCart({
                 id: album?.id.toString() || "",
-                name: album?.titulo || "",
-                image: album?.imagen || defaultAlbum,
+                name: album?.name || "",
+                image: album ? `/localDB${album?.image}` : defaultAlbum,
                 price: parseFloat(album?.price || "0.00"),
                 quantity: 1,
               });
@@ -164,8 +180,7 @@ const AlbumInfo = ({ id }: { id: string }) => {
       <div style={{ width: "70%" }}>
         <AlbumOtherInfo>
           <AlbumInfoRow>
-            {year || "2020"} · {album?.genre} · {album?.price || "0.00"}{" "}
-            €
+            {year || "2020"} · {album?.genre} · {album?.price || "0.00"} €
           </AlbumInfoRow>
           <AlbumInfoSeparator />
           <AlbumInfoRow>
