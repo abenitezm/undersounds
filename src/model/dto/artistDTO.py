@@ -30,6 +30,9 @@ class ArtistDTO():
 
     def get_name(self):
         return self.name
+    
+    def get_info(self):
+        return self.info
 
     def get_info(self):
         return self.info

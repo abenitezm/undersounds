@@ -30,6 +30,10 @@ class FirebaseAlbumDAO(InterfaceAlbumDAO):
                     media_data = media_ref.to_dict()
                     album_dto.media.append(media_data.get("type", ""))
 
+                genre_ref = album_data.get("genre")
+                genre_data = genre_ref.get().to_dict() if genre_ref else {}
+
+                album_dto.genre = genre_data.get("type", "")
                 album_dto.name = album_data.get("name", "")
                 album_dto.price = album_data.get("price", 0.0)
                 album_dto.uploadDate = album_data.get("uploadDate", "")
@@ -58,6 +62,9 @@ class FirebaseAlbumDAO(InterfaceAlbumDAO):
                         media_ref = ref.get()
                         media_data = media_ref.to_dict()
                         album.media.append(media_data.get("type", ""))
+                    genre_ref = album_data.get("genre")
+                    genre_data = genre_ref.get().to_dict() if genre_ref else {}
+                    album.genre = genre_data.get("type", "")
                     album.name = album_data.get("name", "")
                     album.price = album_data.get("price", 0.0)
                     album.uploadDate = album_data.get("uploadDate", "")

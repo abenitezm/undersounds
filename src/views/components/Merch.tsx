@@ -18,7 +18,7 @@ const Merch = ({
         <MerchPrice>{price}</MerchPrice>
       </MerchInfo>
       <Image
-        src={`/tienda${image}`}
+        src={`/localDB${image}`}
         style={{
           objectFit: "contain",
           borderRadius: 10,
