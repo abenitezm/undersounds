@@ -1,3 +1,4 @@
+import time
 from ...interfaceDAOAlbum import InterfaceAlbumDAO
 from ....dto.albumDTO import AlbumDTO, AlbumsDTO
 from datetime import datetime
@@ -9,6 +10,7 @@ class FirebaseAlbumDAO(InterfaceAlbumDAO):
     
     def get_albums(self):
         albums = AlbumsDTO()
+        start_time = time.time()
         try:
             query = self.collection.stream()
             print(query)
@@ -41,6 +43,8 @@ class FirebaseAlbumDAO(InterfaceAlbumDAO):
 
         except Exception as e:
             print(e)
+
+        print("Got albums in %s seconds" % (time.time() - start_time))
 
         return albums.albumlist_to_json()
     

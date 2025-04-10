@@ -6,6 +6,7 @@ from fastapi import FastAPI, Request, HTTPException, Depends, Body, UploadFile, 
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pathlib import Path
+import time
 from firebase_admin import auth
 from firebase_admin import firestore
 from model.model import Model
@@ -78,15 +79,16 @@ def get_album_by_name(request: Request, album_name: str):
       album = model.get_album_by_name(album_name)
       return album
 
-@app.get("/getartistalbums/{artist_id}")
-def get_artist_albums(request: Request, artist_id: str):
+@app.get("/getartistalbums/{artist_name}")
+def get_artist_albums(request: Request, artist_name: str):
+      artist = model.get_artist_by_name(artist_name)
       albums_str = model.get_albums()
       try:
             albums = json.loads(albums_str)
       except json.JSONDecodeError as e:
             print("Error decoding JSON", e)
             return []
-      artist_albums = [album for album in albums if album["artist"] == artist_id]
+      artist_albums = [album for album in albums if album["artist"] == artist["id"]]
       return artist_albums
 
 @app.get("/getartists")
@@ -120,15 +122,16 @@ def getmerch(request: Request):
       merchs = model.get_merch()
       return merchs
 
-@app.get("/getartistmerch/{artist_id}")
-def get_artist_merch(request: Request, artist_id: str):
+@app.get("/getartistmerch/{artist_name}")
+def get_artist_merch(request: Request, artist_name: str):
+      artist = model.get_artist_by_name(artist_name)
       merch_str = model.get_merch()
       try:
             merchs = json.loads(merch_str)
       except json.JSONDecodeError as e:
             print("Error decoding JSON", e)
             return []
-      artist_merch = [merch for merch in merchs if merch["artist"] == artist_id]
+      artist_merch = [merch for merch in merchs if merch["artist"] == artist["id"]]
       return artist_merch
 
 @app.get("/getusers")

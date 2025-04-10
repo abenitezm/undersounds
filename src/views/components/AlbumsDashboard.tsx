@@ -1,8 +1,9 @@
 "use client";
 
 import styled from "styled-components";
-import { Album } from "./Album";
-import { useEffect, useState } from "react";
+import Album from "./Album";
+import { Suspense, useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 
 const ArtistAlbums = styled.div`
   margin-top: 10px;
@@ -19,6 +20,10 @@ const AlbumsSection = styled.div`
   flex-direction: column;
   gap: 10px;
 `;
+
+const DynamicComponent = dynamic(() => import("./Album"), {
+  ssr: true,
+});
 
 const AlbumDashboard = ({ id }: { id: string }) => {
   const [albums, setAlbums] = useState<
@@ -53,14 +58,15 @@ const AlbumDashboard = ({ id }: { id: string }) => {
   >([]);
 
   useEffect(() => {
+    console.log('.')
     async function fetchData() {
-      const artist = await fetch(`http://127.0.0.1:8000/artist/${id}`);
-      const artistData = await artist.json();
-      const artistId = artistData.id;
+      let startTime = Date.now();
+      
       const response = await fetch(
-        `http://127.0.0.1:8000/getartistalbums/${artistId}`
+        `http://127.0.0.1:8000/getartistalbums/${id}`
       );
       const data = await response.json();
+      console.log("API call took", Date.now() - startTime, "ms");
       if (data) {
         setAlbums(data);
       }
@@ -73,17 +79,19 @@ const AlbumDashboard = ({ id }: { id: string }) => {
       <h2 style={{ fontSize: 20 }}>Albums</h2>
       <ArtistAlbums>
         {albums.map((album) => (
-          <Album
-            key={album.id}
-            id={album.id}
-            description={album.description}
-            name={album.name}
-            image={album.image}
-            artist={album.artist}
-            genre={album?.genre || "Pop"}
-            price={album.price}
-            year={album.year}
-          />
+          <Suspense key={album.id} fallback={<div>Loading...</div>}>
+            <DynamicComponent
+              key={album.id}
+              id={album.id}
+              description={album.description}
+              name={album.name}
+              image={album.image}
+              artist={album.artist}
+              genre={album?.genre || "Pop"}
+              price={album.price}
+              year={album.year}
+            />
+          </Suspense>
         ))}
       </ArtistAlbums>
     </AlbumsSection>

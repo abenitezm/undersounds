@@ -81,7 +81,7 @@ const AlbumPrice = styled.div`
   background-color: ${colors.background};
 `;
 
-export const Album = ({
+const Album = ({
   name,
   image,
   genre,
@@ -116,3 +116,5 @@ export const Album = ({
     </Link>
   );
 };
+
+export default Album;
