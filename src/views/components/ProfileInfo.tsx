@@ -30,10 +30,8 @@ const ProfileInfo = ({ id }: ProfileInfoProps) => {
       if (data) {
         setArtist(data);
       }
-
-      const artistId = data.id;
       const res = await fetch(
-        `http://127.0.0.1:8000/getartistalbums/${artistId}`
+        `http://127.0.0.1:8000/getartistalbums/${id}`
       );
       const albums = await res.json();
       

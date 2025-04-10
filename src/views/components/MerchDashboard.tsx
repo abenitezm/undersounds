@@ -18,10 +18,7 @@ const MerchDashboard = ({ id }: { id: string }) => {
 
   useEffect(() => {
     async function fetchData() {
-      const artist = await fetch(`http://127.0.0.1:8000/artist/${id}`);
-      const artistData = await artist.json();
-      const artistId = artistData.id;
-      const response = await fetch(`http://127.0.0.1:8000/getartistmerch/${artistId}`);
+      const response = await fetch(`http://127.0.0.1:8000/getartistmerch/${id}`);
       const data = await response.json();
       if (data) {
         setMerch(data);
