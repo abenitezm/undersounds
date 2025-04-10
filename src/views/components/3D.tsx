@@ -1,5 +1,6 @@
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useTexture } from "@react-three/drei";
+import * as THREE from "three";
 import {Merch} from "./GridTiendComponent";
 import { useRef } from "react";
 import { Mesh } from "three";
@@ -16,12 +17,12 @@ const Container3D = styled.div`
 `;
 
 type MerchImageProps = {
-    merch ?: Merch;
+    merch ?: any;
 };
 
 const MerchImgMesh = ({merch} : MerchImageProps) => {
   const meshRef = useRef<Mesh>(null);
-  const texture = useTexture(merch?.imagen ?? "/logo.svg"); // Ruta al logo en /public
+  const texture = useTexture(merch?.image ? `localDB/${merch.image}` : "/logo.svg") as THREE.Texture; // Ruta al logo en /public
 
   return (
     <mesh ref={meshRef}> 

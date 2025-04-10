@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { styled, keyframes } from "styled-components";
 import colors from "../../app/colors";
 import Link from "next/link";
@@ -190,14 +190,14 @@ export default function GridContent({
   const [isOpen, setIsOpen] = useState(false);
   const enseñarMasContenido = expandir ? data : data.slice(0, 6);
 
-   const { addToCart } = useShoppingCart();
+  const { addToCart } = useShoppingCart();
 
   const manejadorElementoMerch = (merchId: string) => {
     onMerchClick(merchId);
   };
 
   const manejadorImagen = (imagen: any) => {
-    setImagenMerch(imagen);
+    setImagenMerch(`localDB/${imagen}`);
   };
 
     const manejadorValidador = () => {
@@ -216,6 +216,10 @@ export default function GridContent({
         }
     }
 
+    useEffect(() => {
+      console.log("Data", data);
+    }, []);
+
   return (
     /* Cargamos el contenedor donde almacenaremos los productos */
     <GridContainer $expandir={expandir}>
@@ -225,14 +229,14 @@ export default function GridContent({
           key={elemento.id}
           onClick={() => {
             manejadorElementoMerch(elemento.id);
-            manejadorImagen(elemento);
+            manejadorImagen(elemento.image);
           }}
         >
-          <MerchImg src={elemento.imagen} alt={elemento.titulo} />
-          <Title>{elemento.titulo}</Title>
-          <Tipo>{elemento.tipo}</Tipo>
+          <MerchImg src={`localDB${elemento.image}`} alt={elemento.name} />
+          <Title>{elemento.name}</Title>
+          <Tipo>{elemento.type}</Tipo>
           <ArtistName>
-            <Link href={`/artist/${elemento.id}`}>{elemento.artista}</Link>
+            <Link href={`/artist/${elemento.artist}`}>{elemento.artist}</Link>
           </ArtistName>
           <span
             style={{
@@ -242,15 +246,15 @@ export default function GridContent({
               width: "100%",
             }}
           >
-            <Precio>${elemento.precio}</Precio>
+            <Precio>${elemento.price}</Precio>
             <Column>
                 <BuyButton
                   onClick={() => {
                     addToCart({
                       id: elemento.id || "",
-                      name: elemento.titulo || "",
-                      image: elemento.imagen || "",
-                      price: parseFloat(elemento.precio || "0.00"),
+                      name: elemento.name || "",
+                      image: `/localDB${elemento.image}` || "",
+                      price: parseFloat(elemento.price || "0.00"),
                       quantity: 1,
                     });
                   }}

@@ -63,6 +63,7 @@ const LoginView = () => {
       return;
     }
 
+
     // Login de tokens
 
     try {
@@ -107,6 +108,10 @@ const LoginView = () => {
   }
 
   useEffect(() => {
+    if ( localStorage.getItem("authToken") !== "" ){ // Si el token ya está almacenado en cache no hay que iniciar sesión
+      setUserRole("registrado");
+      router.push("/Perfil");
+    }
     if (registerRole === "artista") {
       router.push("/Perfil");
     }

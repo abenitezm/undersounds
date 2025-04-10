@@ -5,6 +5,7 @@ import Image from "next/image";
 import colors from "../../app/colors";
 import { useShoppingCart } from "./ShoppingCartContext";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { useEffect } from "react";
 
 const Item = styled.div`
   display: flex;
@@ -67,6 +68,8 @@ interface CartItemInterface {
   price: number;
   quantity: number;
 }
+
+
 
 const CartItem = ({ item }: { item: CartItemInterface }) => {
   const { addToCart, removeFromCart } = useShoppingCart();

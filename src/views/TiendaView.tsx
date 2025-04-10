@@ -62,8 +62,8 @@ const Logo = styled.img`
   vertical-align: middle;
 `;
 
-const TiendaView = ({ merchData }: { merchData: Merch[] }) => {
-  const [selectedMerch, setSelectedMerch] = useState<Merch | undefined>(
+const TiendaView = ({ merchData }: { merchData: any[] }) => {
+  const [selectedMerch, setSelectedMerch] = useState<any | undefined>(
     undefined
   );
 
