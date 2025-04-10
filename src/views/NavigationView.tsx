@@ -115,12 +115,11 @@ const NavigationView = ({
           const genre = genreMap.get(cancion.genre.split('/').pop()); // Extrae el ID de la referencia
           const artistId = album?.artist;
           const artist = artistMap.get(artistId);
-          console.log(cancion);
   
           return {
            ...cancion,
            tipo: genre?.type || "unknown",
-           url: cancion.url || "unknown",
+           url: cancion?.url || "unknown",
            albumName: album?.name || "unknown",
            albumDescription: album.description || "",
            albumImage: album.image || "/default-album.png",

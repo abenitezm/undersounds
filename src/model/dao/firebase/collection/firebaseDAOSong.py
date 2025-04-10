@@ -55,5 +55,6 @@ class FirebaseSongDAO(InterfaceSongDAO):
         song_dto.genre = genre_data.id if genre_data else ""
         song_dto.name = song_data.get("name", "")
         song_dto.trackLength = song_data.get("trackLength", "")
+        song_dto.url = song_data.get("url", "")
 
         return song_dto.songdto_to_dict()
