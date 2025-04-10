@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Albums from "../../assets/bd.json"
 import colors from '../../app/colors';
-import { Album } from './Album';
+import Album from './Album';
 
 const Novedades = () => {
   return (

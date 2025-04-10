@@ -2,20 +2,52 @@ import Image from "next/image";
 import styled from "styled-components";
 import colors from "../../app/colors";
 
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import PaidIcon from "@mui/icons-material/Paid";
+import { useShoppingCart } from "./ShoppingCartContext";
+
+
+
 const Merch = ({
-  id, title, description, tipo, price, image, stock, artist
+  id,
+  title,
+  description,
+  tipo,
+  price,
+  image,
+  stock,
+  artist,
 }: {
   title: string;
   tipo: string;
   price: number;
   image: string;
 }) => {
+
+  const { addToCart } = useShoppingCart();
+
   return (
     <MerchContainer>
       <MerchInfo>
         <MerchTitle>{title}</MerchTitle>
         <MerchType>{tipo}</MerchType>
         <MerchPrice>{price}</MerchPrice>
+        <MerchRow>
+          <MerchBuyButton
+            onClick={() => {
+              addToCart({
+                id: id.toString() || "",
+                name: title || "",
+                image: `/localDB${image}`,
+                price: parseFloat(price ||"0.00"),
+                quantity: 1,
+              });
+            }}
+          >
+            <ShoppingCartIcon fontSize="small" />
+            Añadir al carrito
+          </MerchBuyButton>
+        </MerchRow>
       </MerchInfo>
       <Image
         src={`/localDB${image}`}
@@ -61,6 +93,33 @@ const MerchInfo = styled.div`
 
   ${MerchContainer}:hover & {
     opacity: 1;
+  }
+`;
+
+const MerchRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  gap: 20px;
+  width: 100%;
+`;
+
+const MerchBuyButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background-color: ${colors.tertiary};
+  color: ${colors.secondary};
+  border: none;
+  padding: 8px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+
+  transition: background-color 0.2s ease-in-out;
+  &:hover {
+    background-color: ${colors.primary};
   }
 `;
 

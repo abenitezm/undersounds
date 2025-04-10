@@ -2,7 +2,7 @@
 import styled from "styled-components";
 import colors from "../../app/colors";
 import { useState } from "react";
-import { Album } from "./AlbumReproducer";
+import Album from "./AlbumReproducer";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Link from "next/link";
 import PrimaryButton from "./PrimaryButton";
