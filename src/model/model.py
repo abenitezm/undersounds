@@ -14,8 +14,8 @@ class Model ():
         self.daoMerchType = self.factory.getMerchTypeDao()
         self.daoUser = self.factory.getUserDao()
 
-    def get_albums(self):
-        return self.daoAlbum.get_albums()
+    async def get_albums(self):
+        return await self.daoAlbum.get_albums()
     
     def get_album_by_name(self, album_name):
         return self.daoAlbum.get_album_by_name(album_name)
@@ -26,8 +26,8 @@ class Model ():
     def get_artist_by_name(self, artist_name):
         return self.daoArtist.get_artist_by_name(artist_name)
 
-    def get_songs(self):
-        return self.daoSong.get_songs()
+    async def get_songs(self):
+        return await self.daoSong.get_songs()
     
     def get_genreType(self):
         return self.daoGenreType.get_genreType()
@@ -38,8 +38,8 @@ class Model ():
     def get_mediaType_by_id(self, media_id):
         return self.daoMediaType.get_mediaType_by_id(media_id)
 
-    def get_merch(self):
-        return self.daoMerch.get_merchs()
+    async def get_merch(self):
+        return await self.daoMerch.get_merchs()
 
     def get_merchType(self):
         return self.daoMerchType.get_merchType()

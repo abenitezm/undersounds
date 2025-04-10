@@ -29,8 +29,8 @@ def index(request: Request):
    # return view.get_index_view(request)
 
 @app.get("/getalbums")
-def getalbums(request: Request):
-      albums = model.get_albums()
+async def getalbums(request: Request):
+      albums = await model.get_albums()
       return albums
 
 @app.get("/album/{album_name}")
@@ -39,9 +39,9 @@ def get_album_by_name(request: Request, album_name: str):
       return album
 
 @app.get("/getartistalbums/{artist_name}")
-def get_artist_albums(request: Request, artist_name: str):
+async def get_artist_albums(request: Request, artist_name: str):
       artist = model.get_artist_by_name(artist_name)
-      albums_str = model.get_albums()
+      albums_str = await model.get_albums()
       try:
             albums = json.loads(albums_str)
       except json.JSONDecodeError as e:
@@ -61,13 +61,13 @@ def get_artist_by_name(request: Request, artist_name: str):
       return artist
 
 @app.get("/getsongs")
-def getsongs(request: Request):
-      songs = model.get_songs()
+async def getsongs(request: Request):
+      songs = await model.get_songs()
       return songs
 
 @app.get("/get_album_songs/{album_id}")
-def get_album_songs(request: Request, album_id: str):
-      songs_str = model.get_songs()
+async def get_album_songs(request: Request, album_id: str):
+      songs_str = await model.get_songs()
       try:
             songs = json.loads(songs_str)
       except json.JSONDecodeError as e:
@@ -77,20 +77,19 @@ def get_album_songs(request: Request, album_id: str):
       return album_songs
 
 @app.get("/getmerch")
-def getmerch(request: Request):
-      merchs = model.get_merch()
+async def getmerch(request: Request):
+      merchs = await model.get_merch()
       return merchs
 
 @app.get("/getartistmerch/{artist_name}")
-def get_artist_merch(request: Request, artist_name: str):
-      artist = model.get_artist_by_name(artist_name)
-      merch_str = model.get_merch()
+async def get_artist_merch(request: Request, artist_name: str):
+      merch_str = await model.get_merch()
       try:
             merchs = json.loads(merch_str)
       except json.JSONDecodeError as e:
             print("Error decoding JSON", e)
             return []
-      artist_merch = [merch for merch in merchs if merch["artist"] == artist["id"]]
+      artist_merch = [merch for merch in merchs if merch["artist"] == artist_name]
       return artist_merch
 
 @app.get("/getusers")
