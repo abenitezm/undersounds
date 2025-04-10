@@ -13,6 +13,7 @@ from model.model import Model
 from model.dao.firebase.firebaseDAOFactory import FirebaseDAOFactory
 from fastapi import UploadFile, File, Form, HTTPException
 from datetime import datetime, timezone
+from google.cloud.firestore_v1 import FieldFilter
 
 
 # Inicializamos la app
@@ -325,6 +326,64 @@ async def upload_song(
 
       except Exception as e:
             raise HTTPException(status_code=500, detail=f"Error al registrar la canción: {str(e)}")
+
+
+
+@app.post("/usersRegistrados")
+def users_registrados(data : dict = Body(...)):
+      email = data.get("email")
+      password = data.get("password")
+
+      if not email or not password:
+            raise HTTPException(status_code=400, detail="Email y contraseña requeridos")
+
+      try:
+            user_docs = list(db.collection("users").where(
+                  filter=FieldFilter("email", "==", email)
+            ).stream())
+
+            user_exists = len(user_docs) > 0
+            print("¿Usuario existe?", user_exists)
+
+            if user_exists:
+                  print("Usuario ya registrado en la base de datos")
+
+                  firebase_api_key = "AIzaSyDzmNsBMGv0qi8UqUuev4FlnaycU5lj-nk"
+                  firebase_url = f"https://identitytoolkit.googleapis.com/v1/accounts:signUp?key={firebase_api_key}"
+
+                  response = requests.post(firebase_url, json={
+                        "email": email,
+                        "password": password,
+                        "returnSecureToken": True
+                  })
+
+                  if response.status_code != 200: 
+                        print("Error al hacer login en Firebase Auth", response.text)
+                        return {"error": "Credenciales incorrectas o usuario no registrado"}
+                  
+                  user_data = response.json()
+                  uid = user_data["localId"]
+                  id_token = user_data["idToken"]
+
+                  email_name = email.split('@')[0]
+                  if email_name.endswith('gmail.com'):
+                        email_name = email_name[:10]
+
+                  return {
+                        "token": id_token,
+                        "role": "registrado",
+                        "username": email_name,
+                        "uid": uid
+                  }
+
+            else:
+                  print("Usuario no encontrado en Firestore")
+                  return {"error": "Usuario no registrado en Firestore"}
+
+      except Exception as e:
+            print("Error en login/registro:", e)
+            raise HTTPException(status_code=500, detail="Error interno en el user")
+
 
 
 @app.post("/login")

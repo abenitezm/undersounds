@@ -19,6 +19,7 @@ const LoginView = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorInputs, setErrorInputs] = useState(false);
+  const [validToken, setValidToken] = useState("");
   const { setUserRole } = useAuth();
   const { userRole } = useAuth();
   const { registerRole } = useRegister();
@@ -44,19 +45,64 @@ const LoginView = () => {
 
     if (!email && !password) {
       toast.error("Tienes que introducir valores en los dos campos");
-      setEmailError(!errorInputs);
-      setPasswordError(!errorInputs);
-    } else if (!email || !password) {
+      setEmailError(true);
+      setPasswordError(true);
+      return;
+    }
+  
+    if (!email || !password) {
       toast.error("Tienes que introducir un valor en el campo que falta");
-      setEmailError(!errorInputs);
-      setPasswordError(!errorInputs);
-    } else if (!emailRegex.test(email)) {
+      setEmailError(!email);
+      setPasswordError(!password);
+      return;
+    }
+  
+    if (!emailRegex.test(email)) {
       toast.error("El correo electrónico no es válido");
-      setEmailError(!errorInputs);
-    } else {
-      toast.success("Has iniciado sesión correctamente");
-      setUserRole("registrado");
-      //router.push('/Perfil');
+      setEmailError(true);
+      return;
+    }
+
+    // Login de tokens
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/usersRegistrados", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email,
+          password
+        })
+      })
+
+      const data = await response.json();
+      if (data.error === "Usuario no registrado en Firestore") {
+        console.log("entro");
+        toast.error("No tienes una cuenta registrada. Por favor, regístrate.");
+        return;
+      } 
+
+      if (!response.ok) {
+        throw new Error(`Error ${response.status}: ${await response.text()}`);
+      }
+
+      const { token, role, username, uid } = data;
+
+      // Guardamos el token localmente si quieres usarlo en peticiones futuras
+      localStorage.setItem("authToken", token);
+      localStorage.setItem("userRole", role);
+      localStorage.setItem("username", username);
+      localStorage.setItem("uid", uid);
+
+      setValidToken(token);
+
+      toast.success(`Bienvenido de nuevo ${role}`);
+      router.push("/Perfil");
+    } catch (error) {
+      console.error("Error en autenticación:", error);
+      toast.error("Error al iniciar sesión. Revisa tus credenciales.");
     }
   }
 
@@ -67,7 +113,7 @@ const LoginView = () => {
     if (registerRole === "fan") {
       router.push("/Perfil");
     }
-  }, [registerRole]);
+  }, []);
 
   return (
     <Container>
