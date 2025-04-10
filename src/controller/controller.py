@@ -406,10 +406,6 @@ async def logout_user(data : dict = Body(...)):
             raise HTTPException(status_code=400, detail="UID requerido")
       
       try:
-            # Eliminar al usuario de Firestore BD
-            user_ref = db.collection("users").document(uid)
-            if user_ref.get().exists:
-                  user_ref.delete()
 
             # Eliminar la cuenta de firebase asociada al usuario
             firebase_api_key = "AIzaSyDzmNsBMGv0qi8UqUuev4FlnaycU5lj-nk"
