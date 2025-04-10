@@ -16,7 +16,9 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import PrimaryButton from "../views/components/PrimaryButton";
 import { useRegister } from "../views/components/RegisterContext";
 import { toast, ToastContainer } from "react-toastify";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
+
 
 // Generar albumData a partir de los datos JSON
 const albumData: Album[] = data.slice(0, 2).map((cancion) => {
@@ -194,7 +196,6 @@ const PerfilView = () => {
   const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
   const [artistas, setArtistas] = useState<Artista[]>([]);
   const [username, setUsername] = useState("");
-  //const router = useRouter();
   const { registerRole } = useRegister();
   const [profileImage, setProfileImage] = useState<string>("https://i.pinimg.com/originals/7a/e7/c2/7ae7c223b094d4e57b4ea0d3ee519813.jpg");
 
@@ -244,7 +245,7 @@ const PerfilView = () => {
       console.log("Datos recibidos", data);
       localStorage.clear();
       toast.success(`Has cerrado sesión correctamente`);
-      //router.push("/Login");
+      window.location.href = "/login";
 
     }catch (error) {
       console.error("Error en autenticación:", error);
