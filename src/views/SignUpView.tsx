@@ -147,13 +147,14 @@ const SignUpView = () => {
         // Obtenemos los datos enviados por el backend
         const data = await response.json();
         console.log("Datos recibidos", data);
-        const { token, role, username, uid } = data;
+        const { token, role, username, uid, pass } = data;
       
         // Guardamos el token localmente si quieres usarlo en peticiones futuras
         localStorage.setItem("authToken", token);
         localStorage.setItem("userRole", role);
         localStorage.setItem("username", username);
         localStorage.setItem("uid", uid);
+        localStorage.setItem("password", pass);
       
         toast.success(`Bienvenido ${role}`);
         router.push("/Perfil");
