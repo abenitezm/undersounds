@@ -89,7 +89,7 @@ const LoginView = () => {
         throw new Error(`Error ${response.status}: ${await response.text()}`);
       }
 
-      const { token, role, username, uid, pass } = data;
+      const { token, role, username, uid, pass, registerRole } = data;
 
       // Guardamos el token localmente si quieres usarlo en peticiones futuras
       localStorage.setItem("authToken", token);
@@ -97,6 +97,7 @@ const LoginView = () => {
       localStorage.setItem("username", username);
       localStorage.setItem("uid", uid);
       localStorage.setItem("password", pass); // Password registrada en el user.
+      localStorage.setItem("registerRole", registerRole);
 
       setValidToken(token);
 

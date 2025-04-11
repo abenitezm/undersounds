@@ -169,7 +169,7 @@ const UploadAlbumView = () => {
         if (!songResponse.ok) throw new Error(`Error al registrar canción: ${song.name}`)
       }
       setMessage({ text: "Álbum y canciones subidos exitosamente", type: "success" });
-      localStorage.clear();
+      localStorage.removeItem("cancionesCompletas");
       setTimeout(() => {
         router.push("/");
       }, 2000);

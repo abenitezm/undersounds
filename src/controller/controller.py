@@ -300,6 +300,12 @@ def users_registrados(data : dict = Body(...)):
             .where(filter=FieldFilter("password", "==", password))
             .stream())
 
+            if user_docs:
+                  user_data = user_docs[0].to_dict()
+                  user_role = user_data.get("register_role", "registrado")  # valor por defecto si no existe
+                  print("User Role:", user_role)
+
+
             user_exists = len(user_docs) > 0
             print("¿Usuario existe?", user_exists)
 
@@ -332,7 +338,8 @@ def users_registrados(data : dict = Body(...)):
                         "role": "registrado",
                         "username": email_name,
                         "uid": uid,
-                        "password": password
+                        "password": password,
+                        "registerRole": user_role
                   }
 
             else:

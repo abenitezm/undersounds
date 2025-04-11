@@ -121,9 +121,9 @@ const NavigationView = ({
            tipo: genre?.type || "unknown",
            url: cancion?.url || "unknown",
            albumName: album?.name || "unknown",
-           albumDescription: album.description || "",
-           albumImage: album.image || "/default-album.png",
-           albumMedia: album.media ? (Array.isArray(album.media) ? album.media : [album.media]) : [],
+           albumDescription: album?.description || "",
+           albumImage: album?.image || "/default-album.png",
+           albumMedia: album?.media ? (Array.isArray(album.media) ? album.media : [album.media]) : [],
            artistName: artist?.name || "unknown",
            artistImage: artist?.image || "/default-artist.png",
            artistInfo: artist?.info || "unknown"
