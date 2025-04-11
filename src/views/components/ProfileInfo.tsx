@@ -8,6 +8,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import { useEffect, useState } from "react";
 import MonthlyListeners from "./MonthlyListeners";
+import Link from "next/link";
 
 type ProfileInfoProps = {
   id: string;
@@ -17,6 +18,9 @@ type Artista = {
   name: string;
   image: string;
   info: string;
+  location: string;
+  website: string;
+  emailForFans: string;
 };
 
 const ProfileInfo = ({ id }: ProfileInfoProps) => {
@@ -27,14 +31,13 @@ const ProfileInfo = ({ id }: ProfileInfoProps) => {
     async function fetchData() {
       const response = await fetch(`http://127.0.0.1:8000/artist/${id}`);
       const data = await response.json();
+      console.log(data);
       if (data) {
         setArtist(data);
       }
-      const res = await fetch(
-        `http://127.0.0.1:8000/getartistalbums/${id}`
-      );
+      const res = await fetch(`http://127.0.0.1:8000/getartistalbums/${id}`);
       const albums = await res.json();
-      
+
       const generos = [...new Set(albums.map((album) => album.genre))];
       setGenres(generos);
     }
@@ -58,7 +61,7 @@ const ProfileInfo = ({ id }: ProfileInfoProps) => {
         </ArtistImage>
 
         <ArtistName>{artist?.name}</ArtistName>
-        <ArtistCity>Madrid, Spain</ArtistCity>
+        <ArtistCity>{artist?.location || "The World 🗺️"}</ArtistCity>
 
         <ArtistGenres>
           {genres.map((genero: string, index: number) => (
@@ -74,7 +77,7 @@ const ProfileInfo = ({ id }: ProfileInfoProps) => {
         <MonthlyListeners value={artist?.oyentes || 100} /> oyentes mensuales
       </ArtistListeners>
 
-      <ArtistButtons>
+      <ArtistRow>
         <Button onClick={() => console.log("Seguir")}>
           <FavoriteIcon />
           {"Seguir"}
@@ -83,7 +86,16 @@ const ProfileInfo = ({ id }: ProfileInfoProps) => {
           <ShareIcon />
           {"Compartir"}
         </Button>
-      </ArtistButtons>
+      </ArtistRow>
+
+      {artist?.emailForFans && (
+        <WebsiteLink href={"mailto:" + artist?.emailForFans}>
+          📧 Email
+        </WebsiteLink>
+      )}
+      {artist?.website && (
+        <WebsiteLink href={"http://" + artist?.website}>🖥️ Web </WebsiteLink>
+      )}
     </ArtistContainer>
   );
 };
@@ -112,7 +124,7 @@ const ArtistImage = styled.div`
   margin: 0 auto;
 `;
 
-const ArtistButtons = styled.div`
+const ArtistRow = styled.div`
   display: flex;
   flex-direction: row;
   gap: 20px;
@@ -190,6 +202,22 @@ const ArtistDescription = styled.p`
   font-size: 0.85rem;
   color: gray;
   margin: 10px 0;
+`;
+
+const WebsiteLink = styled.a`
+  text-decoration: none;
+  color: ${colors.secondary};
+  background-color: ${colors.tertiary};
+  padding: 8px 15px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  margin: 0 auto;
+  margin-top: 10px;
+  cursor: pointer;
+  &:hover {
+    background-color: ${colors.primary};
+    color: ${colors.tertiary};
+  }
 `;
 
 export default ProfileInfo;

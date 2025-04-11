@@ -4,18 +4,36 @@ import { useState } from "react";
 import colors from "../../app/colors";
 import styled from "styled-components";
 
-const MerchForm = () => {
+const MerchForm = ({ userData }) => {
   const [inputs, setInputs] = useState({
-    senderName: "",
-    senderAddress: "",
-    shippingDays: 0,
-    shippingMethod: "SEUR",
+    senderName: userData.senderName || "",
+    senderAddress: userData.senderAddress || "",
+    shippingDays: userData.shippingDays || 1,
+    shippingMethod: userData.shippingMethod || "seur",
   });
 
   const [changesSaved, setChangesSaved] = useState(false);
 
-  const validateFields = () => {
+  const saveSettings = async () => {
     console.log(inputs);
+
+    const response = await fetch(
+      `http://127.0.0.1:8000/updateuser/${userData.id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          senderName: inputs.senderName,
+          senderAddress: inputs.senderAddress,
+          shippingDays: inputs.shippingDays,
+          shippingMethod: inputs.shippingMethod,
+        }),
+      }
+    );
+    const data = await response.json();
+    console.log(data);
     setChangesSaved(true);
 
     setTimeout(() => {
@@ -36,13 +54,12 @@ const MerchForm = () => {
     });
   };
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault(); // previene que recargue la página y perdamos la info
-    validateFields();
+  const submitForm = () => {
+    saveSettings();
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form>
       <SectionInfo>
         <SectionTitle>Datos de envío</SectionTitle>
         <SectionSubtitle>
@@ -55,6 +72,7 @@ const MerchForm = () => {
           style={styles.formInput}
           onChange={handleChange}
           type="text"
+          defaultValue={inputs.senderName}
           name="senderName"
         />
       </FormItem>
@@ -64,6 +82,7 @@ const MerchForm = () => {
           style={styles.formInput}
           onChange={handleChange}
           type="text"
+          defaultValue={inputs.senderAddress}
           name="senderAddress"
         />
       </FormItem>
@@ -73,6 +92,9 @@ const MerchForm = () => {
           style={{ ...styles.formInput, width: "10%" }}
           onChange={handleChange}
           type="number"
+          min={1}
+          max={30}
+          defaultValue={inputs.shippingDays}
           name="shippingDays"
         />
       </FormItem>
@@ -81,6 +103,7 @@ const MerchForm = () => {
         <select
           style={{ ...styles.formInput, width: "20%" }}
           name="shippingMethod"
+          defaultValue={inputs.shippingMethod}
           onChange={handleChange}
         >
           <option value="seur">SEUR</option>
@@ -89,7 +112,9 @@ const MerchForm = () => {
         </select>
       </FormItem>
 
-      <Button type="submit">Save settings</Button>
+      <Button type="button" onClick={submitForm}>
+        Save settings
+      </Button>
       {changesSaved && (
         <ConfirmMessage>Your changes have been saved!</ConfirmMessage>
       )}

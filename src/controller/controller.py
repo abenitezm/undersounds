@@ -102,6 +102,15 @@ def get_artist_by_name(request: Request, artist_name: str):
       artist = model.get_artist_by_name(artist_name)
       return artist
 
+@app.patch("/updateartist/{artist_id}")
+async def update_artist(request: Request, artist_id: str):
+      data = await request.json()
+      success = model.update_artist(artist_id, data)
+      if success:
+            return {"message": "Artist updated successfully"}
+      else:
+            return {"message": "Failed to update artist"}
+
 @app.get("/getsongs")
 async def getsongs(request: Request):
       songs = await model.get_songs()
@@ -138,6 +147,20 @@ async def get_artist_merch(request: Request, artist_name: str):
 def getusers(request: Request):
       users = model.get_users()
       return users
+
+@app.get("/getuser/{user_id}")
+def getuser(request: Request, user_id: str):
+      user = model.get_user_by_id(user_id)
+      return user
+
+@app.patch("/updateuser/{user_id}")
+async def updateuser(request: Request, user_id: str):
+      data = await request.json()
+      success = model.update_user(user_id, data)
+      if success:
+            return {"message": "User updated successfully"}
+      else:
+            return {"message": "Failed to update user"}
 
 @app.get("/gettypes")
 def gettypes(request: Request):

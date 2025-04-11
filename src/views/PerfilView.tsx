@@ -195,11 +195,24 @@ const NavigationButton = styled.button`
 const PerfilView = () => {
   const [selectedButton, setSelectedButton] = useState(0); // Mantener el botón seleccionado
   const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
+  const [userData, setUserData] = useState({});
   const [artistas, setArtistas] = useState<Artista[]>([]);
   const [username, setUsername] = useState("");
   const { registerRole } = useRegister();
   const { setUserRole } = useAuth();
   const [profileImage, setProfileImage] = useState<string>("https://i.pinimg.com/originals/7a/e7/c2/7ae7c223b094d4e57b4ea0d3ee519813.jpg");
+
+  
+  
+  useEffect(() => {
+    const fetchInfo = async () => {
+      const uid = localStorage.getItem("uid") || "null";
+      const response = await fetch('http://127.0.0.1:8000/getuser/' + uid);
+      const data = await response.json();
+      setUserData(data);
+    }
+    fetchInfo();
+  } , []);
 
   const toggleSeleccion = (index: number) => {
     setSelectedButton(index); // Cambia el botón seleccionado
@@ -259,7 +272,7 @@ const PerfilView = () => {
   useEffect(() => {
     const name =  localStorage.getItem("username") || "null";
     setUsername(name);
-  })
+  }, [])
 
   return (
     <>
@@ -284,7 +297,7 @@ const PerfilView = () => {
       <div className="max-w-2xl mx-auto bg-white p-6 rounded-2xl shadow-lg flex items-center space-x-6">
           <ProfileImage src={profileImage} />
           <ProfileImage src="https://i.pinimg.com/originals/7a/e7/c2/7ae7c223b094d4e57b4ea0d3ee519813.jpg" />
-          <NombreUsuario>{username}</NombreUsuario>
+          <NombreUsuario>{username != 'null' ? username : userData.username}</NombreUsuario>
           <Descripcion>
             ¡Hola! Soy {username}, un amante de la música con un gusto tan ecléctico
             como mi colección de discos. Desde los clásicos hasta lo más

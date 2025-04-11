@@ -26,6 +26,9 @@ class Model ():
     def get_artist_by_name(self, artist_name):
         return self.daoArtist.get_artist_by_name(artist_name)
 
+    def update_artist(self, artist_id, data):
+        return self.daoArtist.update_artist(artist_id, data)
+
     async def get_songs(self):
         return await self.daoSong.get_songs()
     
@@ -49,6 +52,12 @@ class Model ():
 
     def get_users(self):
         return self.daoUser.get_users()
+    
+    def get_user_by_id(self, user_id):
+        return self.daoUser.get_user_by_id(user_id)
+
+    def update_user(self, user_id, data):
+        return self.daoUser.update_user(user_id, data)
 
     def upload_album(self, album_data):
         return self.daoAlbum.add_album(album_data)

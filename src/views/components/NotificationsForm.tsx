@@ -4,28 +4,72 @@ import { useState } from "react";
 import colors from "../../app/colors";
 import styled from "styled-components";
 
-const NotificationsForm = () => {
+import SaveIcon from "@mui/icons-material/Save";
+import DoneIcon from "@mui/icons-material/Done";
+
+const NotificationsForm = ({ userData }) => {
   const [inputs, setInputs] = useState({
-    sellAlbumEmail: false,
-    sellAlbumWeb: false,
-    sellMerchEmail: false,
-    sellMerchWeb: false,
-    reviewEmail: false,
-    reviewWeb: false,
-    followEmail: false,
-    followWeb: false,
-    artistMusicEmail: false,
-    artistMusicWeb: false,
-    artistDiscountEmail: false,
-    artistDiscountWeb: false,
+    sellAlbumEmail: userData.sellAlbumEmail || false,
+    sellAlbumWeb: userData.sellAlbumWeb || false,
+    sellMerchEmail: userData.sellMerchEmail || false,
+    sellMerchWeb: userData.sellMerchWeb || false,
+    reviewEmail: userData.sellReviewEmail || false,
+    reviewWeb: userData.sellReviewWeb || false,
+    followEmail: userData.followEmail || false,
+    followWeb: userData.followWeb || false,
+    artistMusicEmail: userData.artistMusicEmail || false,
+    artistMusicWeb: userData.artistMusicWeb || false,
+    artistDiscountEmail: userData.artistDiscountEmail || false,
+    artistDiscountWeb: userData.artistDiscountWeb || false,
   });
 
   const [changesSaved, setChangesSaved] = useState(false);
 
-  const userRole = localStorage.getItem("userRole");
+  const userRole = localStorage.getItem("registerRole");
 
-  const validateFields = () => {
-    console.log(inputs);
+  const saveSettings = async (type: string) => {
+    let response, data;
+    if (type === "Artista") {
+      response = await fetch(
+        `http://127.0.0.1:8000/updateuser/${userData.id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            sellAlbumEmail: inputs.sellAlbumEmail,
+            sellAlbumWeb: inputs.sellAlbumWeb,
+            sellMerchEmail: inputs.sellMerchEmail,
+            sellMerchWeb: inputs.sellMerchWeb,
+            reviewEmail: inputs.reviewEmail,
+            reviewWeb: inputs.reviewWeb,
+            followEmail: inputs.followEmail,
+            followWeb: inputs.followWeb,
+          }),
+        }
+      );
+      data = await response.json();
+      console.log(data);
+    } else {
+      response = await fetch(
+        `http://127.0.0.1:8000/updateuser/${userData.id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            artistMusicEmail: inputs.artistMusicEmail,
+            artistMusicWeb: inputs.artistMusicWeb,
+            artistDiscountEmail: inputs.artistDiscountEmail,
+            artistDiscountWeb: inputs.artistDiscountWeb,
+          }),
+        }
+      );
+      data = await response.json();
+      console.log(data);
+    }
     setChangesSaved(true);
 
     setTimeout(() => {
@@ -46,15 +90,14 @@ const NotificationsForm = () => {
     });
   };
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault(); // previene que recargue la página y perdamos la info
-    validateFields();
+  const submitForm = (type: string) => {
+    saveSettings(type);
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form>
       {userRole === "artista" ? (
-        <>
+        <SectionContainer>
           <SectionInfo>
             <SectionTitle>Artistas</SectionTitle>
             <SectionSubtitle>Notificaciones sobre tu música</SectionSubtitle>
@@ -251,9 +294,19 @@ const NotificationsForm = () => {
               </FormItem>
             </FormItemRow>
           </FormItem>
-        </>
+          <Button type="button" onClick={() => submitForm("Artista")}>
+            {" "}
+            Guardar <SaveIcon style={{ marginLeft: 15, fontSize: 16 }} />{" "}
+          </Button>
+          {changesSaved && (
+            <ConfirmMessage>
+              <DoneIcon style={{ marginRight: 5, fontSize: 16 }} /> Cambios
+              guardados!
+            </ConfirmMessage>
+          )}
+        </SectionContainer>
       ) : (
-        <>
+        <SectionContainer>
           <SectionInfo>
             <SectionTitle>Oyentes</SectionTitle>
             <SectionSubtitle>
@@ -359,12 +412,17 @@ const NotificationsForm = () => {
               </FormItem>
             </FormItemRow>
           </FormItem>
-        </>
-      )}
-
-      <Button type="submit">Guardar configuración</Button>
-      {changesSaved && (
-        <ConfirmMessage>¡Tus cambios se han guardado!</ConfirmMessage>
+          <Button type="button" onClick={() => submitForm("Fan")}>
+            {" "}
+            Guardar <SaveIcon style={{ marginLeft: 15, fontSize: 16 }} />{" "}
+          </Button>
+          {changesSaved && (
+            <ConfirmMessage>
+              <DoneIcon style={{ marginRight: 5, fontSize: 16 }} /> Cambios
+              guardados!
+            </ConfirmMessage>
+          )}
+        </SectionContainer>
       )}
     </Form>
   );
@@ -375,6 +433,15 @@ const Form = styled.form`
   flex-direction: column;
   gap: 20px;
   overflow: auto;
+`;
+
+const SectionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
+  margin-left: 5px;
+  width: 90%;
 `;
 
 const SectionInfo = styled.div`
@@ -430,8 +497,9 @@ const Button = styled.button`
   background-color: ${colors.primary};
   color: ${colors.secondary};
   border: none;
-  margin: 0 auto;
-  margin-top: 20px;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
   padding: 10px 25px;
   border-radius: 5px;
   cursor: pointer;
