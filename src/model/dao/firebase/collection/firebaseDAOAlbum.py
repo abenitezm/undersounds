@@ -71,7 +71,7 @@ class FirebaseAlbumDAO(InterfaceAlbumDAO):
         album_data["uploadDate"] = datetime.utcnow().isoformat()
         album_data["media"] = []
         album_data['genre'] = self.db.document(f"genreType/{album_data['genre']}")
-        
+        #Añadir referencia al artista
 
         doc_ref = self.collection.document()
         doc_ref.set(album_data)

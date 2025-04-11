@@ -1,9 +1,11 @@
 from ...interfaceDAOSong import InterfaceSongDAO
 from ....dto.songDTO import SongDTO, SongsDTO
+from firebase_admin import firestore
 
 class FirebaseSongDAO(InterfaceSongDAO):
 
     def __init__(self, collection):
+        self.db = firestore.client()
         self.collection = collection
     
     def get_songs(self):
@@ -35,6 +37,8 @@ class FirebaseSongDAO(InterfaceSongDAO):
     def add_song(self, song_data):
         song_data["commentator"] = "@Anonimo"
         song_data["comments"] = []
+        song_data['album'] = self.db.document(f"albums/{song_data['album']}")
+        song_data['genre'] = self.db.document(f"genreType/{song_data['genre']}")
 
         doc_ref = self.collection.document()
         doc_ref.set(song_data)

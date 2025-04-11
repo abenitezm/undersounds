@@ -157,7 +157,7 @@ async def upload_song_file(file: UploadFile = File(...)):
             with open(file_path, "wb") as f:
                   f.write(await file.read())
 
-            return {"url": str(Path('songs') / file_name)}
+            return {"url": str(Path('/audios') / file_name)}
 
       except Exception as e:
             raise HTTPException(500, f"Error al subir el archivo: {str(e)}")
@@ -175,7 +175,7 @@ async def upload_album_image(file: UploadFile = File(...)):
             with open(file_path, "wb") as f:
                   f.write(await file.read())
 
-            return {"url": str(Path('albums') / file_name)}
+            return {"url": str(Path('/albums') / file_name)}
             
       except Exception as e:
             raise HTTPException(500, f"Error al subir el archivo: {str(e)}")

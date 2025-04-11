@@ -75,6 +75,7 @@ const UploadAlbumView = () => {
 
   const [songs, setSongs] = useState<{ 
     name: string;
+    trackLength: string;
     file: File;
   }[]>([]);
 
@@ -113,7 +114,7 @@ const UploadAlbumView = () => {
         body: imageFormData
       });
       if (!imageResponse.ok) throw new Error("Error al subir la imagen del álbum");
-      const { url: imageUrl } = await imageResponse.json();
+      const { image: imageUrl } = await imageResponse.json();
 
       // PASO 2: Se suben los datos del álbum en la BD
       const albumResponse = await fetch("http://localhost:8000/upload/albumData", {
@@ -137,12 +138,27 @@ const UploadAlbumView = () => {
         const fileFormData = new FormData();
         fileFormData.append("file", song.file)
 
+        const getDurationFromFile = (file: File): Promise<string> => {
+          return new Promise((resolve) => {
+            const url = URL.createObjectURL(file);
+            const audio = new Audio(url);
+            audio.onloadedmetadata = () => {
+              const durationInSeconds = audio.duration;
+              const formattedTime = `${Math.floor(durationInSeconds / 60)}:${Math.floor(durationInSeconds % 60).toString().padStart(2, '0')}`;
+              URL.revokeObjectURL(url);
+              resolve(formattedTime);
+            };
+          });
+        };
+
         const fileResponse = await fetch("http://localhost:8000/upload/songFile", {
           method: "POST",
           body: fileFormData
         });
         if (!fileResponse.ok) throw new Error(`Error al subir archivo: ${song.name}`);
-        const { file_url } = await fileResponse.json();
+        const { url: file_url } = await fileResponse.json();
+        
+        const trackLength = await getDurationFromFile(song.file);
 
         // PASO 3.2: Datos
         const songResponse = await fetch("http://localhost:8000/upload/songData", {
@@ -152,6 +168,7 @@ const UploadAlbumView = () => {
             album: albumId,
             genre: selectedGenreId,
             name: song.name,
+            trackLength: trackLength,
             url: file_url
           })
         })
@@ -256,13 +273,12 @@ const UploadAlbumView = () => {
             id="genero" 
             value={selectedGenreId}
             onChange={(e) => {
-              const selected = genres.find(g => g.id === e.target.value);
               setSelectedGenreId(e.target.value);
             }}
             required
           >
             {genres.map((genre) => (
-              <option key={genre.id} value={genre.type}>
+              <option key={genre.id} value={genre.id}>
                 {genre.type}
               </option>
             ))}
