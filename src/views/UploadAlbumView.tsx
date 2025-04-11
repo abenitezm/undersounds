@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import colors from "../app/colors";
 import { styled } from "styled-components";
@@ -66,10 +67,11 @@ const Select = styled.select`
 `;
 
 const UploadAlbumView = () => {
+  const router = useRouter();
+
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-  const [artist, setArtist] = useState("");
   const [image, setImage] = useState<File | null>(null);
   const [message, setMessage] = useState({ text: "", type: "" });
 
@@ -82,22 +84,12 @@ const UploadAlbumView = () => {
   const [genres, setGenres] = useState<{ id: string; type: string }[]>([]);
   const [selectedGenreId, setSelectedGenreId] = useState("");
 
-  const resetForm = () => {
-    setName("");
-    setDescription("");
-    setPrice("");
-    setArtist("");
-    setSelectedGenreId("");
-    setImage(null);
-    setSongs([]);
-  };
-
   const handleImageUpload = (file: File) => {
     setImage(file);
   };
 
   const handleSubmit = async () => {
-    if (!name || !artist || !selectedGenreId || !image || songs.length === 0) {
+    if (!name || !selectedGenreId || !image || songs.length === 0) {
       setMessage({ text: "Por favor completa todos los campos requeridos", type: "error" });
       return;
     }
@@ -117,6 +109,8 @@ const UploadAlbumView = () => {
       const { image: imageUrl } = await imageResponse.json();
 
       // PASO 2: Se suben los datos del álbum en la BD
+      const artist = localStorage.getItem("uid");
+
       const albumResponse = await fetch("http://localhost:8000/upload/albumData", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -175,7 +169,10 @@ const UploadAlbumView = () => {
         if (!songResponse.ok) throw new Error(`Error al registrar canción: ${song.name}`)
       }
       setMessage({ text: "Álbum y canciones subidos exitosamente", type: "success" });
-      resetForm();
+      localStorage.clear();
+      setTimeout(() => {
+        router.push("/");
+      }, 2000);
     }
     catch (error:any) {
       console.error("Error completo:", error);
@@ -252,18 +249,6 @@ const UploadAlbumView = () => {
             onChange={(e) => setPrice(e.target.value)}
             min="0"
             step="0.01"
-          />
-        </FormField>
-
-        <FormField>
-          <Label htmlFor="artista">Artista*</Label>
-          <Input 
-            id="artista" 
-            type="text" 
-            placeholder="Introduce el nombre del artista" 
-            value={artist}
-            onChange={(e) => setArtist(e.target.value)}
-            required
           />
         </FormField>
 

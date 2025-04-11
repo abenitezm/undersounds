@@ -215,7 +215,7 @@ async def upload_song_file(file: UploadFile = File(...)):
             if not file.filename.lower().endswith('.mp3'):
                   raise HTTPException(400, "Sólo se aceptan archivos MP3")
             
-            songs_dir = Path(__file__).parent.parent.parent / 'public' / 'localDB' / 'songs'
+            songs_dir = Path(__file__).parent.parent.parent / 'public' / 'localDB' / 'audios'
             songs_dir.mkdir(exist_ok=True)
 
             file_name = f"song_{datetime.now().timestamp()}.mp3"
@@ -242,7 +242,7 @@ async def upload_album_image(file: UploadFile = File(...)):
             with open(file_path, "wb") as f:
                   f.write(await file.read())
 
-            return {"url": str(Path('/albums') / file_name)}
+            return {"image": str(Path('/albums') / file_name)}
             
       except Exception as e:
             raise HTTPException(500, f"Error al subir el archivo: {str(e)}")
