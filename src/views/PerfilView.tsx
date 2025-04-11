@@ -12,6 +12,7 @@ import { Album } from "../views/components/AlbumReproducer";
 
 import SettingsIcon from "@mui/icons-material/Settings";
 import ShowChartIcon from "@mui/icons-material/ShowChart";
+import { useAuth } from "../views/components/AuthContext";
 import LogoutIcon from '@mui/icons-material/Logout';
 import PrimaryButton from "../views/components/PrimaryButton";
 import { useRegister } from "../views/components/RegisterContext";
@@ -197,6 +198,7 @@ const PerfilView = () => {
   const [artistas, setArtistas] = useState<Artista[]>([]);
   const [username, setUsername] = useState("");
   const { registerRole } = useRegister();
+  const { setUserRole } = useAuth();
   const [profileImage, setProfileImage] = useState<string>("https://i.pinimg.com/originals/7a/e7/c2/7ae7c223b094d4e57b4ea0d3ee519813.jpg");
 
   const toggleSeleccion = (index: number) => {
@@ -245,6 +247,7 @@ const PerfilView = () => {
       console.log("Datos recibidos", data);
       localStorage.clear();
       toast.success(`Has cerrado sesión correctamente`);
+      setUserRole("invitado");
       window.location.href = "/login";
 
     }catch (error) {

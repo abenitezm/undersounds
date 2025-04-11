@@ -186,18 +186,23 @@ export default function GridContent({
   const [expandir, setExpandir] = useState(false);
   const [validacionTienda, setValidacionTienda] = useState(false);
   const [imagenMerch, setImagenMerch] = useState("");
+  const [producto, setProducto] = useState<any>(undefined);
   const { userRole } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const enseñarMasContenido = expandir ? data : data.slice(0, 6);
 
   const { addToCart } = useShoppingCart();
 
+  const manejadorProducto = ( elemento : any ) => {
+    setProducto(elemento);
+  }
+
   const manejadorElementoMerch = (merchId: string) => {
     onMerchClick(merchId);
   };
 
   const manejadorImagen = (imagen: any) => {
-    setImagenMerch(`localDB/${imagen}`);
+    setImagenMerch(`localDB${imagen}`);
   };
 
     const manejadorValidador = () => {
@@ -230,6 +235,7 @@ export default function GridContent({
           onClick={() => {
             manejadorElementoMerch(elemento.id);
             manejadorImagen(elemento.image);
+            manejadorProducto(elemento);
           }}
         >
           <MerchImg src={`localDB${elemento.image}`} alt={elemento.name} />
@@ -301,7 +307,7 @@ export default function GridContent({
         <ShopValidator
           isOpen={validacionTienda}
           onClose={manejadorValidador}
-          imagen={imagenMerch}
+          elemento={producto}
         />
       )}
       <PrimaryButton

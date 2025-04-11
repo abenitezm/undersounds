@@ -110,7 +110,7 @@ const LoginView = () => {
   useEffect(() => {
     if ( localStorage.getItem("authToken") !== null ){ // Si el token ya está almacenado en cache no hay que iniciar sesión
       setUserRole("registrado");
-      console.log("registrado");
+      console.log(localStorage.getItem("authToken"));
       router.push("/Perfil");
     }
     if (registerRole === "artista") {

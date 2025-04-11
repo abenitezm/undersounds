@@ -105,7 +105,7 @@ const TextoStock = styled.div`
 type ShopValidatorpProps = {
   isOpen: boolean;
   onClose: () => void;
-  imagen: any;
+  elemento: any;
 };
 
 const InputStyled = styled.input<{ $errorInputs: boolean }>`
@@ -118,7 +118,7 @@ const InputStyled = styled.input<{ $errorInputs: boolean }>`
 export default function ShopValidator({
   isOpen,
   onClose,
-  imagen,
+  elemento,
 }: ShopValidatorpProps) {
   const [pasosValidacion, setPasosValidacion] = useState(0);
   const [stock, setStock] = useState(3);
@@ -127,7 +127,7 @@ export default function ShopValidator({
   const [errorInputs, setErrorInputs] = useState(false);
   const [transaccionCompletada, setTransaccionCompletada] = useState(false);
 
-  console.log("objeto imagen", imagen);
+  console.log("objeto imagen", elemento.image);
 
   const manejadorInputs = () => {
     if (!direccion || !telefono) {
@@ -136,7 +136,7 @@ export default function ShopValidator({
       setErrorInputs(!errorInputs);
       console.log(errorInputs);
     } else {
-      setPasosValidacion(2);
+      setPasosValidacion(pasosValidacion + 1);
     }
   };
 
@@ -174,7 +174,7 @@ export default function ShopValidator({
           >
             <h3>Has seleccionado el siguiente artículo</h3>
             <ImagenProducto
-              src={imagen.imagen}
+              src={`localDB${elemento.image}`}
               alt="imagen merch"
               style={{
                 width: "187px",
@@ -187,7 +187,7 @@ export default function ShopValidator({
             <BotonCerrar onClick={onClose}>✖</BotonCerrar>
             {stock > 0 ? (
               <div style={{ textAlign: "center" }}>
-                <TextoStock>Unidades disponibles : {stock}</TextoStock>
+                <TextoStock>Unidades disponibles : {elemento.stock}</TextoStock>
                 <motion.div
                   whileHover={{ scale: 1.2 }}
                   whileTap={{ scale: 0.8 }}
@@ -252,8 +252,7 @@ export default function ShopValidator({
           >
             <BotonCerrar onClick={onClose}>✖</BotonCerrar>
             <h2>Selección de método de pago</h2>
-            <button onClick={() => setPasosValidacion(3)}>Tarjeta</button>
-            <PayPalScriptProvider options={{ clientId: "test" }}>
+             <PayPalScriptProvider options={{ clientId: "AYAwXqAJot7CiysnEs46ER6Vs3anGRw19SZxP5kXSykHgSEDQotPPzPKc8lbLu-lxYYBpXpAmFEkkBzG" }}>
               <PayPalButtons
                 style={{ layout: "horizontal", borderRadius: 5 }}
                 createOrder={(datos, actions) => {
@@ -261,7 +260,7 @@ export default function ShopValidator({
                     intent: "CAPTURE",
                     purchase_units: [
                       {
-                        amount: { currency_code: "USD", value: imagen.price }, //Crea la unidad que quiero comprar
+                        amount: { currency_code: "USD", value: elemento.price}, //Crea la unidad que quiero comprar
                       },
                     ],
                   });
@@ -269,7 +268,11 @@ export default function ShopValidator({
                 onApprove={aprobadaTransferencia} //Captura la orden y confirma el pago
               />
             </PayPalScriptProvider>
-            <button onClick={() => setPasosValidacion(3)}>Transferencia</button>
+            <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
+              <BotonConfirmar onClick={manejadorInputs}>
+                Siguiente
+              </BotonConfirmar>
+            </motion.div>
           </ContenedorPasos>
         )}
         {pasosValidacion === 3 && (
@@ -280,8 +283,8 @@ export default function ShopValidator({
             variants={animacionPasos}
           >
             <h2>Resumen de compra</h2>
-            <p>Producto : {imagen.titulo}</p>
-            <p>Precio : {imagen.precio}</p>
+            <p>Producto : {elemento.name}</p>
+            <p>Precio : {elemento.price}</p>
 
             <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
               <BotonConfirmar
