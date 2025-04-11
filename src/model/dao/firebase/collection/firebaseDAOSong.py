@@ -1,5 +1,6 @@
 from ...interfaceDAOSong import InterfaceSongDAO
 from ....dto.songDTO import SongDTO, SongsDTO
+from firebase_admin import firestore
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
 
@@ -8,6 +9,7 @@ executor = ThreadPoolExecutor(max_workers=20)
 class FirebaseSongDAO(InterfaceSongDAO):
 
     def __init__(self, collection):
+        self.db = firestore.client()
         self.collection = collection
 
     async def async_get_refs(self, ref):
@@ -42,6 +44,16 @@ class FirebaseSongDAO(InterfaceSongDAO):
 
         return songs.songlist_to_json()
 
+    def add_song(self, song_data):
+        song_data["commentator"] = "@Anonimo"
+        song_data["comments"] = []
+        song_data['album'] = self.db.document(f"albums/{song_data['album']}")
+        song_data['genre'] = self.db.document(f"genreType/{song_data['genre']}")
+
+        doc_ref = self.collection.document()
+        doc_ref.set(song_data)
+
+        return doc_ref.id
 
     async def process_song(self, doc, song_data, album_task, genre_task):
         song_data = doc.to_dict()

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import styled from 'styled-components';
 import colors from '../../app/colors';
@@ -9,7 +9,7 @@ type Song = {
 };
 
 interface AddSongProps {
-  onSongsChange: (songs: Song[]) => void;
+  onSongsChange: (songs: { name: string; file: File }[]) => void;
 }
 
 const AddSong: React.FC<AddSongProps> = ({ onSongsChange }) => {
@@ -17,6 +17,13 @@ const AddSong: React.FC<AddSongProps> = ({ onSongsChange }) => {
   const [newSong, setNewSong] = useState<string>('');
   const [isAdding, setIsAdding] = useState<boolean>(false);
   const [currentIndex, setCurrentIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    const songsWithFiles = songs
+      .filter(song => song.file)
+      .map(song => ({ name: song.name, file: song.file as File }));
+    onSongsChange(songsWithFiles);
+  }, [songs, onSongsChange]);
 
   const handleAddSongClick = () => {
     setIsAdding(true);
@@ -32,7 +39,7 @@ const AddSong: React.FC<AddSongProps> = ({ onSongsChange }) => {
       setSongs(updatedSongs);
       setNewSong('');
       setIsAdding(false);
-      setCurrentIndex(updatedSongs.length - 1); // Mostrar input file justo después
+      setCurrentIndex(updatedSongs.length - 1);
     }
   };
 
@@ -41,7 +48,7 @@ const AddSong: React.FC<AddSongProps> = ({ onSongsChange }) => {
       i === index ? { ...song, file } : song
     );
     setSongs(updatedSongs);
-    setCurrentIndex(null); // Ocultar input file después de subirlo
+    setCurrentIndex(null);
   };
 
   return (
@@ -86,8 +93,6 @@ const AddSong: React.FC<AddSongProps> = ({ onSongsChange }) => {
     </Container>
   );
 };
-
-export default AddSong;
 
 const Container = styled.div`
   display: flex;
@@ -137,3 +142,5 @@ const FileName = styled.span`
   margin-top: 4px;
   margin-left: 2px;
 `;
+
+export default AddSong;

@@ -3,6 +3,10 @@ import styled from 'styled-components';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import colors from '../../app/colors';
 
+interface UploadAlbumImageProps {
+  onImageUpload: (file: File) => void;
+}
+
 const UploadBox = styled.label`
   width: 200px;
   height: 200px;
@@ -26,7 +30,7 @@ const HiddenInput = styled.input`
   display: none;
 `;
 
-const UploadAlbumImage = () => {
+const UploadAlbumImage: React.FC<UploadAlbumImageProps> = ({ onImageUpload }) => {
   const [image, setImage] = useState<string | null>(null);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,10 +41,10 @@ const UploadAlbumImage = () => {
         setImage(reader.result as string);
       };
       reader.readAsDataURL(file);
+      onImageUpload(file);
     }
   };
   
-
   return (
     <UploadBox style={{ backgroundImage: image ? `url(${image})` : "none" }}>
       {!image && <CameraAltIcon style={{ fontSize: 50 }} />}

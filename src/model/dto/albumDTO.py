@@ -22,6 +22,7 @@ class AlbumDTO():
         self.price = None
         self.genre = None
         self.uploadDate = None
+        self.genre = None
 
     def is_Empty(self):
         return (self.id is None and self.artist is None and self.description 
@@ -54,6 +55,9 @@ class AlbumDTO():
 
     def get_uploadDate(self):
         return self.uploadDate
+    
+    def get_genre(self):
+        return self.genre
 
     def set_id(self, id):
         self.id = id
@@ -78,6 +82,9 @@ class AlbumDTO():
 
     def set_uploadDate(self, uploadDate):
         self.uploadDate = uploadDate
+    
+    def set_genre(self, genre):
+        self.genre = genre
  
     def albumdto_to_dict(self):
         return {
@@ -89,5 +96,6 @@ class AlbumDTO():
             "genre": self.genre,
             "name": self.name,
             "price": self.price,
-            "uploadDate": self.uploadDate
+            "uploadDate": self.uploadDate,
+            "genre": self.genre,
         }

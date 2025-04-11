@@ -70,113 +70,131 @@ const UploadAlbumView = () => {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [artist, setArtist] = useState("");
-  const [genre, setGenre] = useState("");
   const [image, setImage] = useState<File | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState({ text: "", type: "" });
 
   const [songs, setSongs] = useState<{ 
-    name: string; 
-    file: File;
-    album: string;
-    commentator?: string;
-    comments?: string;
-    genre: string;
+    name: string;
     trackLength: string;
+    file: File;
   }[]>([]);
 
   const [genres, setGenres] = useState<{ id: string; type: string }[]>([]);
+  const [selectedGenreId, setSelectedGenreId] = useState("");
+
+  const resetForm = () => {
+    setName("");
+    setDescription("");
+    setPrice("");
+    setArtist("");
+    setSelectedGenreId("");
+    setImage(null);
+    setSongs([]);
+  };
 
   const handleImageUpload = (file: File) => {
     setImage(file);
   };
 
   const handleSubmit = async () => {
-    if (!name || !artist || !genre ) {
+    if (!name || !artist || !selectedGenreId || !image || songs.length === 0) {
       setMessage({ text: "Por favor completa todos los campos requeridos", type: "error" });
       return;
     }
 
-    setIsLoading(true);
     setMessage({ text: "", type: "" });
 
-    try {
-      // 1. Subir el álbum primero
-      const albumFormData = new FormData();
-      albumFormData.append("name", name);
-      albumFormData.append("description", description);
-      albumFormData.append("price", price);
-      albumFormData.append("artist", artist);
-      albumFormData.append("genre", genre);
-      if (image) {
-        albumFormData.append("image", image);
-      }
+    try{
+      // PASO 1: Se sube la imagen del álbum
+      const imageFormData = new FormData();
+      imageFormData.append("file", image);
 
-      const albumResponse = await fetch("http://localhost:8000/uploadalbum", {
+      const imageResponse = await fetch("http://localhost:8000/upload/albumImage", {
         method: "POST",
-        body: albumFormData,
+        body: imageFormData
       });
+      if (!imageResponse.ok) throw new Error("Error al subir la imagen del álbum");
+      const { image: imageUrl } = await imageResponse.json();
 
-      if (!albumResponse.ok) {
-        throw new Error("Error al subir el álbum");
-      }
+      // PASO 2: Se suben los datos del álbum en la BD
+      const albumResponse = await fetch("http://localhost:8000/upload/albumData", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          artist,
+          description,
+          genre: selectedGenreId,
+          image : imageUrl,
+          name,
+          price: parseFloat(price) || 0
+        })
+      })
+      if (!albumResponse.ok) throw new Error("Error al subir los datos del álbum");
+      const { id : albumId } = await albumResponse.json();
 
-      const albumResult = await albumResponse.json();
-      const albumId = albumResult.id;
-
-      // 2. Subir las canciones asociadas al álbum
+      // PASO 3: Se suben los ficheros y los datos de cada canción
       for (const song of songs) {
-        const songFormData = new FormData();
-        songFormData.append("name", song.name);
-        songFormData.append("album", albumId);
-        songFormData.append("genre", song.genre || genre);
-        songFormData.append("trackLength", song.trackLength || "0");
-        if (song.commentator) songFormData.append("commentator", song.commentator);
-        if (song.comments) songFormData.append("comments", song.comments);
-        songFormData.append("file", song.file);
+        // PASO 3.1: Archivo MP3
+        const fileFormData = new FormData();
+        fileFormData.append("file", song.file)
 
-        const songResponse = await fetch("http://localhost:8000/uploadsong", {
+        const getDurationFromFile = (file: File): Promise<string> => {
+          return new Promise((resolve) => {
+            const url = URL.createObjectURL(file);
+            const audio = new Audio(url);
+            audio.onloadedmetadata = () => {
+              const durationInSeconds = audio.duration;
+              const formattedTime = `${Math.floor(durationInSeconds / 60)}:${Math.floor(durationInSeconds % 60).toString().padStart(2, '0')}`;
+              URL.revokeObjectURL(url);
+              resolve(formattedTime);
+            };
+          });
+        };
+
+        const fileResponse = await fetch("http://localhost:8000/upload/songFile", {
           method: "POST",
-          body: songFormData,
+          body: fileFormData
         });
+        if (!fileResponse.ok) throw new Error(`Error al subir archivo: ${song.name}`);
+        const { url: file_url } = await fileResponse.json();
+        
+        const trackLength = await getDurationFromFile(song.file);
 
-        if (!songResponse.ok) {
-          throw new Error(`Error al subir la canción: ${song.name}`);
-        }
+        // PASO 3.2: Datos
+        const songResponse = await fetch("http://localhost:8000/upload/songData", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            album: albumId,
+            genre: selectedGenreId,
+            name: song.name,
+            trackLength: trackLength,
+            url: file_url
+          })
+        })
+        if (!songResponse.ok) throw new Error(`Error al registrar canción: ${song.name}`)
       }
-
-      setMessage({ text: "Álbum y canciones subidos correctamente", type: "success" });
-      // Reset form after successful upload
-      setName("");
-      setDescription("");
-      setPrice("");
-      setArtist("");
-      setGenre("");
-      setImage(null);
-      setSongs([]);
-    } catch (error: any) {
-      console.error("Error:", error);
-      setMessage({ text: error.message || "Ocurrió un error al subir el álbum", type: "error" });
-    } finally {
-      setIsLoading(false);
+      setMessage({ text: "Álbum y canciones subidos exitosamente", type: "success" });
+      resetForm();
     }
+    catch (error:any) {
+      console.error("Error completo:", error);
+      setMessage({
+        text: error.message || "Error en el proceso de creación",
+        type: "error"
+      });
+    } 
   };
 
   useEffect(() => {
     fetch("http://localhost:8000/getgenres")
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Error en la respuesta del servidor");
-        }
-        return res.json();
-      })
+      .then((res) => res.json())
       .then((data) => {
         setGenres(data);
-        if (data.length > 0) setGenre(data[0].type); // Set default genre
+        if(data.length > 0) {
+          setSelectedGenreId(data[0].id); //El primero es el predeterminado
+        }
       })
-      .catch((err) => {
-        console.error("Error cargando géneros:", err);
-      });
   }, []);
 
   return (
@@ -185,8 +203,6 @@ const UploadAlbumView = () => {
         <UploadAlbumImage onImageUpload={handleImageUpload} />
         <AddSong 
           onSongsChange={setSongs} 
-          genres={genres.map(g => g.type)} 
-          defaultGenre={genre}
         />
         {message.text && (
           <div style={{
@@ -198,7 +214,7 @@ const UploadAlbumView = () => {
           </div>
         )}
         <PrimaryButton
-          text={isLoading ? "Subiendo..." : "Publicar"}
+          text={"Publicar"}
           onClick={handleSubmit}
           style={{ 
             position: "absolute", 
@@ -207,7 +223,6 @@ const UploadAlbumView = () => {
             width: "calc(100% - 40px)"
           }}
           type="button"
-          disabled={isLoading}
         />
       </ColumnaIzquierda>
       <ColumnaDerecha>
@@ -256,12 +271,14 @@ const UploadAlbumView = () => {
           <Label htmlFor="genero">Género*</Label>
           <Select 
             id="genero" 
-            value={genre}
-            onChange={(e) => setGenre(e.target.value)}
+            value={selectedGenreId}
+            onChange={(e) => {
+              setSelectedGenreId(e.target.value);
+            }}
             required
           >
             {genres.map((genre) => (
-              <option key={genre.id} value={genre.type}>
+              <option key={genre.id} value={genre.id}>
                 {genre.type}
               </option>
             ))}
