@@ -4,20 +4,36 @@ import { useState } from "react";
 import colors from "../../app/colors";
 import styled from "styled-components";
 
-const PaymentForm = () => {
+const PaymentForm = ({ userData }) => {
   const [inputs, setInputs] = useState({
-    preferredPaymentMethod: "paypal",
-    cardNumber: "",
-    expirationDate: "",
-    cvc: "",
+    preferredPaymentMethod: userData.preferredPayment || "paypal",
+    cardNumber: userData.cardNumber || "",
+    expirationDate: userData.expirationDate || "",
+    cvc: userData.cvc || "",
   });
 
   const [changesSaved, setChangesSaved] = useState(false);
 
-  const validateFields = () => {
+  const saveSettings = async () => {
     console.log(inputs);
+    const response = await fetch(
+      `http://127.0.0.1:8000/updateuser/${userData.id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          preferredPayment: inputs.preferredPaymentMethod,
+          cardNumber: inputs.cardNumber,
+          expirationDate: inputs.expirationDate,
+          cvc: inputs.cvc,
+        }),
+      }
+    );
+    const data = await response.json();
+    console.log(data);
     setChangesSaved(true);
-
     setTimeout(() => {
       setChangesSaved(false);
     }, 3000);
@@ -36,13 +52,12 @@ const PaymentForm = () => {
     });
   };
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault(); // previene que recargue la página y perdamos la info
-    validateFields();
+  const submitForm = () => {
+    saveSettings();
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form>
       <SectionInfo>
         <SectionTitle>Método de pago</SectionTitle>
         <SectionSubtitle>Cambia tu método de pago</SectionSubtitle>
@@ -53,6 +68,7 @@ const PaymentForm = () => {
           style={{ ...styles.formInput, width: "20%" }}
           name="preferredPaymentMethod"
           onChange={handleChange}
+          defaultValue={inputs.preferredPaymentMethod}
         >
           <option value="paypal">PayPal</option>
           <option value="card">Tarjeta</option>
@@ -78,7 +94,7 @@ const PaymentForm = () => {
         <FormItem>
           <FormLabel>Fecha de caducidad</FormLabel>
           <input
-            style={{...styles.formInput, width: "100%"}}
+            style={{ ...styles.formInput, width: "100%" }}
             onChange={handleChange}
             type="month"
             name="expirationDate"
@@ -96,7 +112,9 @@ const PaymentForm = () => {
         </FormItem>
       </FormItemRow>
 
-      <Button type="submit">Guardar configuración</Button>
+      <Button onClick={submitForm} type="button">
+        Guardar configuración
+      </Button>
       {changesSaved && (
         <ConfirmMessage>¡Tus cambios se han guardado!</ConfirmMessage>
       )}

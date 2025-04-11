@@ -1,7 +1,7 @@
 "use client";
 
 import colors from "../app/colors";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AccountForm from "./components/AccountForm";
 import styled from "styled-components";
 import NotificationsForm from "./components/NotificationsForm";
@@ -12,13 +12,22 @@ const menuItems = ["Cuenta", "Notificaciones", "Método de pago"];
 
 const AccountView = () => {
   const [selected, setSelected] = useState("Cuenta");
+  const [userData, setUserData] = useState({});
 
   const uid = localStorage.getItem("uid");
-  const userRole = localStorage.getItem("userRole");
+  const role = localStorage.getItem("registerRole");
 
-  console.log("UID:", uid);
-  console.log("User Role:", userRole);
+  useEffect(()=>{
+    const fetchData = async () => {
+      const response = await fetch("http://127.0.0.1:8000/getuser/" + uid);
+      const data = await response.json();
+      setUserData(data);
+    };
+    fetchData();
+  }, [])
 
+
+  
   return (
     <main style={styles.main}>
       <h1>Configuración</h1>
@@ -33,7 +42,7 @@ const AccountView = () => {
               {item}
             </SideMenuItem>
           ))}
-          {userRole === "artista" && (
+          {role === "artista" && (
             <SideMenuItem
               $isSelected={selected === "Merch"}
               onClick={() => setSelected("Merch")}
@@ -43,10 +52,10 @@ const AccountView = () => {
           )}
         </SideMenu>
         <FormArea>
-          {selected === "Cuenta" && <AccountForm />}
-          {selected === "Notificaciones" && <NotificationsForm />}
-          {selected === "Método de pago" && <PaymentForm />}
-          {selected === "Merch" && <MerchForm />}
+          {selected === "Cuenta" && <AccountForm userData={userData} />}
+          {selected === "Notificaciones" && <NotificationsForm userData={userData}/>}
+          {selected === "Método de pago" && <PaymentForm userData={userData}/>}
+          {selected === "Merch" && <MerchForm userData={userData}/>}
         </FormArea>
       </div>
     </main>

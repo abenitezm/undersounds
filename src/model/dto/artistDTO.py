@@ -18,9 +18,13 @@ class ArtistDTO():
         self.image = None
         self.name = None
         self.info = None
+        self.location = None
+        self.website = None
+        self.emailForFans = None
 
     def is_Empty(self):
-        return (self.id is None and self.image is None and self.name is None and self.info is None)
+        return (self.id is None and self.image is None and self.name is None and self.info is None
+                and self.location is None and self.website is None and self.emailForFans is None)
 
     def get_id(self):
         return self.id
@@ -36,6 +40,16 @@ class ArtistDTO():
 
     def get_info(self):
         return self.info
+
+    def get_location(self):
+        return self.location
+    
+    def get_website(self):
+        return self.website
+    
+    def get_emailForFans(self):
+        return self.emailForFans
+
 
     def set_id(self, id):
         self.id = id
@@ -54,5 +68,8 @@ class ArtistDTO():
             "id": self.id,
             "image": self.image,
             "name": self.name,
-            "info": self.info
+            "info": self.info,
+            "location": self.location,
+            "website": self.website,
+            "emailForFans": self.emailForFans
         }
