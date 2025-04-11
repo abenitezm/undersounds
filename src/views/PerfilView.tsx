@@ -8,7 +8,7 @@ import data2 from "../assets/favoritos.json";
 import data3 from "../assets/siguiendo.json";
 import GridFavoritas from "../views/components/GridCancionesFavoritas";
 import GridSiguiendo from "../views/components/GridArtistasSiguiendo";
-import { Album } from "../views/components/AlbumReproducer";
+import Album from "../views/components/AlbumReproducer";
 
 import SettingsIcon from "@mui/icons-material/Settings";
 import ShowChartIcon from "@mui/icons-material/ShowChart";

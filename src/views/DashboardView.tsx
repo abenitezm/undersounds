@@ -1,6 +1,6 @@
 "use client";
 
-import { Album } from "@/views/components/Album";
+import Album from "@/views/components/Album";
 import colors from "../app/colors";
 import ActivityRow from "../views/components/ActivityRow";
 

@@ -53,7 +53,6 @@ const AlbumDashboard = ({ id }: { id: string }) => {
   >([]);
 
   useEffect(() => {
-    console.log(".");
     async function fetchData() {
       const response = await fetch(
         `http://127.0.0.1:8000/getartistalbums/${id}`
