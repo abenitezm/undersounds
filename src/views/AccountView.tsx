@@ -13,13 +13,9 @@ const menuItems = ["Cuenta", "Notificaciones", "Método de pago"];
 const AccountView = () => {
   const [selected, setSelected] = useState("Cuenta");
 
-  const token = localStorage.getItem("authToken");
-  const username = localStorage.getItem("username");
   const uid = localStorage.getItem("uid");
   const userRole = localStorage.getItem("userRole");
 
-  console.log("Token:", token);
-  console.log("Username:", username);
   console.log("UID:", uid);
   console.log("User Role:", userRole);
 

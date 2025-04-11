@@ -127,6 +127,7 @@ const SignUpView = () => {
 
     if( email && password ){
       console.log("Entro en la autentificacion");
+      localStorage.setItem("registerRole", registerRole);
       try {
         const response = await fetch("http://127.0.0.1:8000/login", {
           method: "POST",
