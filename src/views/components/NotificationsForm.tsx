@@ -22,6 +22,8 @@ const NotificationsForm = () => {
 
   const [changesSaved, setChangesSaved] = useState(false);
 
+  const userRole = localStorage.getItem("userRole");
+
   const validateFields = () => {
     console.log(inputs);
     setChangesSaved(true);
@@ -51,306 +53,314 @@ const NotificationsForm = () => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <SectionInfo>
-        <SectionTitle>Artistas</SectionTitle>
-        <SectionSubtitle>Notificaciones sobre tu música</SectionSubtitle>
-      </SectionInfo>
-      <FormItem>
-        <FormLabel>Recibir notificaciones al vender un álbum</FormLabel>
-        <FormItemRow>
-          <FormItem
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "flex-start",
-            }}
-          >
-            <FormLabel>Email</FormLabel>
-            <input
-              style={{
-                ...styles.formInput,
-                width: "auto",
-                marginLeft: 10,
-                resize: "none",
-              }}
-              onChange={handleChange}
-              type="checkbox"
-              name="sellAlbumEmail"
-              defaultChecked={inputs.sellAlbumEmail}
-            />
+      {userRole === "artista" ? (
+        <>
+          <SectionInfo>
+            <SectionTitle>Artistas</SectionTitle>
+            <SectionSubtitle>Notificaciones sobre tu música</SectionSubtitle>
+          </SectionInfo>
+          <FormItem>
+            <FormLabel>Recibir notificaciones al vender un álbum</FormLabel>
+            <FormItemRow>
+              <FormItem
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <FormLabel>Email</FormLabel>
+                <input
+                  style={{
+                    ...styles.formInput,
+                    width: "auto",
+                    marginLeft: 10,
+                    resize: "none",
+                  }}
+                  onChange={handleChange}
+                  type="checkbox"
+                  name="sellAlbumEmail"
+                  defaultChecked={inputs.sellAlbumEmail}
+                />
+              </FormItem>
+              <FormItem
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <FormLabel>Web</FormLabel>
+                <input
+                  style={{
+                    ...styles.formInput,
+                    width: "auto",
+                    marginLeft: 10,
+                    resize: "none",
+                  }}
+                  onChange={handleChange}
+                  type="checkbox"
+                  name="sellAlbumWeb"
+                  defaultChecked={inputs.sellAlbumWeb}
+                />
+              </FormItem>
+            </FormItemRow>
           </FormItem>
-          <FormItem
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "flex-start",
-            }}
-          >
-            <FormLabel>Web</FormLabel>
-            <input
-              style={{
-                ...styles.formInput,
-                width: "auto",
-                marginLeft: 10,
-                resize: "none",
-              }}
-              onChange={handleChange}
-              type="checkbox"
-              name="sellAlbumWeb"
-              defaultChecked={inputs.sellAlbumWeb}
-            />
+          <FormItem>
+            <FormLabel>Recibir notificaciones al vender merch</FormLabel>
+            <FormItemRow>
+              <FormItem
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <FormLabel>Email</FormLabel>
+                <input
+                  style={{
+                    ...styles.formInput,
+                    width: "auto",
+                    marginLeft: 10,
+                    resize: "none",
+                  }}
+                  onChange={handleChange}
+                  type="checkbox"
+                  name="sellMerchEmail"
+                  defaultChecked={inputs.sellMerchEmail}
+                />
+              </FormItem>
+              <FormItem
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <FormLabel>Web</FormLabel>
+                <input
+                  style={{
+                    ...styles.formInput,
+                    width: "auto",
+                    marginLeft: 10,
+                    resize: "none",
+                  }}
+                  onChange={handleChange}
+                  type="checkbox"
+                  name="sellMerchWeb"
+                  defaultChecked={inputs.sellMerchWeb}
+                />
+              </FormItem>
+            </FormItemRow>
           </FormItem>
-        </FormItemRow>
-      </FormItem>
-      <FormItem>
-        <FormLabel>Recibir notificaciones al vender merch</FormLabel>
-        <FormItemRow>
-          <FormItem
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "flex-start",
-            }}
-          >
-            <FormLabel>Email</FormLabel>
-            <input
-              style={{
-                ...styles.formInput,
-                width: "auto",
-                marginLeft: 10,
-                resize: "none",
-              }}
-              onChange={handleChange}
-              type="checkbox"
-              name="sellMerchEmail"
-              defaultChecked={inputs.sellMerchEmail}
-            />
+          <Separator />
+          <FormItem>
+            <FormLabel>Recibir notificaciones al recibir una reseña</FormLabel>
+            <FormItemRow>
+              <FormItem
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <FormLabel>Email</FormLabel>
+                <input
+                  style={{
+                    ...styles.formInput,
+                    width: "auto",
+                    marginLeft: 10,
+                    resize: "none",
+                  }}
+                  onChange={handleChange}
+                  type="checkbox"
+                  name="reviewEmail"
+                  defaultChecked={inputs.reviewEmail}
+                />
+              </FormItem>
+              <FormItem
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <FormLabel>Web</FormLabel>
+                <input
+                  style={{
+                    ...styles.formInput,
+                    width: "auto",
+                    marginLeft: 10,
+                    resize: "none",
+                  }}
+                  onChange={handleChange}
+                  type="checkbox"
+                  name="reviewWeb"
+                  defaultChecked={inputs.reviewWeb}
+                />
+              </FormItem>
+            </FormItemRow>
           </FormItem>
-          <FormItem
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "flex-start",
-            }}
-          >
-            <FormLabel>Web</FormLabel>
-            <input
-              style={{
-                ...styles.formInput,
-                width: "auto",
-                marginLeft: 10,
-                resize: "none",
-              }}
-              onChange={handleChange}
-              type="checkbox"
-              name="sellMerchWeb"
-              defaultChecked={inputs.sellMerchWeb}
-            />
-          </FormItem>
-        </FormItemRow>
-      </FormItem>
-      <Separator />
-      <FormItem>
-        <FormLabel>Recibir notificaciones al recibir una reseña</FormLabel>
-        <FormItemRow>
-          <FormItem
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "flex-start",
-            }}
-          >
-            <FormLabel>Email</FormLabel>
-            <input
-              style={{
-                ...styles.formInput,
-                width: "auto",
-                marginLeft: 10,
-                resize: "none",
-              }}
-              onChange={handleChange}
-              type="checkbox"
-              name="reviewEmail"
-              defaultChecked={inputs.reviewEmail}
-            />
-          </FormItem>
-          <FormItem
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "flex-start",
-            }}
-          >
-            <FormLabel>Web</FormLabel>
-            <input
-              style={{
-                ...styles.formInput,
-                width: "auto",
-                marginLeft: 10,
-                resize: "none",
-              }}
-              onChange={handleChange}
-              type="checkbox"
-              name="reviewWeb"
-              defaultChecked={inputs.reviewWeb}
-            />
-          </FormItem>
-        </FormItemRow>
-      </FormItem>
 
-      <FormItem>
-        <FormLabel>Recibir notificaciones cuando alguien te sigue</FormLabel>
-        <FormItemRow>
-          <FormItem
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "flex-start",
-            }}
-          >
-            <FormLabel>Email</FormLabel>
-            <input
-              style={{
-                ...styles.formInput,
-                width: "auto",
-                marginLeft: 10,
-                resize: "none",
-              }}
-              onChange={handleChange}
-              type="checkbox"
-              name="followEmail"
-              defaultChecked={inputs.followEmail}
-            />
+          <FormItem>
+            <FormLabel>
+              Recibir notificaciones cuando alguien te sigue
+            </FormLabel>
+            <FormItemRow>
+              <FormItem
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <FormLabel>Email</FormLabel>
+                <input
+                  style={{
+                    ...styles.formInput,
+                    width: "auto",
+                    marginLeft: 10,
+                    resize: "none",
+                  }}
+                  onChange={handleChange}
+                  type="checkbox"
+                  name="followEmail"
+                  defaultChecked={inputs.followEmail}
+                />
+              </FormItem>
+              <FormItem
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <FormLabel>Web</FormLabel>
+                <input
+                  style={{
+                    ...styles.formInput,
+                    width: "auto",
+                    marginLeft: 10,
+                    resize: "none",
+                  }}
+                  onChange={handleChange}
+                  type="checkbox"
+                  name="followWeb"
+                  defaultChecked={inputs.followWeb}
+                />
+              </FormItem>
+            </FormItemRow>
           </FormItem>
-          <FormItem
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "flex-start",
-            }}
-          >
-            <FormLabel>Web</FormLabel>
-            <input
-              style={{
-                ...styles.formInput,
-                width: "auto",
-                marginLeft: 10,
-                resize: "none",
-              }}
-              onChange={handleChange}
-              type="checkbox"
-              name="followWeb"
-              defaultChecked={inputs.followWeb}
-            />
-          </FormItem>
-        </FormItemRow>
-      </FormItem>
+        </>
+      ) : (
+        <>
+          <SectionInfo>
+            <SectionTitle>Oyentes</SectionTitle>
+            <SectionSubtitle>
+              Notificaciones sobre tus artistas favoritos
+            </SectionSubtitle>
+          </SectionInfo>
 
-      <SectionInfo>
-        <SectionTitle>Oyentes</SectionTitle>
-        <SectionSubtitle>
-          Notificaciones sobre tus artistas favoritos
-        </SectionSubtitle>
-      </SectionInfo>
-
-      <FormItem>
-        <FormLabel>
-          Recibir notificaciones cuando tus artistas suben música
-        </FormLabel>
-        <FormItemRow>
-          <FormItem
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "flex-start",
-            }}
-          >
-            <FormLabel>Email</FormLabel>
-            <input
-              style={{
-                ...styles.formInput,
-                width: "auto",
-                marginLeft: 10,
-                resize: "none",
-              }}
-              onChange={handleChange}
-              type="checkbox"
-              name="artistMusicEmail"
-              defaultChecked={inputs.artistMusicEmail}
-            />
+          <FormItem>
+            <FormLabel>
+              Recibir notificaciones cuando tus artistas suben música
+            </FormLabel>
+            <FormItemRow>
+              <FormItem
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <FormLabel>Email</FormLabel>
+                <input
+                  style={{
+                    ...styles.formInput,
+                    width: "auto",
+                    marginLeft: 10,
+                    resize: "none",
+                  }}
+                  onChange={handleChange}
+                  type="checkbox"
+                  name="artistMusicEmail"
+                  defaultChecked={inputs.artistMusicEmail}
+                />
+              </FormItem>
+              <FormItem
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <FormLabel>Web</FormLabel>
+                <input
+                  style={{
+                    ...styles.formInput,
+                    width: "auto",
+                    marginLeft: 10,
+                    resize: "none",
+                  }}
+                  onChange={handleChange}
+                  type="checkbox"
+                  name="artistMusicWeb"
+                  defaultChecked={inputs.artistMusicWeb}
+                />
+              </FormItem>
+            </FormItemRow>
           </FormItem>
-          <FormItem
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "flex-start",
-            }}
-          >
-            <FormLabel>Web</FormLabel>
-            <input
-              style={{
-                ...styles.formInput,
-                width: "auto",
-                marginLeft: 10,
-                resize: "none",
-              }}
-              onChange={handleChange}
-              type="checkbox"
-              name="artistMusicWeb"
-              defaultChecked={inputs.artistMusicWeb}
-            />
+          <FormItem>
+            <FormLabel>
+              Recibir notificaciones cuando un artista tiene descuentos
+            </FormLabel>
+            <FormItemRow>
+              <FormItem
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <FormLabel>Email</FormLabel>
+                <input
+                  style={{
+                    ...styles.formInput,
+                    width: "auto",
+                    marginLeft: 10,
+                    resize: "none",
+                  }}
+                  onChange={handleChange}
+                  type="checkbox"
+                  name="artistDiscountEmail"
+                  defaultChecked={inputs.artistDiscountEmail}
+                />
+              </FormItem>
+              <FormItem
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <FormLabel>Web</FormLabel>
+                <input
+                  style={{
+                    ...styles.formInput,
+                    width: "auto",
+                    marginLeft: 10,
+                    resize: "none",
+                  }}
+                  onChange={handleChange}
+                  type="checkbox"
+                  name="artistDiscountWeb"
+                  defaultChecked={inputs.artistDiscountWeb}
+                />
+              </FormItem>
+            </FormItemRow>
           </FormItem>
-        </FormItemRow>
-      </FormItem>
-      <FormItem>
-        <FormLabel>
-          Recibir notificaciones cuando un artista tiene descuentos
-        </FormLabel>
-        <FormItemRow>
-          <FormItem
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "flex-start",
-            }}
-          >
-            <FormLabel>Email</FormLabel>
-            <input
-              style={{
-                ...styles.formInput,
-                width: "auto",
-                marginLeft: 10,
-                resize: "none",
-              }}
-              onChange={handleChange}
-              type="checkbox"
-              name="artistDiscountEmail"
-              defaultChecked={inputs.artistDiscountEmail}
-            />
-          </FormItem>
-          <FormItem
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "flex-start",
-            }}
-          >
-            <FormLabel>Web</FormLabel>
-            <input
-              style={{
-                ...styles.formInput,
-                width: "auto",
-                marginLeft: 10,
-                resize: "none",
-              }}
-              onChange={handleChange}
-              type="checkbox"
-              name="artistDiscountWeb"
-              defaultChecked={inputs.artistDiscountWeb}
-            />
-          </FormItem>
-        </FormItemRow>
-      </FormItem>
+        </>
+      )}
 
       <Button type="submit">Guardar configuración</Button>
       {changesSaved && (
@@ -438,7 +448,6 @@ const ConfirmMessage = styled.span`
   color: ${colors.secondary};
   margin: 0 auto;
 `;
-
 
 const styles = {
   formInput: {

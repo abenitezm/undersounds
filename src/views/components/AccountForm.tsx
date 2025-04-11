@@ -29,7 +29,7 @@ const AccountForm = () => {
     securePassword: "",
     bio: "",
     location: "",
-    websites: "",
+    website: "",
     accountEmail: "",
     emailForFans: "",
     preferredLanguage: "",
@@ -48,6 +48,8 @@ const AccountForm = () => {
   });
 
   const [changesSaved, setChangesSaved] = useState(false);
+
+  const userRole = localStorage.getItem("userRole");
 
   const validateFields = () => {
     let allFieldsValid = true;
@@ -231,52 +233,55 @@ const AccountForm = () => {
           </ErrorMessages>
         </FormItem>
       </div>
+      {userRole === "artista" && (
+        <>
+          <SectionInfo>
+            <SectionTitle>Información adicional</SectionTitle>
+            <SectionSubtitle>¡Cuéntales algo de ti a tus fans!</SectionSubtitle>
+          </SectionInfo>
 
-      <SectionInfo>
-        <SectionTitle>Información adicional</SectionTitle>
-        <SectionSubtitle>¡Cuéntales algo de ti a tus fans!</SectionSubtitle>
-      </SectionInfo>
+          <FormItem>
+            <FormLabel>Biografía</FormLabel>
+            <textarea
+              style={styles.formInput}
+              onChange={handleChange}
+              name="bio"
+              rows={5}
+            />
+          </FormItem>
+          <FormItem>
+            <FormLabel>Email para fans</FormLabel>
+            <input
+              style={styles.formInput}
+              onChange={handleChange}
+              type="email"
+              name="emailForFans"
+            />
+            <ErrorMessages>
+              {errors.fanEmailRegex && errorMessages.fanEmailRegex}
+            </ErrorMessages>
+          </FormItem>
+          <FormItem>
+            <FormLabel>Localización</FormLabel>
+            <input
+              style={styles.formInput}
+              onChange={handleChange}
+              type="text"
+              name="location"
+            />
+          </FormItem>
 
-      <FormItem>
-        <FormLabel>Biografía</FormLabel>
-        <textarea
-          style={styles.formInput}
-          onChange={handleChange}
-          name="bio"
-          rows={5}
-        />
-      </FormItem>
-      <FormItem>
-        <FormLabel>Email para fans</FormLabel>
-        <input
-          style={styles.formInput}
-          onChange={handleChange}
-          type="email"
-          name="emailForFans"
-        />
-        <ErrorMessages>
-          {errors.fanEmailRegex && errorMessages.fanEmailRegex}
-        </ErrorMessages>
-      </FormItem>
-      <FormItem>
-        <FormLabel>Localización</FormLabel>
-        <input
-          style={styles.formInput}
-          onChange={handleChange}
-          type="text"
-          name="location"
-        />
-      </FormItem>
-
-      <FormItem>
-        <FormLabel>Sitio web</FormLabel>
-        <input
-          style={styles.formInput}
-          onChange={handleChange}
-          type="text"
-          name="website"
-        />
-      </FormItem>
+          <FormItem>
+            <FormLabel>Sitio web</FormLabel>
+            <input
+              style={styles.formInput}
+              onChange={handleChange}
+              type="text"
+              name="website"
+            />
+          </FormItem>
+        </>
+      )}
 
       <SectionInfo>
         <SectionTitle>Preferencias</SectionTitle>

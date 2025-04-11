@@ -8,10 +8,20 @@ import NotificationsForm from "./components/NotificationsForm";
 import PaymentForm from "./components/PaymentForm";
 import MerchForm from "./components/MerchForm";
 
-const menuItems = ["Cuenta", "Notificaciones", "Método de pago", "Merch"];
+const menuItems = ["Cuenta", "Notificaciones", "Método de pago"];
 
 const AccountView = () => {
   const [selected, setSelected] = useState("Cuenta");
+
+  const token = localStorage.getItem("authToken");
+  const username = localStorage.getItem("username");
+  const uid = localStorage.getItem("uid");
+  const userRole = localStorage.getItem("userRole");
+
+  console.log("Token:", token);
+  console.log("Username:", username);
+  console.log("UID:", uid);
+  console.log("User Role:", userRole);
 
   return (
     <main style={styles.main}>
@@ -27,6 +37,14 @@ const AccountView = () => {
               {item}
             </SideMenuItem>
           ))}
+          {userRole === "artista" && (
+            <SideMenuItem
+              $isSelected={selected === "Merch"}
+              onClick={() => setSelected("Merch")}
+            >
+              Merch
+            </SideMenuItem>
+          )}
         </SideMenu>
         <FormArea>
           {selected === "Cuenta" && <AccountForm />}
