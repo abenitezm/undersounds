@@ -340,7 +340,9 @@ def users_registrados(data : dict = Body(...)):
       try:
             user_docs = list(db.collection("users").where(
                   filter=FieldFilter("email", "==", email)
-            ).stream())
+            )
+            .where(filter=FieldFilter("password", "==", password))
+            .stream())
 
             user_exists = len(user_docs) > 0
             print("¿Usuario existe?", user_exists)
@@ -373,7 +375,8 @@ def users_registrados(data : dict = Body(...)):
                         "token": id_token,
                         "role": "registrado",
                         "username": email_name,
-                        "uid": uid
+                        "uid": uid,
+                        "password": password
                   }
 
             else:
@@ -424,7 +427,7 @@ async def login_user(data : dict = Body(...)):
                   user_data = signup_response.json()
             else:
                   user_data = response.json()
-            print("Hola")
+
             uid = user_data["localId"]
             print("uid: ", uid)
             id_token = user_data["idToken"]
@@ -442,6 +445,7 @@ async def login_user(data : dict = Body(...)):
                         "username": email_name,
                         "created_at": firestore.SERVER_TIMESTAMP,
                         "register_role" : registerRole,
+                        "password": password,
                   })
 
             # Si el que se registra es Artista
@@ -463,7 +467,8 @@ async def login_user(data : dict = Body(...)):
                   "token": id_token,
                   "role": user_doc.get("role", "registrado"),
                   "username": email_name,
-                  "uid": uid
+                  "uid": uid,
+                  "password": password
             }
 
       except Exception as e:
