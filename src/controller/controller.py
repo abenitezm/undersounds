@@ -474,7 +474,7 @@ def users_registrados(data : dict = Body(...)):
             .stream())
 
             if user_docs:
-                  user_data = user_docs.to_dict()
+                  user_data = user_docs[0].to_dict()
                   user_role = user_data.get("register_role", "registrado")  # valor por defecto si no existe
                   print("User Role:", user_role)
 

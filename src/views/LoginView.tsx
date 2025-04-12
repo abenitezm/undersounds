@@ -91,6 +91,9 @@ const LoginView = () => {
       console.log("Cargo");
       const { token, role, username, uid, pass, registerRole } = data;
 
+      setValidToken(token);
+
+
       // Guardamos el token localmente si quieres usarlo en peticiones futuras
       localStorage.setItem("authToken", token);
       localStorage.setItem("userRole", role);
@@ -98,8 +101,6 @@ const LoginView = () => {
       localStorage.setItem("uid", uid);
       localStorage.setItem("password", pass); // Password registrada en el user.
       localStorage.setItem("registerRole", registerRole);
-
-      setValidToken(token);
 
       toast.success(`Bienvenido de nuevo ${role}`);
       if ( uid !== undefined ){
