@@ -16,7 +16,7 @@ const IconosCompartirLike = styled.div`
 
 `;
 
-export default function CopiarEnlaceNavegacion({url} : { url : string}){
+export default function CopiarEnlaceNavegacion({url, songID} : { url : string, songID : string}){
     /* Almacenamiento de la ruta */
     const [ ruta, setRuta ] = useState(""); //Donde se guarda la URL
     const router = useRouter();
@@ -87,6 +87,24 @@ export default function CopiarEnlaceNavegacion({url} : { url : string}){
 
     const añadirFavoritos = async () => {
         try {
+            // Enviamos al backend la cancion que el usuario ha marcado como favortia
+            const uid = localStorage.getItem("uid");
+            const response = await fetch("http://127.0.0.1:8000/favoritos", {
+                method : "POST",
+                headers : {
+                    "Content-Type": "application/json"
+                },
+                body : JSON.stringify({ 
+                    songID,
+                    uid, 
+                }),
+            });
+
+            if ( !response.ok ) {
+                throw new Error("Error al guardar favorito");
+            }
+
+            // Mostramos al usuario que se ha añadido a favoritos su canción
             setClicked(true);
             toast.success("❤️ Añadido a canciones que te gustan", {
                 position: "bottom-center",

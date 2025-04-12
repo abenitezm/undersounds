@@ -396,7 +396,7 @@ export default function AlbumReproducer( { album } : AlbumReproducerProps ) {
             onClick={() => reproducirSong()}>
                 <span>{album.name} - {album.trackLength}</span>
             </ListaCanciones>
-            { userRole === "registrado" && <CopiarEnlaceNavegacion url={album?.url || ''}/>}
+            { userRole === "registrado" && <CopiarEnlaceNavegacion url={album?.url || ''} songID={album?.id}/>}
             <ArtistCard album={album}/>
         </ReproducerContainer>
     );

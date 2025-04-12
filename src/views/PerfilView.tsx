@@ -215,6 +215,28 @@ const PerfilView = () => {
     }
     fetchInfo();
   } , []);
+  
+  // Util para obtener las canciones facvoritas
+  useEffect(() => {
+    const uid = localStorage.getItem("uid");
+    console.log("uid", uid);
+    const fetchFavoritos = async () => {
+      const response = await fetch(`http://127.0.0.1:8000/favoritos/${uid}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if ( response.ok ){
+        const data = await response.json();
+        console.log("Favoritos", data);
+        return data;
+      } else {
+        console.error("Error al obtener favoritos")
+      }
+    }
+    fetchFavoritos();
+  }, []);
 
   const toggleSeleccion = (index: number) => {
     setSelectedButton(index); // Cambia el botón seleccionado

@@ -1,12 +1,23 @@
 "use client";
 
 import colors from "./colors";
-import { CSSProperties } from "react";
+import { CSSProperties, useEffect } from "react";
 import FancyButton from "../views/components/FancyButton";
 import HomeGrid from "../views/components/HomeGrid";
 import Novedades from "../views/components/Novedades";
 
+
+
 export default function Home() {
+  // Sirve para eliminar la info almacenada en localStorage cuando cargas por primera vez la página en el navegado
+  useEffect(() => {
+    // Si no existe la marca en esta sesión, es la primera carga de la página
+    if ( !sessionStorage.getItem("yaCargado") ){
+      localStorage.clear();
+      sessionStorage.setItem("yaCargado", "true");
+    }
+  }, []);
+
   return (
     <>
       <HomeGrid />

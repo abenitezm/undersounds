@@ -116,6 +116,72 @@ async def getsongs(request: Request):
       songs = await model.get_songs()
       return songs
 
+# Metodo para meter un campo a users que sea un array de canciones que ha seleccionado como favoritas
+@app.post("/favoritos")
+def añadir_favoritos(data: dict = Body(...)):
+    song_id = data.get("songID")
+    uid = data.get("uid")
+    if not song_id:
+        raise HTTPException(status_code=400)
+    
+    user_ref = db.collection("users").document(uid)
+    user_ref.update({
+        "favoritos": firestore.ArrayUnion([song_id])
+    })
+    return {"message": f"{song_id} añadido a favoritos"}
+
+@app.get("/favoritos/{uid}")
+async def obtener_Favoritos(uid : str):
+      try:
+            # Obtener las canciones favoritas del usuario
+            user_ref = db.collection("users").document(uid)
+            user_data = user_ref.get()
+            print(user_data)
+
+            if not user_data.exists:
+                  raise HTTPException(status_code=404, detail="Usuario no encontrado")
+
+            favoritos = user_data.to_dict().get("favoritos", [])
+            if not favoritos:
+                  return {"message": "No tienes canciones favoritas"}
+
+            canciones_favoritas = []
+
+            for song_id in favoritos:
+                  song_ref = db.collection("songs").document(song_id)
+                  song_data = song_ref.get()
+
+                  if not song_data.exists:
+                        continue # Si no existe esa canción, pasamos a la siguiente almacenada en favoritos
+                  
+                  song = song_data.to_dict()
+
+                  # Recuperamos los albumes asociados a las canciones
+                  album_id = song.get("album")
+                  if album:
+                        album_ref = db.collection("albums").document(album_id)
+                        album_data = album_ref.get()
+
+                        if album_data.exists:
+                              album = album_data.to_dict()
+                              image_url = album.get("image")
+                        else:
+                              image_url = None
+                  else:
+                        image_url = None
+                  
+                  canciones_favoritas.append({
+                        "songID": song_id,
+                        "songTitle": seng.get("title"),
+                        "albumID": album_id,
+                        "imageURL": image_url
+                  })
+            
+            return {"favoritos": canciones_favoritas}
+      
+      except Exception as e:
+            raise HTTPException(500, "Error al obtener los favoritos")
+
 @app.get("/get_album_songs/{album_id}")
 async def get_album_songs(request: Request, album_id: str):
       songs_str = await model.get_songs()
