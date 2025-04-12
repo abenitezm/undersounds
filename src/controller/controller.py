@@ -130,6 +130,113 @@ def añadir_favoritos(data: dict = Body(...)):
     })
     return {"message": f"{song_id} añadido a favoritos"}
 
+@app.post("/siguiendo")
+async def seguir_artista(data: dict = Body(...)):
+      try:
+            # Obtener el UID del usuario y los datos del álbum y artista desde la petición
+            uid = data.get("uid")
+            album = data.get("album")  # Esto ya está en el formato correcto en el JSON
+            artist_name = album.get('artistName')  # Accedemos al nombre del artista
+
+            if not uid or not album:
+                  raise HTTPException(status_code=400, detail="UID y álbum son requeridos")
+
+            # Paso 1: Obtener el ID del álbum desde el objeto 'album'
+            album_id = album.get("album")  # El ID del álbum
+            if not album_id:
+                  raise HTTPException(status_code=404, detail="Álbum no encontrado")
+
+            # Paso 2: Obtener la referencia del álbum desde Firestore
+            album_ref = db.collection("albums").document(album_id)
+            album_data = album_ref.get()
+
+            if not album_data.exists:
+                  raise HTTPException(status_code=404, detail="Álbum no encontrado")
+
+            # Paso 3: Obtener la referencia del artista (basado en el 'artistName' u otro campo si necesario)
+            artist_id = album_data.to_dict().get("artist")  # El ID del artista en el álbum
+
+            if not artist_id:
+                  raise HTTPException(status_code=404, detail="Artista no encontrado en el álbum")
+
+            # Paso 4: Añadir el artista a la lista de seguidos del usuario
+            user_ref = db.collection("users").document(uid)
+            user_data = user_ref.get()
+
+            if not user_data.exists:
+                  raise HTTPException(status_code=404, detail="Usuario no encontrado")
+
+            # Obtener la lista de artistas seguidos (si existe)
+            followed_artists = user_data.to_dict().get("followed_artists", [])
+
+            # Si el artista ya está en la lista de seguidos, no hacer nada
+            if artist_id in followed_artists:
+                  return {"message": "Este artista ya está en tu lista de seguidos"}
+
+            # Añadir el nuevo artista a la lista de seguidos
+            # Si seguimos al artista (siguiendo es true), lo añadimos al array
+            if data.get('siguiendo', True):
+                  if artist_id not in followed_artists:
+                        followed_artists.append(artist_id)
+                        user_ref.update({"followed_artists": followed_artists})
+                        return {"message": f"Artista {artist_name} añadido a tu lista de seguidos"}
+
+            # Si dejamos de seguir al artista (siguiendo es false), lo eliminamos del array
+            else:
+                  if artist_id in followed_artists:
+                        followed_artists.remove(artist_id)
+                        user_ref.update({"followed_artists": followed_artists})
+                        return {"message": f"Artista {artist_name} eliminado de tu lista de seguidos"}
+            # Actualizar la lista de artistas seguidos en Firestore
+            user_ref.update({
+                  "followed_artists": followed_artists
+            })
+
+            return {"message": f"Artista {artist_name} añadido a tu lista de seguidos"}
+
+      except Exception as e:
+            raise HTTPException(status_code=500, detail="Error al seguir al artista")
+
+@app.get("/siguiendo/{uid}")
+async def obtener_siguiendo(request: Request, uid: str):
+      try:
+            user_ref = db.collection("users").document(uid)
+            user_data = user_ref.get()
+
+            if not user_data.exists:
+                  raise HTTPException(status_code=404, detail="Usuario no encontrado")
+            
+            seguidores_refs = user_data.to_dict().get("followed_artists", [])
+            if not seguidores_refs:
+                  return {"message": "No sigues a ningún artista aún"}
+
+            artistas_seguidos = []
+
+            for artist_ref in seguidores_refs:
+                  # Si es un DocumentReference, extraemos el ID
+                  artist_id = artist_ref.id if hasattr(artist_ref, 'id') else artist_ref
+                  artist_data = db.collection("artists").document(artist_id).get()
+
+                  if not artist_data.exists:
+                        continue
+                  
+                  artist = artist_data.to_dict()
+                  artistas_seguidos.append({
+                  "artistID": artist_id,
+                  "artistName": artist.get("name"),
+                  "artistImage": artist.get("image")
+                  })
+            
+            return {"artistasSeguidos": artistas_seguidos}
+
+      except Exception as e:
+            print("Error:", e)
+            raise HTTPException(status_code=500, detail="Error al obtener artistas seguidos")
+
+
+
+
+
 @app.get("/favoritos/{uid}")
 async def obtener_Favoritos(request : Request, uid : str):
       try:

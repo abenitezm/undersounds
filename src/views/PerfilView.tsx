@@ -196,7 +196,7 @@ const PerfilView = () => {
   const [selectedButton, setSelectedButton] = useState(0); // Mantener el botón seleccionado
   const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
   const [userData, setUserData] = useState({});
-  const [artistas, setArtistas] = useState<Artista[]>([]);
+  const [artistas, setArtistas] = useState<any[]>([]);
   const [favoritos, setFavoritos] = useState<any[]>([]);
   const [username, setUsername] = useState("");
   const { registerRole, setRegisterRole } = useRegister();
@@ -238,6 +238,29 @@ const PerfilView = () => {
     }
     fetchFavoritos();
   }, []);
+
+  // Util para obtener los artistas que está siguiendo
+  useEffect(() => {
+    const uid = localStorage.getItem("uid");
+    console.log("uid", uid);
+    const fetchSeguidores = async () => {
+      const response = await fetch("http://127.0.0.1:8000/siguiendo/" + uid, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if ( response.ok ){
+        const data = await response.json();
+        console.log("Artistas", data);
+        setArtistas(data.artistasSeguidos);
+      } else {
+        console.error("Error al obtener artistas")
+      }
+    }
+    fetchSeguidores();
+  }, []);
+
 
   const toggleSeleccion = (index: number) => {
     setSelectedButton(index); // Cambia el botón seleccionado
@@ -360,7 +383,7 @@ const PerfilView = () => {
           />
         )}
         {selectedButton === 1 && (
-          <GridSiguiendo data={data3} /*onAlbumClick={manejadorAlbum}*/ />
+          <GridSiguiendo data={artistas} /*onAlbumClick={manejadorAlbum}*/ />
         )}
       </div>
 

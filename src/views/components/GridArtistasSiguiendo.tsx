@@ -1,6 +1,6 @@
 'use client';
 
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import colors from "../../app/colors";
 import Link from "next/link";
@@ -76,19 +76,26 @@ const GridSiguiendo = ({ data } : GridComponentProps) => {
        // onAlbumClick(albumId);
     };
 
+    useEffect(() => {
+        console.log("Data",data);
+    })
+
     return (
         /* Contenedor de la cuadrícula */
         <GridContainer>
             {/* Recorremos los datos del JSON para mostrar su contenido */}
-            {data.map((elemento: any) => (
-                <GridItem key={elemento.id} onClick={() => manejadorElementoMostrado(elemento.id)}>
-                <Link href={`/artist/${elemento.artista}`}>
-                <ArtistImg src={elemento.imagen} alt={elemento.artista} />
-                <Title>{elemento.artista}</Title>
-                <Oyentes>{elemento.oyentes} oyentes mensuales</Oyentes>
-                </Link>
-                </GridItem>
-            ))}
+            {Array.isArray(data) ? (
+                data.map((elemento: any) => (
+                    <GridItem key={elemento.id} onClick={() => manejadorElementoMostrado(elemento.id)}>
+                    <Link href={`/artist/${elemento.artistName}`}>
+                    <ArtistImg src={`localDB${elemento.artistImage}`} alt={elemento.artistName} />
+                    <Title>{elemento.artistName}</Title>
+                    </Link>
+                    </GridItem>
+                ))
+            ) : (
+                <p>No tienes artistas siguiendo.</p>
+            )}
         </GridContainer>
     );
 }

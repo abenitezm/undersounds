@@ -1,7 +1,7 @@
 'use client';
 import styled from "styled-components";
 import colors from "../../app/colors";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CancionesConAlbumFirebase } from "./AlbumReproducer";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Link from "next/link";
@@ -201,6 +201,34 @@ export default function ArtistCard( {album} : { album : CancionesConAlbumFirebas
     const [siguiendo, setSiguiendo] = useState(false);
     const [addComment, setAddComment] = useState(false);
 
+    const manejadorSeguir = async () => {
+        try{
+            setSiguiendo(!siguiendo);   
+            const uid = localStorage.getItem("uid");
+            const response = await fetch("http://127.0.0.1:8000/siguiendo",{
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    album,
+                    uid,
+                    siguiendo,
+                })
+            });
+
+            if ( !response.ok ){
+                throw new Error("Error al seguir a artista");
+            }
+        } catch ( err ){
+                console.error("Error al seguir");
+        }
+    };
+
+    useEffect(() => {
+        setSiguiendo(false);
+    }, [album]);
+
     return (
         <ArtistCardContainer>
             <Link href={`artist/${album.artistName}`}><ArtistImageContainer $imageurl = {`localDB/${album.artistImage}`}>
@@ -210,7 +238,7 @@ export default function ArtistCard( {album} : { album : CancionesConAlbumFirebas
                 <Link href={`artist/${album.artistName}`}><ArtistName>{album.artistName}</ArtistName></Link>
                 <p className="followers">Añadir oyentes mensuales con API Spotify{/*{album.oyentes}*/}</p>
                 <AnimatedSeguirButton>
-                    <Button  onClick={ () => setSiguiendo(!siguiendo)}>
+                    <Button  onClick={ () => manejadorSeguir()}>
                         <FavoriteIcon />
                         {siguiendo ? "Siguiendo" : "Seguir"}
                     </Button>
