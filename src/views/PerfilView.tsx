@@ -197,6 +197,7 @@ const PerfilView = () => {
   const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
   const [userData, setUserData] = useState({});
   const [artistas, setArtistas] = useState<Artista[]>([]);
+  const [favoritos, setFavoritos] = useState<any[]>([]);
   const [username, setUsername] = useState("");
   const { registerRole, setRegisterRole } = useRegister();
   const { setUserRole } = useAuth();
@@ -221,7 +222,7 @@ const PerfilView = () => {
     const uid = localStorage.getItem("uid");
     console.log("uid", uid);
     const fetchFavoritos = async () => {
-      const response = await fetch(`http://127.0.0.1:8000/favoritos/${uid}`, {
+      const response = await fetch("http://127.0.0.1:8000/favoritos/" + uid, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -230,7 +231,7 @@ const PerfilView = () => {
       if ( response.ok ){
         const data = await response.json();
         console.log("Favoritos", data);
-        return data;
+        setFavoritos(data.favoritos);
       } else {
         console.error("Error al obtener favoritos")
       }
@@ -355,7 +356,7 @@ const PerfilView = () => {
         {/* Mostrar el Grid correspondiente al botón seleccionado */}
         {selectedButton === 0 && (
           <GridFavoritas
-            data={data2 as Cancion[]} /*onAlbumClick={manejadorAlbum}*/
+            data={favoritos} /*onAlbumClick={manejadorAlbum}*/
           />
         )}
         {selectedButton === 1 && (

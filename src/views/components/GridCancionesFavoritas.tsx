@@ -1,6 +1,6 @@
 'use client';
 
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import colors from "../../app/colors";
 import Link from "next/link";
@@ -75,20 +75,23 @@ const GridFavoritas = ({ data, }: GridComponentProps) => {
        // onAlbumClick(albumId);
     };
 
+    
+
     return (
         /* Contenedor de la cuadrícula */
         <GridContainer>
-            {/* Recorremos los datos del JSON para mostrar su contenido */}
-            {data.map((elemento: any) => (
-                <GridItem key={elemento.id} onClick={() => manejadorElementoMostrado(elemento.id)}>
-                     <Link href={`/artist/${elemento.artista}`}>
-                    <SongImg src={elemento.imagen} alt={elemento.titulo} />
-                    <Title>{elemento.titulo}</Title>
-                    <Genre>{elemento.genre}</Genre>
-                    <ArtistName>{elemento.artista}</ArtistName>
-                    </Link>
-                </GridItem>
-            ))}
+        {/* Verifica que data sea un array antes de intentar mapearlo */}
+        {Array.isArray(data) ? (
+            data.map((elemento: any) => (
+            <GridItem key={elemento.songID} onClick={() => manejadorElementoMostrado(elemento.songID)}>
+                <Link href={`/artist/${elemento.albumID}`}>
+                <SongImg src={`localDB/${elemento.imageURL}`} alt={elemento.songTitle} />
+                </Link>
+            </GridItem>
+            ))
+    ) : (
+      <p>No tienes canciones favoritas.</p>
+    )}
         </GridContainer>
     );
 }

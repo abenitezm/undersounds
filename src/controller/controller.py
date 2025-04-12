@@ -131,7 +131,7 @@ def añadir_favoritos(data: dict = Body(...)):
     return {"message": f"{song_id} añadido a favoritos"}
 
 @app.get("/favoritos/{uid}")
-async def obtener_Favoritos(uid : str):
+async def obtener_Favoritos(request : Request, uid : str):
       try:
             # Obtener las canciones favoritas del usuario
             user_ref = db.collection("users").document(uid)
@@ -157,9 +157,9 @@ async def obtener_Favoritos(uid : str):
                   song = song_data.to_dict()
 
                   # Recuperamos los albumes asociados a las canciones
-                  album_id = song.get("album")
-                  if album:
-                        album_ref = db.collection("albums").document(album_id)
+                  album_ref = song.get("album")
+                  if album_ref:
+                        album_id = album_ref.id
                         album_data = album_ref.get()
 
                         if album_data.exists:
@@ -172,7 +172,7 @@ async def obtener_Favoritos(uid : str):
                   
                   canciones_favoritas.append({
                         "songID": song_id,
-                        "songTitle": seng.get("title"),
+                        "songTitle": song.get("title"),
                         "albumID": album_id,
                         "imageURL": image_url
                   })
@@ -367,7 +367,7 @@ def users_registrados(data : dict = Body(...)):
             .stream())
 
             if user_docs:
-                  user_data = user_docs[0].to_dict()
+                  user_data = user_docs.to_dict()
                   user_role = user_data.get("register_role", "registrado")  # valor por defecto si no existe
                   print("User Role:", user_role)
 

@@ -88,7 +88,7 @@ const LoginView = () => {
       if (!response.ok) {
         throw new Error(`Error ${response.status}: ${await response.text()}`);
       }
-
+      console.log("Cargo");
       const { token, role, username, uid, pass, registerRole } = data;
 
       // Guardamos el token localmente si quieres usarlo en peticiones futuras
@@ -102,7 +102,9 @@ const LoginView = () => {
       setValidToken(token);
 
       toast.success(`Bienvenido de nuevo ${role}`);
-      router.push("/Perfil");
+      if ( uid !== undefined ){
+        router.push("/Perfil");
+      }
     } catch (error) {
       console.error("Error en autenticación:", error);
       toast.error("Error al iniciar sesión. Revisa tus credenciales.");
