@@ -26,7 +26,7 @@ activate_connection = []
 # Configurar CORS para poder enviar y recibir peticiones entre el frontend y el backend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:8000","http://localhost:3000"],  # Permitir solo tu frontend
+    allow_origins=["http://undersoundsl3g2.cmf3dnbug5dmczhd.spaincentral.azurecontainer.io:3000","http://localhost:3000"],  # Permitir solo tu frontend
     allow_credentials=True,
     allow_methods=["*"],  # Permitir todos los métodos (GET, POST, etc.)
     allow_headers=["*"],  # Permitir todos los headers

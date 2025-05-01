@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "backend": "cross-env PYTHONPATH=src uvicorn controller.controller:app --reload",
-    "dev": "next dev",
+    "backend": "cross-env PYTHONPATH=src uvicorn controller.controller:app --host 0.0.0.0 --reload",
+    "dev": "next dev --hostname 0.0.0.0 --port 3000",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
