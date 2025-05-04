@@ -101,7 +101,7 @@ const UploadAlbumView = () => {
       const imageFormData = new FormData();
       imageFormData.append("file", image);
 
-      const imageResponse = await fetch("http://undersoundsl3g2.cmf3dnbug5dmczhd.spaincentral.azurecontainer.io:8000/upload/albumImage", {
+      const imageResponse = await fetch("http://localhost:8000/upload/albumImage", {
         method: "POST",
         body: imageFormData
       });
@@ -111,7 +111,7 @@ const UploadAlbumView = () => {
       // PASO 2: Se suben los datos del álbum en la BD
       const artist = localStorage.getItem("uid");
 
-      const albumResponse = await fetch("http://undersoundsl3g2.cmf3dnbug5dmczhd.spaincentral.azurecontainer.io:8000/upload/albumData", {
+      const albumResponse = await fetch("http://localhost:8000/upload/albumData", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -145,7 +145,7 @@ const UploadAlbumView = () => {
           });
         };
 
-        const fileResponse = await fetch("http://undersoundsl3g2.cmf3dnbug5dmczhd.spaincentral.azurecontainer.io:8000/upload/songFile", {
+        const fileResponse = await fetch("http://localhost:8000/upload/songFile", {
           method: "POST",
           body: fileFormData
         });
@@ -155,7 +155,7 @@ const UploadAlbumView = () => {
         const trackLength = await getDurationFromFile(song.file);
 
         // PASO 3.2: Datos
-        const songResponse = await fetch("http://undersoundsl3g2.cmf3dnbug5dmczhd.spaincentral.azurecontainer.io:8000/upload/songData", {
+        const songResponse = await fetch("http://localhost:8000/upload/songData", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -184,7 +184,7 @@ const UploadAlbumView = () => {
   };
 
   useEffect(() => {
-    fetch("http://undersoundsl3g2.cmf3dnbug5dmczhd.spaincentral.azurecontainer.io:8000/getgenres")
+    fetch("http://localhost:8000/getgenres")
       .then((res) => res.json())
       .then((data) => {
         setGenres(data);

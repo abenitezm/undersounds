@@ -29,13 +29,13 @@ const ProfileInfo = ({ id }: ProfileInfoProps) => {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch(`http://127.0.0.1:8000/artist/${id}`);
+      const response = await fetch(`http://localhost:8000/artist/${id}`);
       const data = await response.json();
       console.log(data);
       if (data) {
         setArtist(data);
       }
-      const res = await fetch(`http://127.0.0.1:8000/getartistalbums/${id}`);
+      const res = await fetch(`http://localhost:8000/getartistalbums/${id}`);
       const albums = await res.json();
 
       const generos = [...new Set(albums.map((album) => album.genre))];

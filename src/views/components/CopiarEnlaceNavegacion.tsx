@@ -89,7 +89,7 @@ export default function CopiarEnlaceNavegacion({url, songID} : { url : string, s
         try {
             // Enviamos al backend la cancion que el usuario ha marcado como favortia
             const uid = localStorage.getItem("uid");
-            const response = await fetch("http://127.0.0.1:8000/favoritos", {
+            const response = await fetch("http://localhost:8000/favoritos", {
                 method : "POST",
                 headers : {
                     "Content-Type": "application/json"

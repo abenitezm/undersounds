@@ -78,14 +78,14 @@ const AlbumInfo = ({ id }: { id: string }) => {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch("http://127.0.0.1:8000/album/" + id);
+      const response = await fetch("http://localhost:8000/album/" + id);
       const data = await response.json();
       const albumId = data.id;
       if (data) {
         setAlbum(data);
       }
       const cancionesResponse = await fetch(
-        "http://127.0.0.1:8000/get_album_songs/" + albumId
+        "http://localhost:8000/get_album_songs/" + albumId
       );
       const cancionesData = await cancionesResponse.json();
       console.log(cancionesData);
@@ -94,7 +94,7 @@ const AlbumInfo = ({ id }: { id: string }) => {
       }
 
       const artistResponse = await fetch(
-        "http://127.0.0.1:8000/artist/" + data.artist
+        "http://localhost:8000/artist/" + data.artist
       );
       const artistData = await artistResponse.json();
       setArtist(artistData);

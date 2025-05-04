@@ -27,10 +27,10 @@ const Novedades = () => {
 
         // Obtención de datos de la API en paralelo 
         const [songsResponse, albumsResponse, genresResponse, artistsResponse] = await Promise.all([
-          fetch("http://undersoundsl3g2.cmf3dnbug5dmczhd.spaincentral.azurecontainer.io:8000/getsongs"),
-          fetch("http://undersoundsl3g2.cmf3dnbug5dmczhd.spaincentral.azurecontainer.io:8000/getalbums"),
-          fetch("http://undersoundsl3g2.cmf3dnbug5dmczhd.spaincentral.azurecontainer.io:8000/getgenres"),
-          fetch("http://undersoundsl3g2.cmf3dnbug5dmczhd.spaincentral.azurecontainer.io:8000/getartists"),
+          fetch("http://localhost:8000/getsongs"),
+          fetch("http://localhost:8000/getalbums"),
+          fetch("http://localhost:8000/getgenres"),
+          fetch("http://localhost:8000/getartists"),
         ]);
         
         // Pareseo a un formato que se pueda leer

@@ -85,10 +85,10 @@ const NavigationView = ({
 
         // 1. Obtener todos los datos en paralelo
         const [songsResponse, albumsResponse, genresResponse, artistsResponse] = await Promise.all([
-          fetch("http://undersoundsl3g2.cmf3dnbug5dmczhd.spaincentral.azurecontainer.io:8000/getsongs"),
-          fetch("http://undersoundsl3g2.cmf3dnbug5dmczhd.spaincentral.azurecontainer.io:8000/getalbums"),
-          fetch("http://undersoundsl3g2.cmf3dnbug5dmczhd.spaincentral.azurecontainer.io:8000/getgenres"),
-          fetch("http://undersoundsl3g2.cmf3dnbug5dmczhd.spaincentral.azurecontainer.io:8000/getartists"),
+          fetch("http://localhost:8000/getsongs"),
+          fetch("http://localhost:8000/getalbums"),
+          fetch("http://localhost:8000/getgenres"),
+          fetch("http://localhost:8000/getartists"),
         ]);
         
         // 2. Las parseamos a un formato que se puedan leer los objetos de la respuesta

@@ -205,7 +205,7 @@ export default function ArtistCard( {album} : { album : CancionesConAlbumFirebas
         try{
             setSiguiendo(!siguiendo);   
             const uid = localStorage.getItem("uid");
-            const response = await fetch("http://127.0.0.1:8000/siguiendo",{
+            const response = await fetch("http://localhost:8000/siguiendo",{
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

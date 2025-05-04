@@ -31,7 +31,7 @@ const NotificationsForm = ({ userData }) => {
     let response, data;
     if (type === "Artista") {
       response = await fetch(
-        `http://127.0.0.1:8000/updateuser/${userData.id}`,
+        `http://localhost:8000/updateuser/${userData.id}`,
         {
           method: "PATCH",
           headers: {
@@ -53,7 +53,7 @@ const NotificationsForm = ({ userData }) => {
       console.log(data);
     } else {
       response = await fetch(
-        `http://127.0.0.1:8000/updateuser/${userData.id}`,
+        `http://localhost:8000/updateuser/${userData.id}`,
         {
           method: "PATCH",
           headers: {

@@ -208,7 +208,7 @@ const PerfilView = () => {
   useEffect(() => {
     const fetchInfo = async () => {
       const uid = localStorage.getItem("uid") || "null";
-      const response = await fetch('http://127.0.0.1:8000/getuser/' + uid);
+      const response = await fetch('http://localhost:8000/getuser/' + uid);
       const data = await response.json();
       setUserData(data);
       setRegisterRole( localStorage.getItem("registerRole") );
@@ -222,7 +222,7 @@ const PerfilView = () => {
     const uid = localStorage.getItem("uid");
     console.log("uid", uid);
     const fetchFavoritos = async () => {
-      const response = await fetch("http://127.0.0.1:8000/favoritos/" + uid, {
+      const response = await fetch("http://localhost:8000/favoritos/" + uid, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -244,7 +244,7 @@ const PerfilView = () => {
     const uid = localStorage.getItem("uid");
     console.log("uid", uid);
     const fetchSeguidores = async () => {
-      const response = await fetch("http://127.0.0.1:8000/siguiendo/" + uid, {
+      const response = await fetch("http://localhost:8000/siguiendo/" + uid, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -289,7 +289,7 @@ const PerfilView = () => {
         throw new Error("No se encuentra el token en el localStorage");
       }
 
-      const response = await fetch("http://127.0.0.1:8000/logout", {
+      const response = await fetch("http://localhost:8000/logout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

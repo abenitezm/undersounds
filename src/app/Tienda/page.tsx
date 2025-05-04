@@ -16,7 +16,7 @@ export default function Tienda() {
     // Realizamos el fetch a la API de backend
     const fetchMerchData = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/getmerch"); // Ajusta la URL al endpoint de tu backend
+        const response = await fetch("http://localhost:8000/getmerch"); // Ajusta la URL al endpoint de tu backend
         if (!response.ok) {
           throw new Error(`Error al obtener datos: ${response.statusText}`);
         }

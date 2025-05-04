@@ -67,7 +67,7 @@ const LoginView = () => {
     // Login de tokens
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/usersRegistrados", {
+      const response = await fetch("http://localhost:8000/usersRegistrados", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

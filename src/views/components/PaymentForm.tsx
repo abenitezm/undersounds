@@ -17,7 +17,7 @@ const PaymentForm = ({ userData }) => {
   const saveSettings = async () => {
     console.log(inputs);
     const response = await fetch(
-      `http://127.0.0.1:8000/updateuser/${userData.id}`,
+      `http://localhost:8000/updateuser/${userData.id}`,
       {
         method: "PATCH",
         headers: {

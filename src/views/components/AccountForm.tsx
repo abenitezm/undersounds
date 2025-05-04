@@ -188,7 +188,7 @@ const AccountForm = ({ userData }) => {
     switch (type) {
       case "Perfil":
         response = await fetch(
-          `http://127.0.0.1:8000/updateuser/${userData.id}`,
+          `http://localhost:8000/updateuser/${userData.id}`,
           {
             method: "PATCH",
             headers: {
@@ -208,7 +208,7 @@ const AccountForm = ({ userData }) => {
         }
         if (userRole === "artista") {
           response = await fetch(
-            `http://127.0.0.1:8000/updateartist/${userData.id}`,
+            `http://localhost:8000/updateartist/${userData.id}`,
             {
               method: "PATCH",
               headers: {
@@ -227,7 +227,7 @@ const AccountForm = ({ userData }) => {
       case "Seguridad":
         console.log(inputs.password);
         response = await fetch(
-          `http://127.0.0.1:8000/updateuser/${userData.id}`,
+          `http://localhost:8000/updateuser/${userData.id}`,
           {
             method: "PATCH",
             headers: {
@@ -243,7 +243,7 @@ const AccountForm = ({ userData }) => {
         break;
       case "Información adicional":
         response = await fetch(
-          `http://127.0.0.1:8000/updateuser/${userData.id}`,
+          `http://localhost:8000/updateuser/${userData.id}`,
           {
             method: "PATCH",
             headers: {
@@ -261,7 +261,7 @@ const AccountForm = ({ userData }) => {
         console.log(data);
 
         response = await fetch(
-          `http://127.0.0.1:8000/updateartist/${userData.id}`,
+          `http://localhost:8000/updateartist/${userData.id}`,
           {
             method: "PATCH",
             headers: {
@@ -280,7 +280,7 @@ const AccountForm = ({ userData }) => {
         break;
       case "Preferencias":
         response = await fetch(
-          `http://127.0.0.1:8000/updateuser/${userData.id}`,
+          `http://localhost:8000/updateuser/${userData.id}`,
           {
             method: "PATCH",
             headers: {
